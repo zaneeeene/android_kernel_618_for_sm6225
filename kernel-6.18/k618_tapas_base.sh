@@ -15,11 +15,17 @@ donor=${SM6225_DONOR:-$K618/src/topaz}
 
 git -C "$S" checkout -q -- .
 python3 -I "$K618_DIR/k618_khaje.py" "$donor" "$S"
+[ "${SM6225_COMPAT:-0}" != 1 ] || python3 -I "$K618_DIR/k618_tapas_compat.py" "$donor" "$S"
 python3 -I "$K618_DIR/k618_fix618.py" "$S"
 cp "$K618_DIR/k618_sm6225_overrides.bzl" "$S/configs/"
+configs=configs/canoe_perf.bzl,k618_sm6225_overrides.bzl
+if [ "${SM6225_COMPAT:-0}" = 1 ]; then
+  cp "$K618_DIR/k618_sm6225_compat.bzl" "$S/configs/"
+  configs=$configs,k618_sm6225_compat.bzl
+fi
 
 bash "$K618_DIR/k618_soc_build.sh" \
-  configs/canoe_perf.bzl,k618_sm6225_overrides.bzl "$jobs" \
+  "$configs" "$jobs" \
   clk-qcom gdsc-regulator pinctrl-msm phy-qcom-ufs \
   gcc-khaje dispcc-khaje gpucc-khaje debugcc-khaje \
   pinctrl-khaje pinctrl-bengal phy-qcom-ufs-qmp-v4-khaje "$@"

@@ -5,9 +5,38 @@
     "rpm-smd.ko": ["smd-rpm.ko"],
     "ufs_qcom.ko": ["ufs-qcom.ko"],
     "icc-rpm.ko": ["icc-smd-rpm.ko"],
-    "qnoc-qos-rpm.ko": ["icc-smd-rpm.ko", "qnoc-bengal.ko"]
+    "qnoc-qos-rpm.ko": ["icc-smd-rpm.ko", "qnoc-bengal.ko"],
+    "qcom_logbuf_vh.ko": ["qcom_logbuf_vendor_hooks.ko"],
+    "ns.ko": ["qrtr.ko"]
   },
   "builtins": {
-    "sched-walt.ko": "WALT is replaced by the built-in schedutilmium/EAS path"
+    "sched-walt.ko": {
+      "config": "CONFIG_CPU_FREQ_GOV_SUGOV_EXT=y",
+      "reason": "WALT is replaced by the built-in schedutilmium/EAS path"
+    },
+    "regmap-spmi.ko": {
+      "config": "CONFIG_REGMAP_SPMI=y",
+      "reason": "REGMAP_SPMI is selected built-in by the ACK platform configuration"
+    },
+    "msm-poweroff.ko": {
+      "config": "CONFIG_POWER_RESET_MSM=y",
+      "reason": "ACK 6.18 POWER_RESET_MSM is built in and binds the stock qcom,pshold node"
+    }
+  },
+  "replacements": {
+    "crypto-qti-common.ko": {
+      "modules": ["qcom_ice.ko", "ufshcd-crypto-qti.ko"],
+      "reason": "The SM8850 6.11 storage stack replaces the legacy common/TZ split with qcom_ice"
+    },
+    "crypto-qti-tz.ko": {
+      "modules": ["qcom_ice.ko", "ufshcd-crypto-qti.ko"],
+      "reason": "The SM8850 6.11 storage stack replaces the legacy common/TZ split with qcom_ice"
+    }
+  },
+  "optional_omissions": {
+    "usbpd.ko": "The selected stock DT uses the Richtek RT1711H TCPC and contains no QPNP USB-PD policy-engine node",
+    "miev.ko": "Xiaomi event telemetry; no public target source and not required for boot or hardware control",
+    "bootinfo.ko": "Xiaomi boot-reason diagnostics; no public target source and not required for boot",
+    "swinfo.ko": "Xiaomi software-info diagnostics; no public target source and not required for boot"
   }
 }

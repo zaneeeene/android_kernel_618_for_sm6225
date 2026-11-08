@@ -1,0 +1,7 @@
+k618_sm6225_compat_config = {
+    "CONFIG_TAPAS_MI_MEMORY": "m",
+    "CONFIG_TAPAS_PERF_HELPER": "m",
+    "CONFIG_TAPAS_SIMTRAY": "m",
+    "CONFIG_TAPAS_ANT_CHECK": "m",
+    "CONFIG_TAPAS_ANT_CHECK_DIV": "m",
+}

@@ -196,7 +196,7 @@ if [ "${SM6225_GATE2:-0}" = 1 ]; then
 	# ACK-native legacy Qualcomm infrastructure used by Khaje. These are build
 	# inputs for Gate 2; packaging chooses one provider where the soc-repo also
 	# offers a module with the same role.
-	SM6225_BOOL="ARCH_QCOM RPMSG QRTR INTERCONNECT MAILBOX REMOTEPROC QCOM_SMEM_STATE"
+	SM6225_BOOL="ARCH_QCOM RPMSG QRTR INTERCONNECT MAILBOX REMOTEPROC QCOM_SMEM_STATE POWER_RESET_MSM"
 	SM6225_MODS="COMMON_CLK_QCOM QCOM_SMEM QCOM_SMP2P RPMSG_QCOM_SMD
 		QCOM_SMD_RPM REGULATOR_QCOM_SMD_RPM QCOM_CLK_SMD_RPM
 		QCOM_APCS_IPC QCOM_MPM INTERCONNECT_QCOM_SM6115 QCOM_BAM_DMA
@@ -214,6 +214,7 @@ for c in CPU_FREQ_GOV_SUGOV_EXT CPUFREQ_TESTBENCH; do grep -q "^CONFIG_$c=y" $O/
 grep -q '^# CONFIG_STATIC_USERMODEHELPER is not set' $O/.config || echo "k618_gki: STATIC_USERMODEHELPER did not take"
 for c in $GKI_MODS; do grep -q "^CONFIG_$c=m" $O/.config || echo "k618_gki: CONFIG_$c did not take"; done
 if [ "${SM6225_GATE2:-0}" = 1 ]; then
+	for c in $SM6225_BOOL; do grep -q "^CONFIG_$c=y" $O/.config || echo "k618_gki: CONFIG_$c did not take"; done
 	for c in $SM6225_MODS; do grep -q "^CONFIG_$c=m" $O/.config || echo "k618_gki: CONFIG_$c did not take"; done
 fi
 grep -q '^CONFIG_KSU=y' $O/.config || echo "k618_gki: CONFIG_KSU did not take"

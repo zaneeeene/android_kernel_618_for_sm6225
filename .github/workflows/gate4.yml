@@ -68,6 +68,20 @@ jobs:
           cp -f "$BUILD_ROOT/k618/soc-errors.txt" gate4-artifacts/ 2>/dev/null || true
           find "$BUILD_ROOT/k618/out-gki" "$BUILD_ROOT/k618/soc" -name '*.ko' -printf '%f\n' \
             | sort -u > gate4-artifacts/rebuilt-module-names.txt
+          if [ -d "$BUILD_ROOT/k618/out-gki" ]; then
+            ( cd "$BUILD_ROOT/k618/out-gki" && \
+              find . -type f -name '*.ko' -print0 | sort -z | \
+              tar --null -T - -cf "$GITHUB_WORKSPACE/gate4-artifacts/gki-modules.tar" )
+          fi
+          if [ -d "$BUILD_ROOT/k618/soc" ]; then
+            ( cd "$BUILD_ROOT/k618/soc" && \
+              find . -type f -name '*.ko' -print0 | sort -z | \
+              tar --null -T - -cf "$GITHUB_WORKSPACE/gate4-artifacts/soc-modules.tar" )
+          fi
+          cp -f "$BUILD_ROOT/k618/out-gki/arch/arm64/boot/Image" \
+            gate4-artifacts/Image-ACK-6.18-GATE4-NOT-FLASHABLE 2>/dev/null || true
+          cp -f "$BUILD_ROOT/k618/out-gki/Module.symvers" gate4-artifacts/gki-Module.symvers 2>/dev/null || true
+          cp -f "$BUILD_ROOT/k618/soc/Module.symvers" gate4-artifacts/soc-Module.symvers 2>/dev/null || true
           ls -lh gate4-artifacts
       - name: Upload coverage report
         if: always()
