@@ -1,0 +1,69 @@
+{
+  "sm6225_revision": "c984ff8cfa146433289d8a3f26bd10bdc4192cf8",
+  "sm8850_revision": "5ab2a689ff87d7d28c511f1762cf41c1b90d965a",
+  "components": {
+    "audio-kernel": {
+      "sm6225_files": 419,
+      "sm8850_files": 409,
+      "common_paths": 357,
+      "identical_blobs": 205,
+      "changed_common_paths": 152,
+      "sm6225_only": 62,
+      "sm8850_only": 52
+    },
+    "camera-kernel": {
+      "sm6225_files": 506,
+      "sm8850_files": 628,
+      "common_paths": 391,
+      "identical_blobs": 43,
+      "changed_common_paths": 348,
+      "sm6225_only": 115,
+      "sm8850_only": 237
+    },
+    "display-drivers": {
+      "sm6225_files": 377,
+      "sm8850_files": 603,
+      "common_paths": 329,
+      "identical_blobs": 97,
+      "changed_common_paths": 232,
+      "sm6225_only": 48,
+      "sm8850_only": 274
+    },
+    "graphics-kernel": {
+      "sm6225_files": 162,
+      "sm8850_files": 227,
+      "common_paths": 147,
+      "identical_blobs": 16,
+      "changed_common_paths": 131,
+      "sm6225_only": 15,
+      "sm8850_only": 80
+    },
+    "video-driver": {
+      "sm6225_files": 94,
+      "sm8850_files": 161,
+      "common_paths": 49,
+      "identical_blobs": 2,
+      "changed_common_paths": 47,
+      "sm6225_only": 45,
+      "sm8850_only": 112
+    },
+    "wlan": {
+      "sm6225_files": 5470,
+      "sm8850_files": 6357,
+      "common_paths": 5405,
+      "identical_blobs": 3619,
+      "changed_common_paths": 1786,
+      "sm6225_only": 65,
+      "sm8850_only": 952
+    }
+  },
+  "total": {
+    "sm6225_files": 7028,
+    "sm8850_files": 8385,
+    "common_paths": 6678,
+    "identical_blobs": 3982,
+    "changed_common_paths": 2696,
+    "sm6225_only": 350,
+    "sm8850_only": 1707
+  }
+}

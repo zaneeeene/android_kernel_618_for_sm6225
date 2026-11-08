@@ -20,9 +20,9 @@ README is preserved at [docs/UPSTREAM_SM8550_README.md](docs/UPSTREAM_SM8550_REA
 | Stock device-tree extraction | Complete: 6 base DTBs, 49 overlays |
 | Exact tapas DT selection | Identified and merged: base `001` + overlay `045` |
 | Public SM6225 source inventory | Complete |
-| 6.18 SM6225 platform patch | Not yet implemented |
+| 6.18 SM6225 platform patch | Initial clock/TLMM/UFS import implemented; compile pending |
 | 6.18 external modules | Not yet compiling |
-| Physical-device boot | Not attempted |
+| Physical-device boot | Not attempted; no flashable image exists |
 
 The stock target uses:
 

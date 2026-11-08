@@ -2,7 +2,7 @@
 # Source this file from Linux/WSL. Legacy port scripts receive independent paths.
 PROJECT_ROOT=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)
 account_home=$(getent passwd "$(id -un)" | cut -d: -f6)
-BUILD_ROOT=$(realpath -m -- "${BUILD_ROOT:-$account_home/xiaomi13-k618-build}")
+BUILD_ROOT=$(realpath -m -- "${BUILD_ROOT:-$account_home/tapas-k618-build}")
 case "$BUILD_ROOT" in
   /|/home|"$account_home"|/mnt/*)
     echo "Choose a new native Linux BUILD_ROOT, separate from the original workspace: $BUILD_ROOT" >&2

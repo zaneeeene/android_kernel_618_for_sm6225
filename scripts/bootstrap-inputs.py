@@ -18,10 +18,14 @@ from inputlib.payload import open_ota
 
 PROJECT = Path(__file__).resolve().parents[1]
 ROOT = Path(os.environ['BUILD_ROOT']).resolve()
-SPEC = json.loads((PROJECT / 'provenance/input-sources.json').read_text())
+SPEC_FILE = os.environ.get('K618_INPUT_SPEC') or 'provenance/input-sources.json'
+SPEC_PATH = (PROJECT / SPEC_FILE).resolve()
+if not SPEC_PATH.is_relative_to(PROJECT):
+    raise RuntimeError('K618_INPUT_SPEC must be inside the project tree')
+SPEC = json.loads(SPEC_PATH.read_text())
 JOBS = min(4, max(1, int(os.environ.get('JOBS', '4'))))
 ENV = dict(os.environ, GIT_TERMINAL_PROMPT='0')
-MARKER = ROOT / '.xiaomi13-k618-upstream'
+MARKER = ROOT / '.tapas-k618-upstream'
 
 
 def run(args, **kw):
@@ -47,7 +51,7 @@ def download(url, target, digest):
     temporary = target.with_name(target.name + '.part')
     for attempt in range(3):
         try:
-            request = urllib.request.Request(url, headers={'User-Agent': 'xiaomi13-k618-inputs/1.0'})
+            request = urllib.request.Request(url, headers={'User-Agent': 'tapas-k618-inputs/1.0'})
             with urllib.request.urlopen(request, timeout=30) as source, temporary.open('wb') as dest:
                 shutil.copyfileobj(source, dest, length=1 << 20)
             if sha(temporary) != digest:

@@ -1,0 +1,70 @@
+name: SM6225 Gate 1 compile
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  compile:
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    env:
+      BUILD_ROOT: ${{ runner.temp }}/tapas-k618-build
+      JOBS: 4
+      K618_INPUT_SPEC: provenance/input-sources-gate1.json
+    steps:
+      - name: Check out integration
+        uses: actions/checkout@v4
+
+      - name: Free disk space
+        uses: jlumbroso/free-disk-space@v1.3.1
+        with:
+          tool-cache: true
+          android: true
+          dotnet: true
+          haskell: true
+          large-packages: true
+          docker-images: false
+          swap-storage: true
+
+      - name: Install host dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            build-essential git python3 rsync make bc bison flex \
+            libssl-dev libelf-dev libncurses-dev zlib1g-dev \
+            cpio lz4 zstd kmod zip unzip file binutils \
+            systemd util-linux pkg-config erofs-utils python3-zstandard
+
+      - name: Fetch pinned Gate 1 sources
+        run: bash scripts/run-limited.sh bootstrap --only sources
+
+      - name: Compile ACK and initial Khaje modules
+        run: bash scripts/run-limited.sh gate1
+
+      - name: Collect reports
+        if: always()
+        run: |
+          mkdir -p gate1-artifacts
+          cp -f "$BUILD_ROOT/gate1-report.json" gate1-artifacts/ 2>/dev/null || true
+          cp -f "$BUILD_ROOT/k618/soc-errors.txt" gate1-artifacts/ 2>/dev/null || true
+          cp -f "$BUILD_ROOT/k618/soc-build.log" gate1-artifacts/ 2>/dev/null || true
+          cp -f "$BUILD_ROOT/k618/soc-kconfig.log" gate1-artifacts/ 2>/dev/null || true
+          find "$BUILD_ROOT/k618/soc" -name '*khaje*.ko' -o -name 'pinctrl-bengal.ko' \
+            | while read -r module; do cp -f "$module" gate1-artifacts/; done
+          ls -lh gate1-artifacts
+
+      - name: Upload Gate 1 reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: sm6225-gate1
+          path: gate1-artifacts/
+          if-no-files-found: warn
+          retention-days: 14

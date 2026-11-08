@@ -1,0 +1,103 @@
+{
+  "schema_version": 1,
+  "repositories": [
+    {
+      "name": "ACK",
+      "path": "k618/ws/common",
+      "url": "https://android.googlesource.com/kernel/common",
+      "revision": "ff4a6c3bb0f471a9dd186293a47b62c83829b97d"
+    },
+    {
+      "name": "SM8850 soc-repo base",
+      "path": "k618/soc",
+      "url": "https://github.com/OnePlusOSS/android_kernel_oneplus_sm8850.git",
+      "revision": "fc30e54174d254ff7f33622a9278e4435f6718d2",
+      "patch": "patches/soc-sm8550.patch",
+      "target_tree": "3ddaf72a978d520b5ce6aa5e25d5a21d13f9787f"
+    },
+    {
+      "name": "MiCode tapas/topaz donor",
+      "path": "k618/src/topaz",
+      "url": "https://github.com/MiCode/Xiaomi_Kernel_OpenSource.git",
+      "revision": "345999da0be9cd37afdf87b15449d30b585a7091",
+      "sparse": [
+        "/arch/arm64/Kconfig.platforms",
+        "/drivers/clk/qcom/Kconfig",
+        "/drivers/clk/qcom/debugcc-khaje.c",
+        "/drivers/clk/qcom/dispcc-khaje.c",
+        "/drivers/clk/qcom/gcc-khaje.c",
+        "/drivers/clk/qcom/gpucc-khaje.c",
+        "/drivers/clk/qcom/vdd-level-bengal.h",
+        "/drivers/phy/qualcomm/phy-qcom-ufs-qmp-v4-khaje.c",
+        "/drivers/phy/qualcomm/phy-qcom-ufs-qmp-v4-khaje.h",
+        "/drivers/pinctrl/qcom/Kconfig",
+        "/drivers/pinctrl/qcom/pinctrl-bengal.c",
+        "/drivers/pinctrl/qcom/pinctrl-khaje.c",
+        "/include/dt-bindings/clock/qcom,dispcc-khaje.h",
+        "/include/dt-bindings/clock/qcom,gcc-khaje.h",
+        "/include/dt-bindings/clock/qcom,gpucc-khaje.h",
+        "/include/dt-bindings/phy/qcom,khaje-qmp-usb3.h"
+      ]
+    },
+    {
+      "name": "KernelSU",
+      "path": "k618/KernelSU",
+      "url": "https://github.com/tiann/KernelSU.git",
+      "revision": "0c0fdb960178fa12d80d6cbcfdcb6ad8be6a865d",
+      "full_history": true
+    },
+    {
+      "name": "SUSFS",
+      "path": "k618/susfs4ksu",
+      "url": "https://gitlab.com/simonpunk/susfs4ksu.git",
+      "revision": "5e0b2b925865000ca7dce993ecf1d281ee312887"
+    },
+    {
+      "name": "LZ4",
+      "path": "lz4-dev",
+      "url": "https://github.com/lz4/lz4.git",
+      "revision": "83376b665fe6742171407350bb51e963215d6088"
+    },
+    {
+      "name": "kernel/prebuilts/build-tools",
+      "path": "k618/ws/prebuilts/kernel-build-tools",
+      "url": "https://android.googlesource.com/kernel/prebuilts/build-tools",
+      "revision": "78af2daf5d9d36fc6e1ddb28ee0d7b6516709eb4",
+      "sparse": ["/linux_musl-x86/", "/linux-x86/", "/NOTICE*"]
+    },
+    {
+      "name": "platform/prebuilts/build-tools",
+      "path": "k618/ws/prebuilts/build-tools",
+      "url": "https://android.googlesource.com/platform/prebuilts/build-tools",
+      "revision": "e25d4821f50af3f6e0b87d7751dfd27037445fe5",
+      "sparse": ["/linux-x86/", "/NOTICE*", "/common/"]
+    },
+    {
+      "name": "platform/prebuilts/clang-tools",
+      "path": "k618/ws/prebuilts/clang-tools",
+      "url": "https://android.googlesource.com/platform/prebuilts/clang-tools",
+      "revision": "4155cb466dcd9b53c6f873829c53aa6f905449dd",
+      "sparse": ["/linux-x86/", "/NOTICE*"]
+    },
+    {
+      "name": "platform/prebuilts/clang/host/linux-x86",
+      "path": "k618/ws/prebuilts/clang/host/linux-x86",
+      "url": "https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86",
+      "revision": "4a7d0a5e443c27d8f68fbd46abfab464e1355a69",
+      "sparse": ["/clang-r584948c/", "/NOTICE*"]
+    },
+    {
+      "name": "platform/prebuilts/rust-toolchain/linux-x86",
+      "path": "k618/ws/prebuilts/rust-toolchain/linux-x86",
+      "url": "https://android.googlesource.com/platform/prebuilts/rust-toolchain/linux-x86",
+      "revision": "a04f70c5179f23eff11c58cb480acee4afb1334b",
+      "sparse": ["/1.91.1.p3/", "/NOTICE*"]
+    }
+  ],
+  "vendor_cache": [],
+  "roms": [],
+  "qemu": {
+    "url": "https://archive.ubuntu.com/ubuntu/pool/universe/q/qemu/qemu-user-static_8.2.2+ds-0ubuntu1.18_amd64.deb",
+    "sha256": "5bb397f66063efa349f6fd5cb3b68cd96f29edd0994e4ba5115cf0859a716bf0"
+  }
+}

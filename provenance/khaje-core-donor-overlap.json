@@ -1,0 +1,210 @@
+{
+  "repositories": {
+    "micode_topaz": "345999da0be9cd37afdf87b15449d30b585a7091",
+    "oplus_sm6225_b16": "a2135df2260088d4177f8298498e9300de0fdc10",
+    "oneplus_sm8550_v15": "c462ef8ffab7a58e035ee04705b16cdfced494b1"
+  },
+  "summary": {
+    "paths": 28,
+    "identical_across_present": 9,
+    "different": 19
+  },
+  "files": [
+    {
+      "path": "arch/arm64/configs/vendor/bengal_GKI.config",
+      "micode_topaz": "e26b34f9e54b6b5046852ee1a7b324a700a90b31",
+      "oplus_sm6225_b16": null,
+      "oneplus_sm8550_v15": "02028e54a3f65500967ccbc19a454c27580f0f4c",
+      "identical_across_present": false
+    },
+    {
+      "path": "arch/arm64/configs/vendor/monaco_GKI.config",
+      "micode_topaz": "e15109321321d333c1cc1bc014af2c60e3cf1647",
+      "oplus_sm6225_b16": null,
+      "oneplus_sm8550_v15": "af544907b295cb60b136e947c39f6fd512104b45",
+      "identical_across_present": false
+    },
+    {
+      "path": "arch/arm64/configs/vendor/topaz_GKI.config",
+      "micode_topaz": "04a5446d8ee664e15713779ce3e76adc3672cba9",
+      "oplus_sm6225_b16": null,
+      "oneplus_sm8550_v15": null,
+      "identical_across_present": true
+    },
+    {
+      "path": "drivers/clk/qcom/Kconfig",
+      "micode_topaz": "2f2097e705222c641ca6436c999265507c5f1f93",
+      "oplus_sm6225_b16": "4c8bb23ca730493ab69c77fba5f3004ae9b8de79",
+      "oneplus_sm8550_v15": "ff9f5a7621217c6788c0847c81ef130904cc30b2",
+      "identical_across_present": false
+    },
+    {
+      "path": "drivers/clk/qcom/Makefile",
+      "micode_topaz": "738cacc0ac2f7e1ce37b9afca505385b9497e791",
+      "oplus_sm6225_b16": "63c356ae32f23925b1cdee09185ae9cebff8f695",
+      "oneplus_sm8550_v15": "7f9cf2285c14424f57131b8b790d6190d76a5c5c",
+      "identical_across_present": false
+    },
+    {
+      "path": "drivers/clk/qcom/clk-smd-rpm.c",
+      "micode_topaz": "f047ee0c7b0aeebca56504f21fde4f487524c7f9",
+      "oplus_sm6225_b16": "66d7807ee38e0002b2637f353328dcb217a10b2e",
+      "oneplus_sm8550_v15": "1ac2358ea31e82cc34c0eb37186c6a4392a6d61a",
+      "identical_across_present": false
+    },
+    {
+      "path": "drivers/clk/qcom/debugcc-khaje.c",
+      "micode_topaz": "ecd33681e48ef1e5dde069fe3c2382d6a857c2b9",
+      "oplus_sm6225_b16": null,
+      "oneplus_sm8550_v15": "c82dfe85e5c012c5fcf5decf9c094c3ffa9c1975",
+      "identical_across_present": false
+    },
+    {
+      "path": "drivers/clk/qcom/dispcc-khaje.c",
+      "micode_topaz": "52aaf6eebc029c3c65804e54283800b63f3c006d",
+      "oplus_sm6225_b16": null,
+      "oneplus_sm8550_v15": "52aaf6eebc029c3c65804e54283800b63f3c006d",
+      "identical_across_present": true
+    },
+    {
+      "path": "drivers/clk/qcom/gcc-khaje.c",
+      "micode_topaz": "271677acf5eeede565c83064886461eb0e8fcc23",
+      "oplus_sm6225_b16": null,
+      "oneplus_sm8550_v15": "3b91db47c9496b96efbfbe90973d3b88ce32446a",
+      "identical_across_present": false
+    },
+    {
+      "path": "drivers/clk/qcom/gpucc-khaje.c",
+      "micode_topaz": "0521076037e9dc4e5b691d93a1b45dc1cd343e8c",
+      "oplus_sm6225_b16": null,
+      "oneplus_sm8550_v15": "0521076037e9dc4e5b691d93a1b45dc1cd343e8c",
+      "identical_across_present": true
+    },
+    {
+      "path": "drivers/interconnect/qcom/Kconfig",
+      "micode_topaz": "747d2c2646aaa63ca97006bdf465fdc91dc54706",
+      "oplus_sm6225_b16": "daf1e25f6042bb12b8a5b33dec5f594961864f8b",
+      "oneplus_sm8550_v15": "2ca0c3a31c8ca7725af21e2c9dafb327cada62f5",
+      "identical_across_present": false
+    },
+    {
+      "path": "drivers/interconnect/qcom/Makefile",
+      "micode_topaz": "eaac195abb4277851517e0e8bbcfe2c834f09efd",
+      "oplus_sm6225_b16": "69300b1d48efc2c4e203504d7ce56c4278df6d0a",
+      "oneplus_sm8550_v15": "a7e3b0f9f3b5d10dfd11c7f6a1d96470c77a3235",
+      "identical_across_present": false
+    },
+    {
+      "path": "drivers/interconnect/qcom/bengal.c",
+      "micode_topaz": "256c49fda2db9be945a61f7f0a64f54653048ea3",
+      "oplus_sm6225_b16": null,
+      "oneplus_sm8550_v15": "d3d62226475bb115aee6bd8dfbf3f1400cc4646c",
+      "identical_across_present": false
+    },
+    {
+      "path": "drivers/irqchip/qcom-mpm.c",
+      "micode_topaz": "0d40e1f7b70c9d8c10fe451e32b328fc3b3efc23",
+      "oplus_sm6225_b16": null,
+      "oneplus_sm8550_v15": "94b00afd0c6a2981b4ea2b098ed07d5ad4bb3758",
+      "identical_across_present": false
+    },
+    {
+      "path": "drivers/mailbox/qcom-apcs-ipc-mailbox.c",
+      "micode_topaz": "1b82fe309d0e7e1cfb87c7f6df9b7e79c7970c69",
+      "oplus_sm6225_b16": "82ccfaf14b24907c6e9dfee74e9be35d3d3660c7",
+      "oneplus_sm8550_v15": "017f30be57e2685f58d7fd4daa20031ae2d894a7",
+      "identical_across_present": false
+    },
+    {
+      "path": "drivers/phy/qualcomm/Makefile",
+      "micode_topaz": "5bdb98833f894752d0f93ef7c988ff6800efa085",
+      "oplus_sm6225_b16": "47acbd7daa3aedb866dc5b71ddf6de7f2e8dcc78",
+      "oneplus_sm8550_v15": "2bfe5e1cdf8ee74df3337ad58a152aadad29c077",
+      "identical_across_present": false
+    },
+    {
+      "path": "drivers/phy/qualcomm/phy-qcom-ufs-qmp-v4-khaje.c",
+      "micode_topaz": "54d31a260218068bb351dedc13e70fe39e531bd1",
+      "oplus_sm6225_b16": null,
+      "oneplus_sm8550_v15": "5d01a91e27d87e8c60dfed14cdddb7c32fc958a3",
+      "identical_across_present": false
+    },
+    {
+      "path": "drivers/pinctrl/qcom/Kconfig",
+      "micode_topaz": "a0d097da47b54c059b62f0388579170a62c9ec62",
+      "oplus_sm6225_b16": "f1b5176a5085bd2efc4c330f29e3c3c03693c319",
+      "oneplus_sm8550_v15": "4e8e6f92248469db7e1af2ec6b7826cb97dd63dd",
+      "identical_across_present": false
+    },
+    {
+      "path": "drivers/pinctrl/qcom/Makefile",
+      "micode_topaz": "33f0c9bc5482c58e7f77e1aeac99252b5d0c516a",
+      "oplus_sm6225_b16": "7a12e8cd2fbac3685fd8ebb78b1721f8dbb4c5fe",
+      "oneplus_sm8550_v15": "6f0e654bf973e3fac1556e7268c7e4ff94b44c47",
+      "identical_across_present": false
+    },
+    {
+      "path": "drivers/pinctrl/qcom/pinctrl-bengal.c",
+      "micode_topaz": "411c150eb831c91f6f1367f0fc33081bdde3b9f3",
+      "oplus_sm6225_b16": null,
+      "oneplus_sm8550_v15": "411c150eb831c91f6f1367f0fc33081bdde3b9f3",
+      "identical_across_present": true
+    },
+    {
+      "path": "drivers/pinctrl/qcom/pinctrl-khaje.c",
+      "micode_topaz": "6f56f3cf1461196165d5f1b7141bd137cdbf7c0f",
+      "oplus_sm6225_b16": null,
+      "oneplus_sm8550_v15": "5bb37e32556acba436efaca292fdf7a09a48c45a",
+      "identical_across_present": false
+    },
+    {
+      "path": "drivers/remoteproc/qcom_q6v5_pas.c",
+      "micode_topaz": "6af3061f0b79cae808cbb1dafc27f508b1b7e342",
+      "oplus_sm6225_b16": "776319ab1baf9b4a0e4525c7e9750409acbd98fe",
+      "oneplus_sm8550_v15": "44962517767131846638b48b1896b0e31f8ade80",
+      "identical_across_present": false
+    },
+    {
+      "path": "drivers/soc/qcom/socinfo.c",
+      "micode_topaz": "52f70b5e2ec3f2d6ddf48192e21986921fe694c0",
+      "oplus_sm6225_b16": "5e39f1d50c4919e83468978d994bde2ae02c8bbb",
+      "oneplus_sm8550_v15": "de69d9bb2c97fc8e966c3459c1828024280f8c81",
+      "identical_across_present": false
+    },
+    {
+      "path": "include/dt-bindings/clock/qcom,dispcc-khaje.h",
+      "micode_topaz": "4ccb8cd24ba6c3741aa67f09f7c08e613dbd64c0",
+      "oplus_sm6225_b16": null,
+      "oneplus_sm8550_v15": "4ccb8cd24ba6c3741aa67f09f7c08e613dbd64c0",
+      "identical_across_present": true
+    },
+    {
+      "path": "include/dt-bindings/clock/qcom,gcc-khaje.h",
+      "micode_topaz": "f4a75af376cd02d77a04e9b96d255aee9a6c4445",
+      "oplus_sm6225_b16": null,
+      "oneplus_sm8550_v15": "f4a75af376cd02d77a04e9b96d255aee9a6c4445",
+      "identical_across_present": true
+    },
+    {
+      "path": "include/dt-bindings/clock/qcom,gpucc-khaje.h",
+      "micode_topaz": "1d850fbf3e7d4cf816ad2a5679e77d3d3092f127",
+      "oplus_sm6225_b16": null,
+      "oneplus_sm8550_v15": "1d850fbf3e7d4cf816ad2a5679e77d3d3092f127",
+      "identical_across_present": true
+    },
+    {
+      "path": "include/dt-bindings/interconnect/qcom,bengal.h",
+      "micode_topaz": "6b238b23cb01763bc2f2f9b00ea8ef5df0390bda",
+      "oplus_sm6225_b16": null,
+      "oneplus_sm8550_v15": "6b238b23cb01763bc2f2f9b00ea8ef5df0390bda",
+      "identical_across_present": true
+    },
+    {
+      "path": "include/dt-bindings/phy/qcom,khaje-qmp-usb3.h",
+      "micode_topaz": "5d01d8ea6ccdf9f21fc50a711c3bc9eaab7d86cd",
+      "oplus_sm6225_b16": null,
+      "oneplus_sm8550_v15": "5d01d8ea6ccdf9f21fc50a711c3bc9eaab7d86cd",
+      "identical_across_present": true
+    }
+  ]
+}

@@ -36,6 +36,13 @@ Stock facts:
 The paired `0x206` base and overlay 46 represent the older SM6225 variant. The
 Snapdragon 685 (`SM6225-AD`) target is `0x24a`, therefore base 1 + overlay 45.
 
+An initial source overlap audit is recorded in
+`provenance/sm6225-sm8850-module-overlap.json`. Across audio, camera, display,
+KGSL, video and WLAN there are 6,678 common file paths; 3,982 are byte-identical.
+The 6.11 tree still carries Khaje/Bengal selectors for KGSL, camera and audio,
+which makes it useful as an API-forward implementation rather than only a
+different-SoC example.
+
 ## Source bridge
 
 ### Layer A: ACK 6.18
@@ -93,6 +100,11 @@ implementation. Closed 5.15 `.ko` files cannot be loaded safely into 6.18.
 5. Add symbol/structure checks against the stock 5.15 module inventory.
 
 No image from this gate is flashable.
+
+The first implementation slice is `k618_khaje.py` plus
+`k618_tapas_base.sh`: clocks, Khaje/Bengal TLMM and the exact UFS PHY are
+registered in the 6.11 soc-repo and passed through the existing 6.18 API fixer.
+It deliberately stops before claiming SMD/RPM, NoC or remoteproc support.
 
 ### Gate 2 — early boot
 
