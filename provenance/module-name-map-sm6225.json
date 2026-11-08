@@ -1,0 +1,13 @@
+{
+  "aliases": {
+    "qcom-mpm.ko": ["irq-qcom-mpm.ko"],
+    "rpm-smd-regulator.ko": ["qcom_smd-regulator.ko"],
+    "rpm-smd.ko": ["smd-rpm.ko"],
+    "ufs_qcom.ko": ["ufs-qcom.ko"],
+    "icc-rpm.ko": ["icc-smd-rpm.ko"],
+    "qnoc-qos-rpm.ko": ["icc-smd-rpm.ko", "qnoc-bengal.ko"]
+  },
+  "builtins": {
+    "sched-walt.ko": "WALT is replaced by the built-in schedutilmium/EAS path"
+  }
+}
