@@ -29,6 +29,7 @@ common, soc, output = map(Path, sys.argv[1:])
 expected = {
     'clk-smd-rpm.ko', 'smd-rpm.ko', 'qcom_smd-regulator.ko',
     'irq-qcom-mpm.ko', 'qcom-apcs-ipc-mailbox.ko', 'qnoc-bengal.ko',
+    'icc-bengal-rpm.ko', 'qnoc-qos-bengal.ko',
     'bam_dma.ko', 'ufs-qcom.ko', 'sdhci-msm.ko', 'qcom_hwspinlock.ko',
     'nvmem_qfprom.ko', 'qrtr-smd.ko', 'qcom_glink_smem.ko', 'qcom_smd.ko',
     'qcom_q6v5_pas.ko', 'gcc-khaje.ko', 'dispcc-khaje.ko',

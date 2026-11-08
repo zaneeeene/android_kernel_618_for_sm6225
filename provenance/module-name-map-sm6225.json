@@ -4,8 +4,8 @@
     "rpm-smd-regulator.ko": ["qcom_smd-regulator.ko"],
     "rpm-smd.ko": ["smd-rpm.ko"],
     "ufs_qcom.ko": ["ufs-qcom.ko"],
-    "icc-rpm.ko": ["icc-smd-rpm.ko"],
-    "qnoc-qos-rpm.ko": ["icc-smd-rpm.ko", "qnoc-bengal.ko"],
+    "icc-rpm.ko": ["icc-bengal-rpm.ko"],
+    "qnoc-qos-rpm.ko": ["qnoc-qos-bengal.ko"],
     "qcom_logbuf_vh.ko": ["qcom_logbuf_vendor_hooks.ko"],
     "ns.ko": ["qrtr.ko"]
   },
