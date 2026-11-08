@@ -1,4 +1,5 @@
 k618_sm6225_compat_config = {
+    "CONFIG_TAPAS_QCOM_MPM": "m",
     "CONFIG_TAPAS_MI_MEMORY": "m",
     "CONFIG_TAPAS_PERF_HELPER": "m",
     "CONFIG_TAPAS_SIMTRAY": "m",

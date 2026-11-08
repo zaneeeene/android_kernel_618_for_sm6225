@@ -28,6 +28,7 @@
         "/drivers/clk/qcom/gcc-khaje.c",
         "/drivers/clk/qcom/gpucc-khaje.c",
         "/drivers/clk/qcom/vdd-level-bengal.h",
+        "/drivers/irqchip/qcom-mpm.c",
         "/drivers/misc/ant_check.c",
         "/drivers/misc/ant_check_div.c",
         "/drivers/misc/simtray/simtray.c",
@@ -41,7 +42,10 @@
         "/include/dt-bindings/clock/qcom,gpucc-khaje.h",
         "/include/dt-bindings/interconnect/qcom,bengal.h",
         "/include/dt-bindings/regulator/qcom,rpm-smd-regulator.h",
-        "/include/dt-bindings/phy/qcom,khaje-qmp-usb3.h"
+        "/include/dt-bindings/phy/qcom,khaje-qmp-usb3.h",
+        "/include/linux/msm_rtb.h",
+        "/include/soc/qcom/mpm.h",
+        "/include/trace/events/mpm.h"
       ]
     },
     {

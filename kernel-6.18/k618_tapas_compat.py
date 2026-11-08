@@ -1,9 +1,8 @@
 #!/usr/bin/env python3
-"""Import the public/custom Xiaomi first-stage compatibility modules.
+"""Import public/custom Xiaomi first-stage compatibility modules.
 
-These modules expose userspace-facing diagnostics or simple GPIO state. They
-are kept separate from the boot-critical Qualcomm platform stack so they can be
-audited and omitted independently during early bring-up.
+This includes the exact downstream Khaje MPM implementation and target-only
+userspace/GPIO interfaces that are not present in the newer SM8850 tree.
 """
 
 from __future__ import annotations
@@ -20,6 +19,13 @@ DONOR_FILES = {
     "drivers/misc/ant_check.c": "ant_check.c",
     "drivers/misc/ant_check_div.c": "ant_check_div.c",
 }
+
+PLATFORM_FILES = [
+    "drivers/irqchip/qcom-mpm.c",
+    "include/linux/msm_rtb.h",
+    "include/soc/qcom/mpm.h",
+    "include/trace/events/mpm.h",
+]
 
 CUSTOM_FILES = {
     "k618_mi_memory.c": "mi_memory.c",
@@ -56,6 +62,30 @@ config TAPAS_ANT_CHECK
 config TAPAS_ANT_CHECK_DIV
 	tristate "Xiaomi diversity antenna GPIO status"
 	depends on INPUT && GPIOLIB
+'''
+
+MPM_KCONFIG = r'''
+
+config TAPAS_QCOM_MPM
+	tristate "Qualcomm downstream Khaje MPM"
+	depends on ARCH_QCOM
+	select IRQ_DOMAIN
+	select IRQ_DOMAIN_HIERARCHY
+'''
+
+MPM_REGISTRY = r'''
+
+    registry.register(
+        name = "drivers/irqchip/qcom-mpm-khaje",
+        out = "qcom-mpm.ko",
+        config = "CONFIG_TAPAS_QCOM_MPM",
+        srcs = [
+            "drivers/irqchip/qcom-mpm.c",
+            "include/linux/msm_rtb.h",
+            "include/soc/qcom/mpm.h",
+            "include/trace/events/mpm.h",
+        ],
+    )
 '''
 
 
@@ -104,6 +134,13 @@ def main() -> int:
         if not source.is_file():
             raise FileNotFoundError(source)
         shutil.copyfile(source, target / output_name)
+    for relative in PLATFORM_FILES:
+        source = donor / relative
+        if not source.is_file():
+            raise FileNotFoundError(source)
+        output = soc / relative
+        output.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(source, output)
     for source_name, output_name in CUSTOM_FILES.items():
         shutil.copyfile(here / source_name, target / output_name)
 
@@ -145,7 +182,23 @@ def main() -> int:
     if "config TAPAS_MI_MEMORY" not in text:
         kconfig.write_text(text + KCONFIG)
 
-    print("k618_tapas_compat: imported five public/source-backed compatibility modules")
+    irq_kconfig = soc / "drivers/irqchip/Kconfig"
+    text = irq_kconfig.read_text()
+    if "config TAPAS_QCOM_MPM" not in text:
+        irq_kconfig.write_text(text + MPM_KCONFIG)
+    irq_registry = soc / "drivers/irqchip/modules.bzl"
+    text = irq_registry.read_text()
+    if 'out = "qcom-mpm.ko"' not in text:
+        irq_registry.write_text(text.rstrip() + MPM_REGISTRY + "\n")
+
+    mpm_header = soc / "include/soc/qcom/mpm.h"
+    text = mpm_header.read_text().replace(
+        "#if IS_ENABLED(CONFIG_QCOM_MPM)",
+        "#if IS_ENABLED(CONFIG_QCOM_MPM) || IS_ENABLED(CONFIG_TAPAS_QCOM_MPM)",
+    )
+    mpm_header.write_text(text)
+
+    print("k618_tapas_compat: imported exact Khaje MPM and five source-backed compatibility modules")
     return 0
 
 
