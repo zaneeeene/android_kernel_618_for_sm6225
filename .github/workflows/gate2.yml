@@ -1,0 +1,88 @@
+name: SM6225 Gate 2 compile
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  compile:
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    env:
+      BUILD_ROOT: /home/runner/tapas-k618-build
+      JOBS: 4
+      K618_INPUT_SPEC: provenance/input-sources-gate1.json
+    steps:
+      - name: Check out integration
+        uses: actions/checkout@v4
+
+      - name: Free disk space
+        uses: jlumbroso/free-disk-space@v1.3.1
+        with:
+          tool-cache: true
+          android: true
+          dotnet: true
+          haskell: true
+          large-packages: true
+          docker-images: false
+          swap-storage: true
+
+      - name: Restore pinned source workspace
+        id: source-cache
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            /home/runner/tapas-k618-build/.tapas-k618-upstream
+            /home/runner/tapas-k618-build/k618/ws
+            /home/runner/tapas-k618-build/k618/soc
+            /home/runner/tapas-k618-build/k618/src/topaz
+            /home/runner/tapas-k618-build/k618/KernelSU
+            /home/runner/tapas-k618-build/k618/susfs4ksu
+            /home/runner/tapas-k618-build/lz4-dev
+          key: ${{ runner.os }}-sm6225-gate1-inputs-${{ hashFiles('provenance/input-sources-gate1.json', 'patches/soc-sm8550.patch') }}
+
+      - name: Install host dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            build-essential git python3 rsync make bc bison flex \
+            libssl-dev libelf-dev libdw-dev libncurses-dev zlib1g-dev \
+            cpio lz4 zstd kmod zip unzip file binutils \
+            systemd util-linux pkg-config erofs-utils python3-zstandard
+
+      - name: Fetch pinned sources
+        run: bash scripts/run-limited.sh bootstrap --only sources
+
+      - name: Compile ACK and Gate 2 platform modules
+        run: bash scripts/run-limited.sh gate2
+
+      - name: Collect reports
+        if: always()
+        run: |
+          mkdir -p gate2-artifacts
+          for file in gate2-report.json k618/gki-build.log k618/gki-config.log \
+                      k618/soc-errors.txt k618/soc-build.log k618/soc-kconfig.log; do
+            cp -f "$BUILD_ROOT/$file" gate2-artifacts/ 2>/dev/null || true
+          done
+          if [ -f "$BUILD_ROOT/k618/out-gki/arch/arm64/boot/Image" ]; then
+            cp -f "$BUILD_ROOT/k618/out-gki/arch/arm64/boot/Image" \
+              gate2-artifacts/Image-ACK-6.18-GATE2-NOT-FLASHABLE
+            ( cd gate2-artifacts && sha256sum Image-ACK-6.18-GATE2-NOT-FLASHABLE \
+                > Image-ACK-6.18-GATE2-NOT-FLASHABLE.sha256 )
+          fi
+          ls -lh gate2-artifacts
+
+      - name: Upload Gate 2 reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: sm6225-gate2
+          path: gate2-artifacts/
+          if-no-files-found: warn
+          retention-days: 14

@@ -3,7 +3,7 @@
 set -euo pipefail
 here=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)
 action=${1:-}
-case "$action" in bootstrap|prepare|build|verify|gate1|test-installer|test-runtime) ;; *) echo 'Usage: bash scripts/run-limited.sh bootstrap|prepare|build|verify|gate1|test-installer|test-runtime'; exit 2;; esac
+case "$action" in bootstrap|prepare|build|verify|gate1|gate2|test-installer|test-runtime) ;; *) echo 'Usage: bash scripts/run-limited.sh bootstrap|prepare|build|verify|gate1|gate2|test-installer|test-runtime'; exit 2;; esac
 shift
 . "$here/project-env.sh"
 launcher=()

@@ -159,6 +159,7 @@ grep -q 'drivers/kernelsu/Kconfig' $W/common/drivers/Kconfig || { echo "k618_gki
 
 python3 -I $K618_DIR/k618_ports.py $W/common || exit 1
 python3 -I $K618_DIR/k618_memory.py $W/common || exit 1
+[ "${SM6225_GATE2:-0}" != 1 ] || python3 -I $K618_DIR/k618_sm6225_gki.py $W/common || exit 1
 $M gki_defconfig > $O/../gki-config.log 2>&1
 # The modules the phone's second stage loads that are the kernel's own, not a vendor's: MTD (whose
 # block2mtd + mtdoops pair is the ROM's own kernel-oops area on the `oops` partition, with
@@ -190,12 +191,29 @@ $W/common/scripts/config --file $O/.config -d STATIC_USERMODEHELPER
 $W/common/scripts/config --file $O/.config -d ZRAM_DEF_COMP_LZORLE -e ZRAM_DEF_COMP_LZ4
 # Existing upstream capabilities: defer idle KFENCE sampling and retain tmpfs xattrs.
 $W/common/scripts/config --file $O/.config -e KFENCE_DEFERRABLE -e TMPFS_XATTR
+if [ "${SM6225_GATE2:-0}" = 1 ]; then
+	# ACK-native legacy Qualcomm infrastructure used by Khaje. These are build
+	# inputs for Gate 2; packaging chooses one provider where the soc-repo also
+	# offers a module with the same role.
+	SM6225_BOOL="ARCH_QCOM RPMSG QRTR INTERCONNECT MAILBOX REMOTEPROC"
+	SM6225_MODS="QCOM_SMEM QCOM_SMEM_STATE QCOM_SMP2P RPMSG_QCOM_SMD
+		QCOM_SMD_RPM REGULATOR_QCOM_SMD_RPM QCOM_CLK_SMD_RPM
+		QCOM_APCS_IPC QCOM_MPM INTERCONNECT_QCOM_SM6115 QCOM_BAM_DMA
+		SCSI_UFS_QCOM MMC_SDHCI_MSM HWSPINLOCK_QCOM NVMEM_QCOM_QFPROM
+		QRTR_SMD RPMSG_QCOM_GLINK RPMSG_QCOM_GLINK_SMEM QCOM_Q6V5_PAS"
+	$W/common/scripts/config --file $O/.config \
+		$(for c in $SM6225_BOOL; do echo -n " -e $c"; done) \
+		$(for c in $SM6225_MODS; do echo -n " -m $c"; done)
+fi
 $M olddefconfig >> $O/../gki-config.log 2>&1
 grep -q '^CONFIG_ZRAM_DEF_COMP="lz4"' $O/.config || echo "k618_gki: CONFIG_ZRAM_DEF_COMP is not lz4"
 for c in KFENCE_DEFERRABLE TMPFS_XATTR; do grep -q "^CONFIG_$c=y" $O/.config || echo "k618_gki: CONFIG_$c did not take"; done
 for c in CPU_FREQ_GOV_SUGOV_EXT CPUFREQ_TESTBENCH; do grep -q "^CONFIG_$c=y" $O/.config || echo "k618_gki: CONFIG_$c did not take"; done
 grep -q '^# CONFIG_STATIC_USERMODEHELPER is not set' $O/.config || echo "k618_gki: STATIC_USERMODEHELPER did not take"
 for c in $GKI_MODS; do grep -q "^CONFIG_$c=m" $O/.config || echo "k618_gki: CONFIG_$c did not take"; done
+if [ "${SM6225_GATE2:-0}" = 1 ]; then
+	for c in $SM6225_MODS; do grep -q "^CONFIG_$c=m" $O/.config || echo "k618_gki: CONFIG_$c did not take"; done
+fi
 grep -q '^CONFIG_KSU=y' $O/.config || echo "k618_gki: CONFIG_KSU did not take"
 for c in $SUSFS_CFG; do grep -q "^CONFIG_$c=y" $O/.config || echo "k618_gki: CONFIG_$c did not take"; done
 grep -E '^CONFIG_DRM_DISPLAY_(HELPER|DP_HELPER)=' $O/.config | tr '\n' ' '; echo
