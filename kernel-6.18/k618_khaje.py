@@ -88,6 +88,11 @@ MODULES = [
 ]
 
 PORT_EDITS = [
+    (
+        r"drivers/clk/qcom/debugcc-khaje\.c",
+        r'"Unable to register %s, err:\(%d\)\\n"',
+        r'"Unable to register %s, err:(%ld)\\n"',
+    ),
     # The 6.11 soc-repo clock core takes struct device rather than platform_device.
     (
         r"drivers/clk/qcom/\w+-khaje\.c",

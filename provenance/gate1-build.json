@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "gate": 1,
+  "status": "passed",
+  "flashable": false,
+  "run": {
+    "id": 42512386428,
+    "url": "https://github.com/zaneeeene/android_kernel_618_for_sm6225/actions/runs/42512386428",
+    "source_commit": "81d01c413a61db9e49fe8b7b62f91f0eeb1658f0",
+    "completed_at": "2026-11-08T19:23:52Z"
+  },
+  "kernel": {
+    "release": "6.18.32-4k-gff4a6c3bb0f4-dirty",
+    "image_size": 44321280,
+    "image_sha256": "c39814c588be21ab34a26d0b4f447106e86c613b5769702a2d25a0d53ef94bb9",
+    "toolchain": "Android clang/LLD 22.0.1 r584948c"
+  },
+  "modules": [
+    {
+      "name": "debugcc-khaje.ko",
+      "path": "debugcc-khaje.ko",
+      "size": 236736,
+      "sha256": "bfcea83b2a3b227a09e7513661f53060826bae4122295be0162f6b70d5a067c0"
+    },
+    {
+      "name": "dispcc-khaje.ko",
+      "path": "dispcc-khaje.ko",
+      "size": 282040,
+      "sha256": "b4798be9658ef4642c6b80524172018327f0526400c0578f322a9921c117e06e"
+    },
+    {
+      "name": "gcc-khaje.ko",
+      "path": "gcc-khaje.ko",
+      "size": 392048,
+      "sha256": "ba1945604d415a75cea9f05b2eafe334fecc0c7d96f82807b13eedfd9a4a2394"
+    },
+    {
+      "name": "gpucc-khaje.ko",
+      "path": "gpucc-khaje.ko",
+      "size": 274328,
+      "sha256": "033159f0fee3422dae208446144b7222b83cae4744af0896eab1172f7d9fbb68"
+    },
+    {
+      "name": "phy-qcom-ufs-qmp-v4-khaje.ko",
+      "path": "phy-qcom-ufs-qmp-v4-khaje.ko",
+      "size": 273584,
+      "sha256": "7b5b0a8768e393318c54c39b08eace3c7763dbdb59a9b69504ccf23dde5ceaf6"
+    },
+    {
+      "name": "pinctrl-bengal.ko",
+      "path": "pinctrl-bengal.ko",
+      "size": 326648,
+      "sha256": "b56d22334ababf3111ecddc499e57e62ae0b3d31d956fd50bc91ecc359c630de"
+    },
+    {
+      "name": "pinctrl-khaje.ko",
+      "path": "pinctrl-khaje.ko",
+      "size": 327368,
+      "sha256": "cc6e25798f2646baa819ae40b7b1f10f2acbaf49891ad6edd77304839d036e07"
+    }
+  ],
+  "missing": [],
+  "soc_compile_errors": 0,
+  "soc_compile_warnings": 3,
+  "scope": "ACK Image plus Khaje clocks, Khaje/Bengal pinctrl and Khaje UFS PHY; no SMD/RPM, Bengal NoC, DT packaging or boot claim"
+}

@@ -28,7 +28,7 @@
   },
   "status": {
     "stock_inventory": "complete",
-    "kernel_6_18_build": "not-started",
+    "kernel_6_18_build": "gate1-passed",
     "kernel_6_18_boot": "not-attempted"
   }
 }

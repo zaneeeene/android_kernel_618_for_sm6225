@@ -75,8 +75,9 @@ jobs:
           if [ -f "$BUILD_ROOT/k618/out-gki/arch/arm64/boot/Image" ]; then
             cp -f "$BUILD_ROOT/k618/out-gki/arch/arm64/boot/Image" \
               gate1-artifacts/Image-ACK-6.18-GATE1-NOT-FLASHABLE
-            sha256sum gate1-artifacts/Image-ACK-6.18-GATE1-NOT-FLASHABLE \
-              > gate1-artifacts/Image-ACK-6.18-GATE1-NOT-FLASHABLE.sha256
+            ( cd gate1-artifacts && \
+              sha256sum Image-ACK-6.18-GATE1-NOT-FLASHABLE \
+                > Image-ACK-6.18-GATE1-NOT-FLASHABLE.sha256 )
           fi
           find "$BUILD_ROOT/k618/soc" -name '*khaje*.ko' -o -name 'pinctrl-bengal.ko' \
             | while read -r module; do cp -f "$module" gate1-artifacts/; done

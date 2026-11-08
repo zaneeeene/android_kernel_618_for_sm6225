@@ -20,7 +20,7 @@ README is preserved at [docs/UPSTREAM_SM8550_README.md](docs/UPSTREAM_SM8550_REA
 | Stock device-tree extraction | Complete: 6 base DTBs, 49 overlays |
 | Exact tapas DT selection | Identified and merged: base `001` + overlay `045` |
 | Public SM6225 source inventory | Complete |
-| 6.18 SM6225 platform patch | Initial clock/TLMM/UFS import implemented; compile pending |
+| 6.18 SM6225 platform patch | **Gate 1 passed:** ACK Image + clocks/TLMM/UFS compile |
 | 6.18 external modules | Not yet compiling |
 | Physical-device boot | Not attempted; no flashable image exists |
 
@@ -31,6 +31,23 @@ The stock target uses:
 - base DTB `001`: `qcom,khaje`, SoC ID `0x24a`;
 - DTBO `045`: board ID `0x20022`, model `KHAJE IDP nopmi tapas`;
 - 86 first-stage modules, then 238 entries in the vendor module load list.
+
+## Gate 1 build result
+
+[GitHub Actions run 42512386428](https://github.com/zaneeeene/android_kernel_618_for_sm6225/actions/runs/42512386428)
+successfully built:
+
+- `Image`: Linux `6.18.32`, 44,321,280 bytes, SHA-256
+  `c39814c588be21ab34a26d0b4f447106e86c613b5769702a2d25a0d53ef94bb9`;
+- Khaje GCC, DISPCC, GPUCC and debug clock modules;
+- Khaje and Bengal pinctrl modules;
+- the exact Khaje QMP v4 UFS PHY module.
+
+All seven target modules use the same 6.18 modversion ABI and compiled with no
+errors. The artifact is intentionally named `GATE1-NOT-FLASHABLE`: SMD/RPM,
+Bengal NoC, full storage/USB dependencies, device-tree packaging and Android
+modules are not integrated yet. Reproducible hashes are recorded in
+[provenance/gate1-build.json](provenance/gate1-build.json).
 
 ## Why this attempt is now plausible
 

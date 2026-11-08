@@ -124,6 +124,11 @@ The first implementation slice is `k618_khaje.py` plus
 registered in the 6.11 soc-repo and passed through the existing 6.18 API fixer.
 It deliberately stops before claiming SMD/RPM, NoC or remoteproc support.
 
+**Result (2026-11-08): passed.** ACK `6.18.32` and all seven selected Khaje
+modules built with modversions and zero compile/modpost errors in Actions run
+`42512386428`. See `provenance/gate1-build.json`. This validates the initial
+5.15→6.11→6.18 source bridge, not device bootability.
+
 ### Gate 2 — early boot
 
 1. Reconstruct base 1 + overlay 45 from the reference firmware at build time.
