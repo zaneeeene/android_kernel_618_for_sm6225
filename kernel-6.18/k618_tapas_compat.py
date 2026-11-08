@@ -158,6 +158,13 @@ def port_gpio_module(path: Path, function: str) -> None:
     text = path.read_text()
     text = text.replace("class_create(THIS_MODULE, ", "class_create(")
     text = re.sub(
+        r'of_get_named_gpio_flags\((np,\s*"[^"]+",\s*0),\s*&\w+->irq_gpio_flags\)',
+        r"of_get_named_gpio(\1)",
+        text,
+    )
+    text = text.replace("struct class *class", "const struct class *class")
+    text = text.replace("struct class_attribute *attr", "const struct class_attribute *attr")
+    text = re.sub(
         rf"static int ({re.escape(function)}\(struct platform_device \*pdev\)\n\{{.*?)(\n\treturn 0;\n\}})",
         lambda match: "static void " + match.group(1) + "\n}",
         text,

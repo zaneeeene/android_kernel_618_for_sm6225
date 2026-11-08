@@ -65,7 +65,8 @@ def main() -> int:
                 "file": path,
                 "filename": path.name,
                 "name": modinfo(path, "name"),
-                "depends": [name for name in modinfo(path, "depends").split(",") if name],
+                "depends": [name.strip() for name in modinfo(path, "depends").split(",")
+                            if name.strip()],
             }
             records.append(record)
             by_provider_path[(label, record["path"])] = record
