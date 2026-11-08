@@ -16,6 +16,8 @@ done
 
 git -C "$common" reset -q --hard HEAD
 git -C "$common" clean -fdxq
+git -C "$soc" reset -q --hard HEAD
+git -C "$soc" clean -fdxq
 SM6225_GATE2=1 SM6225_GATE3=1 bash "$PROJECT_ROOT/kernel-6.18/k618_gki.sh" "${JOBS:-4}"
 SM6225_DONOR="$topaz" SM6225_COMPAT=1 \
   bash "$PROJECT_ROOT/kernel-6.18/k618_tapas_base.sh" "${JOBS:-4}"
@@ -40,4 +42,12 @@ python3 "$PROJECT_ROOT/tools/tapas/module_coverage.py" \
   --root "gki=$K618/out-gki" --root "soc=$soc" \
   --output "$BUILD_ROOT/gate4-coverage.json" --require-complete
 
-echo "Gate 4 first-stage module coverage passed; no image was packaged."
+release=$(cat "$K618/out-gki/include/config/kernel.release")
+python3 "$PROJECT_ROOT/tools/tapas/assemble_module_payload.py" \
+  --coverage "$BUILD_ROOT/gate4-coverage.json" \
+  --rules "$PROJECT_ROOT/provenance/module-name-map-sm6225.json" \
+  --root "gki=$K618/out-gki" --root "soc=$soc" \
+  --output "$BUILD_ROOT/gate4-payload" --release "$release" \
+  --system-map "$K618/out-gki/System.map"
+
+echo "Gate 4 coverage and dependency closure passed; no image was packaged."
