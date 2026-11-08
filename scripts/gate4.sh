@@ -28,7 +28,7 @@ SM6225_DONOR="$topaz" SM6225_COMPAT=1 \
 stock_targets=$(python3 -I "$PROJECT_ROOT/kernel-6.18/k618_soc_stock_select.py" \
   "$soc" "$PROJECT_ROOT/provenance/tapas-vendor-boot-modules.load" \
   "$PROJECT_ROOT/provenance/module-name-map-sm6225.json")
-stock_targets="$stock_targets drivers/remoteproc/qcom_q6v5_pas"
+stock_targets="$stock_targets drivers/remoteproc/qcom_q6v5_pas drivers/soc/qcom/qfprom-sys"
 if [ -n "$stock_targets" ]; then
   bash "$PROJECT_ROOT/kernel-6.18/k618_soc_build.sh" \
     configs/canoe_perf.bzl,k618_sm6225_overrides.bzl,k618_sm6225_compat.bzl \

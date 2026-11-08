@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "modules": [
+    {"compatible": "qcom,bam-v1.7.0", "module": "bam_dma.ko"},
+    {"compatible": "qcom,bengal-apcs-hmss-global", "module": "qcom-apcs-ipc-mailbox.ko"},
+    {"compatible": "qcom,bengal-bimc", "module": "qnoc-bengal.ko"},
+    {"compatible": "qcom,bengal-clk_virt", "module": "qnoc-bengal.ko"},
+    {"compatible": "qcom,bengal-config_noc", "module": "qnoc-bengal.ko"},
+    {"compatible": "qcom,bengal-mmnrt_virt", "module": "qnoc-bengal.ko"},
+    {"compatible": "qcom,bengal-mmrt_virt", "module": "qnoc-bengal.ko"},
+    {"compatible": "qcom,bengal-system_noc", "module": "qnoc-bengal.ko"},
+    {"compatible": "qcom,cpufreq-hw", "module": "qcom-cpufreq-hw.ko"},
+    {"compatible": "qcom,glink-rpm", "module": "qcom_glink_rpm.ko"},
+    {"compatible": "qcom,khaje-adsp-pas", "module": "qcom_q6v5_pas.ko"},
+    {"compatible": "qcom,khaje-cdsp-pas", "module": "qcom_q6v5_pas.ko"},
+    {"compatible": "qcom,khaje-gcc", "module": "gcc-khaje.ko"},
+    {"compatible": "qcom,khaje-modem-pas", "module": "qcom_q6v5_pas.ko"},
+    {"compatible": "qcom,khaje-pinctrl", "module": "pinctrl-khaje.ko"},
+    {"compatible": "qcom,mpm-khaje", "module": "qcom-mpm.ko"},
+    {"compatible": "qcom,msm-watchdog", "module": "qcom_soc_wdt.ko"},
+    {"compatible": "qcom,qfprom", "module": "nvmem_qfprom.ko"},
+    {"compatible": "qcom,qfprom-sys", "module": "qfprom-sys.ko"},
+    {"compatible": "qcom,qsmmu-v500", "module": "arm_smmu.ko"},
+    {"compatible": "qcom,qsmmuv500-tbu", "module": "arm_smmu.ko"},
+    {"compatible": "qcom,rpm-smd", "module": "rpm-smd.ko"},
+    {"compatible": "qcom,rpm-smd-regulator", "module": "rpm-smd-regulator.ko"},
+    {"compatible": "qcom,rpm-smd-regulator-resource", "module": "rpm-smd-regulator.ko"},
+    {"compatible": "qcom,rpmcc-khaje", "module": "clk-smd-rpm.ko"},
+    {"compatible": "qcom,sdhci-msm-v5", "module": "sdhci-msm.ko"},
+    {"compatible": "qcom,smem", "module": "smem.ko"},
+    {"compatible": "qcom,smp2p", "module": "smp2p.ko"},
+    {"compatible": "qcom,spmi-pmic", "module": "qcom-spmi-pmic.ko"},
+    {"compatible": "qcom,spmi-pmic-arb", "module": "spmi-pmic-arb.ko"},
+    {"compatible": "qcom,ufs-phy-qmp-v4-khaje", "module": "phy-qcom-ufs-qmp-v4-khaje.ko"},
+    {"compatible": "qcom,ufshc", "module": "ufs-qcom.ko"}
+  ],
+  "builtins": [
+    {"compatible": "qcom,pshold", "config": "CONFIG_POWER_RESET_MSM=y"}
+  ]
+}

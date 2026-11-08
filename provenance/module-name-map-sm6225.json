@@ -46,6 +46,7 @@
     "cqhci.ko"
   ],
   "payload_extras": [
-    "qcom_q6v5_pas.ko"
+    "qcom_q6v5_pas.ko",
+    "qfprom-sys.ko"
   ]
 }
