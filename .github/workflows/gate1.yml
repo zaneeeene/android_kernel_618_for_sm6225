@@ -53,6 +53,8 @@ jobs:
         run: |
           mkdir -p gate1-artifacts
           cp -f "$BUILD_ROOT/gate1-report.json" gate1-artifacts/ 2>/dev/null || true
+          cp -f "$BUILD_ROOT/k618/gki-build.log" gate1-artifacts/ 2>/dev/null || true
+          cp -f "$BUILD_ROOT/k618/gki-config.log" gate1-artifacts/ 2>/dev/null || true
           cp -f "$BUILD_ROOT/k618/soc-errors.txt" gate1-artifacts/ 2>/dev/null || true
           cp -f "$BUILD_ROOT/k618/soc-build.log" gate1-artifacts/ 2>/dev/null || true
           cp -f "$BUILD_ROOT/k618/soc-kconfig.log" gate1-artifacts/ 2>/dev/null || true

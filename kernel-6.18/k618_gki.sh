@@ -201,7 +201,7 @@ for c in $SUSFS_CFG; do grep -q "^CONFIG_$c=y" $O/.config || echo "k618_gki: CON
 grep -E '^CONFIG_DRM_DISPLAY_(HELPER|DP_HELPER)=' $O/.config | tr '\n' ' '; echo
 $M rustavailable > $O/../gki-rust.log 2>&1 || { echo "rust not available:"; tail -5 $O/../gki-rust.log; }
 grep -E '^CONFIG_(RUST|GENDWARFKSYMS|MODVERSIONS|LTO_NONE|LTO_CLANG_THIN)=' $O/.config | tr '\n' ' '; echo
-$M -j$J Image modules > $O/../gki-build.log 2>&1 || { tail -30 $O/../gki-build.log; echo "BUILD FAILED after $(( $(date +%s) - start )) s"; exit 1; }
+$M -j$J Image modules > $O/../gki-build.log 2>&1 || { tail -150 $O/../gki-build.log; echo "BUILD FAILED after $(( $(date +%s) - start )) s"; exit 1; }
 echo "built in $(( $(date +%s) - start )) s"
 ls -la $O/arch/arm64/boot/Image | awk '{print $5, $9}'
 cat $O/include/config/kernel.release
