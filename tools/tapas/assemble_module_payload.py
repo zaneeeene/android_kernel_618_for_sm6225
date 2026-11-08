@@ -164,6 +164,8 @@ def main() -> int:
     (module_dir / "modules.load").write_text(
         "".join(record["filename"] + "\n" for record in ordered)
     )
+    for metadata in ("modules.order", "modules.builtin", "modules.builtin.modinfo"):
+        (module_dir / metadata).write_text("")
     depmod = ["depmod", "-b", str(args.output)]
     if args.system_map:
         depmod += ["-F", str(args.system_map)]
