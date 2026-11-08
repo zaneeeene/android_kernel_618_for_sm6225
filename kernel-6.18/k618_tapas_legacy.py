@@ -217,6 +217,19 @@ def main() -> int:
     text = rpm.read_text()
     if "struct smd_channel;" not in text:
         text = text.replace("#define DEFAULT_BUFFER_SIZE", "struct smd_channel;\n\n#define DEFAULT_BUFFER_SIZE", 1)
+    if "MODULE_DEVICE_TABLE(of, rpm_of_match);" not in text:
+        text = text.replace(
+            '''static const struct of_device_id rpm_of_match[] = {
+\t{ .compatible = "qcom,rpm-smd" },
+\t{},
+};''',
+            '''static const struct of_device_id rpm_of_match[] = {
+\t{ .compatible = "qcom,rpm-smd" },
+\t{},
+};
+MODULE_DEVICE_TABLE(of, rpm_of_match);''',
+            1,
+        )
     rpm.write_text(text)
 
     clock = soc / "drivers/clk/qcom/clk-smd-rpm.c"
@@ -228,6 +241,20 @@ def main() -> int:
     regulator = soc / "drivers/regulator/rpm-smd-regulator.c"
     port_remove(regulator, "rpm_vreg_device_remove")
     port_remove(regulator, "rpm_vreg_resource_remove")
+    text = regulator.read_text()
+    resource_anchor = '''static const struct of_device_id rpm_vreg_match_table_resource[] = {
+\t{ .compatible = "qcom,rpm-smd-regulator-resource", },
+\t{}
+};'''
+    if "MODULE_DEVICE_TABLE(of, rpm_vreg_match_table_device);" not in text:
+        text = text.replace(
+            resource_anchor,
+            resource_anchor
+            + "\nMODULE_DEVICE_TABLE(of, rpm_vreg_match_table_device);"
+            + "\nMODULE_DEVICE_TABLE(of, rpm_vreg_match_table_resource);",
+            1,
+        )
+    regulator.write_text(text)
 
     bengal = soc / "drivers/interconnect/qcom/bengal.c"
     text = port_bengal_provider(bengal.read_text())
