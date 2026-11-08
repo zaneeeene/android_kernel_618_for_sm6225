@@ -132,13 +132,15 @@ modules built with modversions and zero compile/modpost errors in Actions run
 **Expanded platform result:** Gate 2 passed in Actions run `42519405745` with
 22 required modules found and no missing outputs. This adds the ACK-native
 legacy SMD/RPM and IPC/storage stack. The SM6115 NoC module in that gate is an
-API/build reference; Gate 3 replaces it with a Bengal-compatible provider that
-uses the stock global IDs and includes Khaje's UFS/PRNG nodes.
+API/build reference; the first Gate 3 prototype added the stock global IDs and
+Khaje's UFS/PRNG nodes.
 
-**Exact interconnect result:** Gate 3 passed in Actions run `42521478862`.
-The generated `qnoc-bengal.ko` compiles against ACK 6.18's current interconnect
-core with sparse downstream IDs and the two Khaje-only paths required by the
-stock DT. See `provenance/gate3-build.json`.
+**Interconnect API result:** Gate 3 passed in Actions run `42521478862`, but a
+subsequent table audit showed that prototype still inherited SM6115 topology
+values. It is not the runtime gate. The replacement ports MiCode's exact 98
+Bengal nodes, 22 QoS tables, RPM IDs and two-clock provider behavior to 6.18;
+its compile revalidation supersedes the historical result in
+`provenance/gate3-build.json`.
 
 ### Gate 2 — early boot
 
