@@ -160,6 +160,7 @@ grep -q 'drivers/kernelsu/Kconfig' $W/common/drivers/Kconfig || { echo "k618_gki
 python3 -I $K618_DIR/k618_ports.py $W/common || exit 1
 python3 -I $K618_DIR/k618_memory.py $W/common || exit 1
 [ "${SM6225_GATE2:-0}" != 1 ] || python3 -I $K618_DIR/k618_sm6225_gki.py $W/common || exit 1
+[ "${SM6225_GATE3:-0}" != 1 ] || python3 -I $K618_DIR/k618_bengal_gki.py $W/common $K618/src/topaz || exit 1
 $M gki_defconfig > $O/../gki-config.log 2>&1
 # The modules the phone's second stage loads that are the kernel's own, not a vendor's: MTD (whose
 # block2mtd + mtdoops pair is the ROM's own kernel-oops area on the `oops` partition, with
@@ -201,6 +202,7 @@ if [ "${SM6225_GATE2:-0}" = 1 ]; then
 		QCOM_APCS_IPC QCOM_MPM INTERCONNECT_QCOM_SM6115 QCOM_BAM_DMA
 		SCSI_UFS_QCOM MMC_SDHCI_MSM HWSPINLOCK_QCOM NVMEM_QCOM_QFPROM
 		QRTR_SMD RPMSG_QCOM_GLINK RPMSG_QCOM_GLINK_SMEM QCOM_Q6V5_PAS"
+	[ "${SM6225_GATE3:-0}" != 1 ] || SM6225_MODS="$SM6225_MODS INTERCONNECT_QCOM_BENGAL"
 	$W/common/scripts/config --file $O/.config \
 		$(for c in $SM6225_BOOL; do echo -n " -e $c"; done) \
 		$(for c in $SM6225_MODS; do echo -n " -m $c"; done)
