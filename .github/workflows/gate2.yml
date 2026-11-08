@@ -70,6 +70,7 @@ jobs:
                       k618/soc-errors.txt k618/soc-build.log k618/soc-kconfig.log; do
             cp -f "$BUILD_ROOT/$file" gate2-artifacts/ 2>/dev/null || true
           done
+          cp -f "$BUILD_ROOT/k618/out-gki/.config" gate2-artifacts/gki.config 2>/dev/null || true
           if [ -f "$BUILD_ROOT/k618/out-gki/arch/arm64/boot/Image" ]; then
             cp -f "$BUILD_ROOT/k618/out-gki/arch/arm64/boot/Image" \
               gate2-artifacts/Image-ACK-6.18-GATE2-NOT-FLASHABLE
