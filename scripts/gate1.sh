@@ -17,6 +17,12 @@ for path in "$common/.git" "$soc/.git" "$topaz/.git"; do
   }
 done
 
+# A restored CI cache can contain the previous failed build's generated edits.
+# The input repository is pinned and disposable, so always reapply integration
+# changes from its recorded commit rather than stacking them across attempts.
+git -C "$common" reset -q --hard HEAD
+git -C "$common" clean -fdxq
+
 bash "$PROJECT_ROOT/kernel-6.18/k618_gki.sh" "${JOBS:-4}"
 SM6225_DONOR="$topaz" bash "$PROJECT_ROOT/kernel-6.18/k618_tapas_base.sh" "${JOBS:-4}"
 
