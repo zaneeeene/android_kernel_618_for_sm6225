@@ -19,6 +19,16 @@ git -C "$common" clean -fdxq
 SM6225_GATE2=1 SM6225_GATE3=1 bash "$PROJECT_ROOT/kernel-6.18/k618_gki.sh" "${JOBS:-4}"
 SM6225_DONOR="$topaz" bash "$PROJECT_ROOT/kernel-6.18/k618_tapas_base.sh" "${JOBS:-4}"
 
+# The earlier gates deliberately requested only the minimal Khaje set. Build
+# every additional first-stage stock module that the 6.11 soc registry can
+# supply, resolving registry names from output filenames at runtime.
+stock_targets=$(python3 -I "$PROJECT_ROOT/kernel-6.18/k618_soc_stock_select.py" \
+  "$soc" "$PROJECT_ROOT/provenance/tapas-vendor-boot-modules.load")
+if [ -n "$stock_targets" ]; then
+  bash "$PROJECT_ROOT/kernel-6.18/k618_soc_build.sh" \
+    configs/canoe_perf.bzl,k618_sm6225_overrides.bzl "${JOBS:-4}" $stock_targets
+fi
+
 python3 "$PROJECT_ROOT/tools/tapas/module_coverage.py" \
   --stock "$PROJECT_ROOT/provenance/tapas-vendor-boot-modules.load" \
   --map "$PROJECT_ROOT/provenance/module-name-map-sm6225.json" \
