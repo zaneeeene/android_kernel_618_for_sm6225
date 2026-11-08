@@ -28,6 +28,9 @@ def donor_text(donor: Path, relative: str) -> str:
 
 
 def port_bengal(text: str) -> str:
+    if "#include <linux/of.h>" not in text:
+        text = text.replace("#include <linux/module.h>\n",
+                            "#include <linux/module.h>\n#include <linux/of.h>\n", 1)
     text = text.replace("#include <soc/qcom/rpm-smd.h>\n", "")
     text = text.replace('#include "icc-rpm.h"', '#include "icc-rpm-bengal.h"')
     text = text.replace('#include "rpm-ids.h"', '#include "rpm-ids-bengal.h"')
@@ -144,8 +147,7 @@ def update_build_files(ack: Path) -> None:
     object_anchor = "qnoc-sm6115-objs\t\t\t:= sm6115.o\n"
     object_lines = (object_anchor
                     + "qnoc-bengal-objs\t\t\t:= bengal.o\n"
-                    + "icc-bengal-rpm-objs\t\t\t:= icc-rpm-bengal.o\n"
-                    + "qnoc-qos-bengal-objs\t\t:= qnoc-qos-bengal.o\n")
+                    + "icc-bengal-rpm-objs\t\t\t:= icc-rpm-bengal.o\n")
     if "qnoc-bengal-objs" not in text:
         text = replace_once(text, object_anchor, object_lines, "Makefile objects")
     target_anchor = "obj-$(CONFIG_INTERCONNECT_QCOM_SM6115) += qnoc-sm6115.o\n"
