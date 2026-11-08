@@ -51,7 +51,7 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y --no-install-recommends \
             build-essential git python3 rsync make bc bison flex \
-            libssl-dev libelf-dev libncurses-dev zlib1g-dev \
+            libssl-dev libelf-dev libdw-dev libncurses-dev zlib1g-dev \
             cpio lz4 zstd kmod zip unzip file binutils \
             systemd util-linux pkg-config erofs-utils python3-zstandard
 
