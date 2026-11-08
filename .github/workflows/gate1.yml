@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 360
     env:
-      BUILD_ROOT: ${{ runner.temp }}/tapas-k618-build
+      BUILD_ROOT: /home/runner/tapas-k618-build
       JOBS: 4
       K618_INPUT_SPEC: provenance/input-sources-gate1.json
     steps:
