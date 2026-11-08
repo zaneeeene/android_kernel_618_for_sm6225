@@ -42,7 +42,8 @@ OPlus publishes an exact SM6225 source set, not merely a nearby Qualcomm SoC:
 | OPlus `android_kernel_modules_and_devicetree_oppo_sm6225` | 5.15 | Khaje DT plus display, KGSL, camera, video, audio, WLAN and data drivers |
 | OnePlus SM8850 kernel/modules | 6.11 | Newer Qualcomm driver APIs used as the bridge to 6.18 |
 | MiCode `topaz-t-oss` | 5.15.41 | Xiaomi charger/fuel-gauge, fingerprint, thermal and board-specific interfaces |
-| Community Xiaomi SM6225 modules | 5.15 generation | Khaje camera configs and touch drivers absent from MiCode's partial release |
+| `xiaomi-6225-AD` modules/device trees | 5.15 generation | Target-family tapas/topaz multimedia and DTS source (WIP; checked against stock) |
+| `sm6225-dev` modules | 5.15 generation | Supplemental Khaje touch drivers absent from MiCode's partial release |
 | Stock tapas firmware | 5.15.194 | Authoritative DT, module list and runtime ABI requirements |
 | Upstream SM8550 6.18 project | 6.18.32 | Proven ACK integration, build tooling and 6.11→6.18 compatibility work |
 

@@ -53,18 +53,25 @@
       "role": "Xiaomi charging, fingerprint, thermal and board interfaces"
     },
     {
-      "name": "Community Xiaomi SM6225 modules",
+      "name": "Xiaomi SM6225-AD modules (community WIP)",
+      "url": "https://github.com/xiaomi-6225-AD/android_kernel_xiaomi_sm6225-modules.git",
+      "revision": "e436480901420485f26e9bc6bd8ce4f6310b9084",
+      "branch": "lineage-21",
+      "role": "target-family Xiaomi multimedia and WLAN source; audit against stock before use"
+    },
+    {
+      "name": "Xiaomi SM6225-AD device trees (community WIP)",
+      "url": "https://github.com/xiaomi-6225-AD/android_kernel_xiaomi_sm6225-devicetrees.git",
+      "revision": "c262319f01ff41f33d942f057d2e04ca1f6e79d8",
+      "branch": "main",
+      "role": "tapas/topaz DTS source reference; verified stock DTB/DTBO remains authoritative"
+    },
+    {
+      "name": "Community Xiaomi SM6225 touch modules",
       "url": "https://github.com/sm6225-dev/kernel_xiaomi_sm6225-modules.git",
       "revision": "c151a6400eb7295398a5a159a8dd5f2bd2b37604",
       "branch": "13",
       "role": "supplemental Xiaomi Khaje camera and touch source; must be audited against stock before use"
-    },
-    {
-      "name": "Community Xiaomi SM6225 device trees",
-      "url": "https://github.com/sm6225-dev/kernel_xiaomi_sm6225-devicetrees.git",
-      "revision": "c8fe105cee58e6357e58c5446e7b001e5ac9258a",
-      "branch": "13",
-      "role": "supplemental generic Khaje/spes DT reference; stock tapas DT remains authoritative"
     },
     {
       "name": "Upstream SM8550 6.18 integration",

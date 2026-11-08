@@ -84,17 +84,27 @@ MiCode `topaz-t-oss` supplies source for core board pieces including:
 - Khaje/Bengal core drivers and config fragments.
 
 The stock binary tree remains authoritative where public source differs.
-The community `sm6225-dev/kernel_xiaomi_sm6225-modules` branch `13` supplies a
-Khaje touch-driver tree (FocalTech, Goodix, Synaptics, Novatek and Xiaomi's
-touch interface) and a `khajecamera` configuration. It is a supplemental donor,
-not automatically trusted: source paths/configuration and resulting interfaces
-must be checked against the stock modules before inclusion. Closed 5.15 `.ko`
-files still cannot be loaded safely into 6.18.
+The `xiaomi-6225-AD` organization supplies target-family WIP module and DT
+repositories, including source files named for tapas/topaz. Its DTS is useful
+but not authoritative: for example, its `tapas` overlay currently declares
+board ID `0x30022`, while the verified stock tapas DTBO uses `0x20022`
+(`0x30022` belongs to topaz). Every imported property is therefore checked
+against the stock image.
+
+The newer community `sm6225-dev/kernel_xiaomi_sm6225-modules` branch `13`
+supplies the missing Khaje touch-driver tree (FocalTech, Goodix, Synaptics,
+Novatek and Xiaomi's touch interface). It is a supplemental donor, not
+automatically trusted: source paths/configuration and resulting interfaces must
+be checked against the stock modules before inclusion. Closed 5.15 `.ko` files
+still cannot be loaded safely into 6.18.
 
 Its overlap with the SM8850 API donor is recorded in
 `provenance/xiaomi-sm6225-sm8850-module-overlap.json`. Touch is entirely absent
 from SM8850, while the other major driver families retain hundreds of common
 paths.
+
+The older, tapas-specific WIP module overlap is recorded separately in
+`provenance/tapas-sm6225-sm8850-module-overlap.json`.
 
 ## Work breakdown
 

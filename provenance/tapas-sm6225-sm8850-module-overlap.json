@@ -1,0 +1,52 @@
+{
+  "xiaomi_sm6225ad_revision": "e436480901420485f26e9bc6bd8ce4f6310b9084",
+  "xiaomi_branch": "lineage-21",
+  "sm8850_revision": "5ab2a689ff87d7d28c511f1762cf41c1b90d965a",
+  "components": {
+    "audio-kernel": {
+      "xiaomi_sm6225ad_files": 406,
+      "sm8850_files": 409,
+      "common_paths": 351,
+      "identical_blobs": 210,
+      "changed_common_paths": 141,
+      "xiaomi_only": 55,
+      "sm8850_only": 58
+    },
+    "camera-kernel": {
+      "xiaomi_sm6225ad_files": 429,
+      "sm8850_files": 628,
+      "common_paths": 389,
+      "identical_blobs": 44,
+      "changed_common_paths": 345,
+      "xiaomi_only": 40,
+      "sm8850_only": 239
+    },
+    "display-drivers": {
+      "xiaomi_sm6225ad_files": 328,
+      "sm8850_files": 603,
+      "common_paths": 326,
+      "identical_blobs": 97,
+      "changed_common_paths": 229,
+      "xiaomi_only": 2,
+      "sm8850_only": 277
+    },
+    "graphics-kernel": {
+      "xiaomi_sm6225ad_files": 159,
+      "sm8850_files": 227,
+      "common_paths": 152,
+      "identical_blobs": 21,
+      "changed_common_paths": 131,
+      "xiaomi_only": 7,
+      "sm8850_only": 75
+    },
+    "video-driver": {
+      "xiaomi_sm6225ad_files": 92,
+      "sm8850_files": 161,
+      "common_paths": 47,
+      "identical_blobs": 2,
+      "changed_common_paths": 45,
+      "xiaomi_only": 45,
+      "sm8850_only": 114
+    }
+  }
+}
