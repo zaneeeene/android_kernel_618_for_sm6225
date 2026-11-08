@@ -27,6 +27,7 @@
         "/drivers/clk/qcom/dispcc-khaje.c",
         "/drivers/clk/qcom/gcc-khaje.c",
         "/drivers/clk/qcom/gpucc-khaje.c",
+        "/drivers/clk/qcom/clk-smd-rpm.c",
         "/drivers/clk/qcom/vdd-level-bengal.h",
         "/drivers/irqchip/qcom-mpm.c",
         "/drivers/interconnect/qcom/bengal.c",
@@ -43,6 +44,8 @@
         "/drivers/pinctrl/qcom/Kconfig",
         "/drivers/pinctrl/qcom/pinctrl-bengal.c",
         "/drivers/pinctrl/qcom/pinctrl-khaje.c",
+        "/drivers/regulator/rpm-smd-regulator.c",
+        "/drivers/rpmsg/rpm-smd.c",
         "/include/dt-bindings/clock/qcom,dispcc-khaje.h",
         "/include/dt-bindings/clock/qcom,gcc-khaje.h",
         "/include/dt-bindings/clock/qcom,gpucc-khaje.h",
@@ -50,7 +53,11 @@
         "/include/dt-bindings/regulator/qcom,rpm-smd-regulator.h",
         "/include/dt-bindings/phy/qcom,khaje-qmp-usb3.h",
         "/include/linux/msm_rtb.h",
+        "/include/linux/regulator/rpm-smd-regulator.h",
         "/include/soc/qcom/mpm.h",
+        "/include/soc/qcom/rpm-notifier.h",
+        "/include/soc/qcom/rpm-smd.h",
+        "/include/trace/events/trace_rpm_smd.h",
         "/include/trace/events/mpm.h"
       ]
     },
