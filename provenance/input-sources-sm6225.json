@@ -1,0 +1,111 @@
+{
+  "schema_version": 1,
+  "status": "experimental-bringup",
+  "target": {
+    "device": "Redmi Note 12 4G",
+    "codename": "tapas",
+    "soc": "SM6225-AD",
+    "platform": "khaje",
+    "software": "OS2.0.209.0.VMTMIXM",
+    "fingerprint": "Redmi/tapas_global/tapas:13/TKQ1.221114.001/OS2.0.209.0.VMTMIXM:user/release-keys"
+  },
+  "repositories": [
+    {
+      "name": "ACK 6.18.32",
+      "url": "https://android.googlesource.com/kernel/common",
+      "revision": "ff4a6c3bb0f471a9dd186293a47b62c83829b97d",
+      "role": "target kernel"
+    },
+    {
+      "name": "OnePlus SM8850 kernel",
+      "url": "https://github.com/OnePlusOSS/android_kernel_oneplus_sm8850.git",
+      "revision": "fc30e54174d254ff7f33622a9278e4435f6718d2",
+      "version": "6.11.0",
+      "role": "newer downstream Qualcomm API bridge"
+    },
+    {
+      "name": "OnePlus SM8850 modules",
+      "url": "https://github.com/OnePlusOSS/android_kernel_modules_and_devicetree_oneplus_sm8850.git",
+      "revision": "5ab2a689ff87d7d28c511f1762cf41c1b90d965a",
+      "role": "newer multimedia and vendor-module API bridge"
+    },
+    {
+      "name": "OPlus SM6225 kernel",
+      "url": "https://github.com/oppo-source/android_kernel_common_oppo_sm6225.git",
+      "revision": "a2135df2260088d4177f8298498e9300de0fdc10",
+      "branch": "oppo/sm6225_b_16.0",
+      "version": "5.15.180",
+      "role": "exact khaje platform donor"
+    },
+    {
+      "name": "OPlus SM6225 modules and device tree",
+      "url": "https://github.com/oppo-source/android_kernel_modules_and_devicetree_oppo_sm6225.git",
+      "revision": "c984ff8cfa146433289d8a3f26bd10bdc4192cf8",
+      "branch": "oppo/sm6225_b_16.0",
+      "role": "exact khaje DT, display, KGSL, camera, video, audio and WLAN donor"
+    },
+    {
+      "name": "MiCode tapas/topaz",
+      "url": "https://github.com/MiCode/Xiaomi_Kernel_OpenSource.git",
+      "revision": "345999da0be9cd37afdf87b15449d30b585a7091",
+      "branch": "topaz-t-oss",
+      "version": "5.15.41",
+      "role": "Xiaomi charging, fingerprint, thermal and board interfaces"
+    },
+    {
+      "name": "Upstream SM8550 6.18 integration",
+      "url": "https://github.com/JiaqiLi404/android_kernel_618_for_sm8550.git",
+      "revision": "c3956156ce7c4193c451dfda531fad72d35bfebb",
+      "role": "6.18 integration framework and compatibility reference"
+    }
+  ],
+  "stock_partitions": {
+    "boot": {
+      "size": 100663296,
+      "sha256": "816029b9afac6adb640195e35f4bcea5f6f844eabea1c31115892525c2d0ac2b"
+    },
+    "dtbo": {
+      "size": 8388608,
+      "sha256": "6a600bc087af08879d79fe8270e9ad72fbcdbf29a2b11c68cf30cdc88c4f02ba"
+    },
+    "init_boot": {
+      "size": 8388608,
+      "sha256": "828d3bb72990345d0eae44684fefae5f0f8960596920b0b2c7a3e84c0fbfabcd"
+    },
+    "system_dlkm": {
+      "size": 348160,
+      "sha256": "7682e773ca307b38e828984950bf63228ff44109bf2895a292711c8085391e25"
+    },
+    "vbmeta": {
+      "size": 8192,
+      "sha256": "a3d7e3512cd3751f27dc47c41d78e765fecd1e6549ad11f38eb6cc77afa8d167"
+    },
+    "vbmeta_system": {
+      "size": 4096,
+      "sha256": "fbf16cb6ecbdf8dcbeaa551d3d80fb2589352fe828541cc1847af9891f97d1c0"
+    },
+    "vendor_boot": {
+      "size": 100663296,
+      "sha256": "29ff1732bdcdc4e208e3c57c94b85c178b31e0118bdb84c31433682fdebb874f"
+    },
+    "vendor_dlkm": {
+      "size": 423911424,
+      "sha256": "616076a174d3bf330ed677b1052b2bdd32c17fa141f16d381767dcb4bd47072a"
+    }
+  },
+  "stock_kernel": {
+    "release": "5.15.194-android13-8-00019-gf4321180a397-ab15212794",
+    "vendor_module_vermagic": "5.15.41 SMP preempt mod_unload modversions aarch64",
+    "header_version": 4,
+    "page_size": 4096
+  },
+  "device_tree": {
+    "vendor_dtb_count": 6,
+    "dtbo_count": 49,
+    "base_index": 1,
+    "base_msm_id": "0x24a",
+    "overlay_index": 45,
+    "board_id": "0x20022",
+    "pmic_id": "0x2d"
+  }
+}

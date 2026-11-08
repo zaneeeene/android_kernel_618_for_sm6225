@@ -1,60 +1,91 @@
-# Xiaomi 13 Pro · Linux 6.18
+# Redmi Note 12 4G · experimental Linux 6.18 bring-up
 
-**An Android 17 / ACK 6.18.32 port combining the Xiaomi 13 Pro's SM8550 hardware support, vendor interfaces and matching modules, with inputs reconstructed from upstream.**
+**Research port of Android ACK 6.18 for Xiaomi Redmi Note 12 4G
+(`tapas`/`topaz`, Qualcomm SM6225-AD “khaje”, Snapdragon 685).**
 
-[简体中文](README.zh-CN.md)
+> [!WARNING]
+> There is no bootable 6.18 release yet. Do not flash anything produced by this
+> repository until a milestone is explicitly marked device-tested.
 
-[Download kernel packages](https://github.com/JiaqiLi404/android_kernel_618_for_sm8550/releases/tag/v6.18.32-nuwa.5) · Pre-release; physical-device validation is pending.
+This branch starts from JiaqiLi404's Xiaomi 13 Pro / SM8550 6.18 integration and
+replaces its hardware inputs with exact SM6225 sources. The original project's
+README is preserved at [docs/UPSTREAM_SM8550_README.md](docs/UPSTREAM_SM8550_README.md).
 
-Device: **Xiaomi 13 Pro / nuwa** (main target; both of its panel variants, 38 0c 0a and 42 02 0b, are handled). Driver adaptations for the **Xiaomi 13 / fuxi** and **Xiaomi 13 Ultra / ishtar** are included (touch, with the 13's own fingerprint-path rules; panel tuning and DC dimming, peak HDR, camera PHY, OIS and park lens, PM8008 camera PMIC, ToF sensor, charger nodes); they and the 42 02 0b panel have not been run on such units yet. Software target: **NikoHyper / HyperOS 4, OS4.0.24.0.XEOCNXM**. Other ROM/vendor combinations require separate adaptation. Before installing, read the [usage notes](docs/BUILD.en.md#usage-notes) on the root manager and the boot screen.
+## Current status
 
-## What we added
-
-| Work | Value to users | Sources and implementation |
-|:--|:--|:--|
-| **Port 6.18 to SM8550** | Connect the newer kernel to the device's clock, UFS, USB, interconnect and power drivers | OnePlus driver foundation + MiCode device definitions; [driver origins](docs/PROVENANCE.en.md#drivers) |
-| **Integrate device and multimedia support** | Adapt display/composer, camera, video, DSP, touch/gestures and audio interfaces, including the 13 / 13 Ultra variants | Combine SM8850, SM8550 and Xiaomi sources and handle 6.18 API/ABI differences; [sources and adaptations](docs/PROVENANCE.en.md#drivers) |
-| **Match kernel, modules and boot images** | Produce a consistent module payload (406 modules), module-layer ramdisk, boot.img and AnyKernel3 package | 54 Xiaomi modules from official OTAs + rebuilt source modules; [firmware origins](docs/PROVENANCE.en.md#firmware) |
-| **Memory, scheduling and power changes** | Provide reclaim, LZ4 1.10.1/ZSTD recompression, a cpufreq governor, energy-aware task placement, vendor boost limits, idle-path and wake controls | Each upstream origin and project adaptation is identified; [29 changes](docs/PROVENANCE.en.md#improvements) |
-| **Make builds reproducible and inspectable** | Pin and fetch dependencies, check ABI and packaging, and cap WSL build memory at 12 GiB | [Acquire inputs](docs/PROVENANCE.en.md#acquire) → [Build](docs/BUILD.en.md) → [Validate](docs/VALIDATION.en.md) |
-
-The main contribution is integrating these sources against one device interface and module ABI. Performance, power use and complete hardware behavior still require target-phone testing; see [validation scope](docs/VALIDATION.en.md#scope).
-
-## How the key changes work
-
-**Boot with the device's own ramdisk.** The kernel carries only the project's module layer (`/lib/modules`, its load lists and the batch loader) and unpacks it after the ramdisk the bootloader passes. The device's vendor_boot/init_boot ramdisk, or a recovery/TWRP ramdisk, stays in charge; only same-named module files and lists are replaced. [Sources and implementation](docs/PROVENANCE.en.md#drivers)
-
-**LZ4: upstream 1.10.1.** Update the kernel's 1.8.3-based decoder to upstream C, serving EROFS file reads, zram and other callers. Arm64 64-byte wild copies can overrun the margin reserved for EROFS in-place decompression, so this port retains the 32-byte path and adapts kernel interfaces and module ABI. [Sources and implementation](docs/PROVENANCE.en.md#improvements)
-
-**Skip idle when work is pending.** Another CPU can wake a task while this CPU performs bookkeeping with interrupts disabled after selecting an idle state. Both CPU-idle and power-domain entry paths recheck scheduling before CPU PM/PSCI calls, reducing entry followed immediately by wakeup; s2idle retains its original semantics. [Sources and implementation](docs/PROVENANCE.en.md#improvements)
-
-**Frequency and placement.** The "walt" that the vendor's boot script writes into every CPU policy selects schedutilmium, the project's governor built into the kernel: separate up/down rate limits, the CPU's busy time in place of the scheduler's estimate, a ceiling that follows the load and a short floor after a touch. The kernel's own energy-aware scheduling (EAS) keeps placing tasks with the device tree's energy model, as Qualcomm's kernel does; `k618_place` adds four switchable rules around the threads that draw frames and an optional energy model derived from measured power. The tuning module keeps the vendor's perf HAL from raising the middle and prime clusters' minimum frequency on touches and large compositions, and turns MIUI's SchedBoostService off. [Sources and implementation](docs/PROVENANCE.en.md#improvements)
-
-Other improvements include neighbour-page ageing, kswapd on the middle cores and kcompressd in reclaim, deferrable KFENCE, lazy RCU, compact cold-page records, budgeted hash-cache retention and setting trials; tmpfs xattrs add compatibility. See [all 28 changes](docs/PROVENANCE.en.md#improvements) for sources, defaults and selection decisions.
-
-## Follow these steps
-
-| Step | Guide | Result |
-|:--|:--|:--|
-| 1 | [PROVENANCE: sources and dependencies](docs/PROVENANCE.en.md) | All pinned sources, toolchains, firmware partitions and required files |
-| 2 | [BUILD: build and install](docs/BUILD.en.md) | boot.img, AnyKernel3 ZIP and optional KernelSU tuning module |
-| 3 | [VALIDATION: checks](docs/VALIDATION.en.md) | Input, ABI, package and optional installer-emulation results |
-
-Complete the host setup in the dependency guide first, then clone and build:
-
-```bash
-git clone https://github.com/JiaqiLi404/android_kernel_618_for_sm8550.git xiaomi13-k618
-cd xiaomi13-k618
-bash scripts/run-limited.sh bootstrap
-bash scripts/run-limited.sh build
-bash scripts/run-limited.sh verify
-```
-
-## Directory roles
-
-| Category | Directories / files |
+| Area | Status |
 |:--|:--|
-| **Initial GitHub upload** | This page, `docs/`, `kernel-6.18/`, `module/`, `patches/`, `profiles/`, `provenance/`, `scripts/`, `tools/`, `assets/SHA256SUMS` and root Git configuration files |
-| **Downloaded dependencies** | Sources, toolchains and firmware inside the Linux `BUILD_ROOT`; `assets/*.tar.zst` / `*.deb` are optional caches excluded from Git |
-| **Intermediate files and logs** | Compilation/staging directories inside `BUILD_ROOT`, plus `logs/`; excluded from Git |
-| **Final outputs** | `dist/release/`: boot image, installers, tuning module, reports and checksums; publish as Release assets when needed |
+| Stock 5.15 build/flash pipeline | Built; separate [Stage 0 repository](https://github.com/zaneeeene/tapas-kernel-stage0) |
+| Stock firmware and module inventory | Complete for `OS2.0.209.0.VMTMIXM` |
+| Stock device-tree extraction | Complete: 6 base DTBs, 49 overlays |
+| Exact tapas DT selection | Identified and merged: base `001` + overlay `045` |
+| Public SM6225 source inventory | Complete |
+| 6.18 SM6225 platform patch | Not yet implemented |
+| 6.18 external modules | Not yet compiling |
+| Physical-device boot | Not attempted |
+
+The stock target uses:
+
+- Linux `5.15.194-android13-8` in `boot.img`;
+- vendor modules built with `5.15.41` vermagic and GKI symbol versioning;
+- base DTB `001`: `qcom,khaje`, SoC ID `0x24a`;
+- DTBO `045`: board ID `0x20022`, model `KHAJE IDP nopmi tapas`;
+- 86 first-stage modules, then 238 entries in the vendor module load list.
+
+## Why this attempt is now plausible
+
+OPlus publishes an exact SM6225 source set, not merely a nearby Qualcomm SoC:
+
+| Input | Kernel | Role |
+|:--|:--|:--|
+| OPlus `android_kernel_common_oppo_sm6225` | 5.15.180 | Khaje clocks, pinctrl, interconnect, UFS, USB and core platform behavior |
+| OPlus `android_kernel_modules_and_devicetree_oppo_sm6225` | 5.15 | Khaje DT plus display, KGSL, camera, video, audio, WLAN and data drivers |
+| OnePlus SM8850 kernel/modules | 6.11 | Newer Qualcomm driver APIs used as the bridge to 6.18 |
+| MiCode `topaz-t-oss` | 5.15.41 | Xiaomi charger/fuel-gauge, fingerprint, thermal and board-specific interfaces |
+| Stock tapas firmware | 5.15.194 | Authoritative DT, module list and runtime ABI requirements |
+| Upstream SM8550 6.18 project | 6.18.32 | Proven ACK integration, build tooling and 6.11→6.18 compatibility work |
+
+Pinned revisions and partition hashes are in
+[provenance/input-sources-sm6225.json](provenance/input-sources-sm6225.json).
+
+## Bring-up gates
+
+1. **Build-only platform gate** — import Khaje clock, pinctrl, interconnect,
+   UFS and USB support into ACK 6.18 and compile a coherent kernel/module set.
+2. **Early-boot gate** — bootloader handoff, console/pstore, interrupts, timers,
+   regulators, storage and USB; no Android UI required.
+3. **UI gate** — downstream display, KGSL/Adreno 610 and one tapas touch stack.
+4. **Daily hardware gate** — charging/fuel gauge, audio, Wi-Fi/Bluetooth, modem
+   data paths, sensors, suspend/resume and thermal control.
+5. **Multimedia gate** — camera and video interfaces, then compatibility with
+   the stock Android 13 vendor userspace.
+
+Each gate must pass before the next image is offered for flashing. See
+[docs/PORTING_SM6225.md](docs/PORTING_SM6225.md) for the technical plan.
+
+## Repository layout during bring-up
+
+| Path | Purpose |
+|:--|:--|
+| `kernel-6.18/` | Upstream project's 6.18 integration scripts; currently SM8550-oriented |
+| `patches/soc-sm8550.patch` | Preserved upstream reference; not a tapas patch |
+| `tools/tapas/` | Stock DT extraction and hardware-inventory helpers |
+| `profiles/tapas-stock.json` | Verified target identity, DT selection and module counts |
+| `provenance/tapas-*` | Stock module and compatible-string inventories |
+| `provenance/input-sources-sm6225.json` | Pinned public source inputs and local partition hashes |
+
+## Safety
+
+- The successful Stage 0 image is a 5.15 test, not part of this 6.18 port.
+- The verified restore image is `Downloads/StockBootImages/boot.img`, SHA-256
+  `816029b9afac6adb640195e35f4bcea5f6f844eabea1c31115892525c2d0ac2b`.
+- Early 6.18 images must be tested with a working recovery/fastboot restore path.
+- Never flash a generated `vendor_boot`, `dtbo` or `vendor_dlkm` until its gate
+  and exact target firmware are documented.
+
+## Attribution
+
+The 6.18 framework and existing SM8550 work come from
+[JiaqiLi404/android_kernel_618_for_sm8550](https://github.com/JiaqiLi404/android_kernel_618_for_sm8550).
+Qualcomm/OPlus, OnePlus, Xiaomi/MiCode, ACK and other source origins remain
+identified in the provenance files and in the original source headers.

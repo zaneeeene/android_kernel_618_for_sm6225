@@ -1,0 +1,34 @@
+{
+  "device": "tapas",
+  "variant": "non-NFC global",
+  "soc": "SM6225-AD",
+  "platform": "khaje",
+  "firmware": "OS2.0.209.0.VMTMIXM",
+  "android_sdk": 33,
+  "kernel": "5.15.194-android13-8-00019-gf4321180a397-ab15212794",
+  "dt": {
+    "base_index": 1,
+    "overlay_index": 45,
+    "msm_id": "0x24a",
+    "board_id": "0x20022",
+    "pmic_id": "0x2d",
+    "model": "Qualcomm Technologies, Inc. KHAJE IDP nopmi tapas",
+    "vendor_dtb_payload_sha256": "ef3f8329b8b914c1e8d036812167c525e996ae34cf85fc0548300078d2f6bb37",
+    "base_dtb_sha256": "bdb35338440f7c0b9c810a3c2d2fa0dce03d34e0c4119cf0f56b829000151967",
+    "overlay_dtbo_sha256": "2a6c93a9b52a51711f09daf92a975be379068fecc05bc4c2e524c3d9ca82bccc",
+    "merged_dtb_sha256": "6725336d6c5f84172e5e23c8a7529ca010d9faf7a813184e40df606721349f7e"
+  },
+  "modules": {
+    "vendor_boot_available": 258,
+    "vendor_boot_normal_load": 86,
+    "vendor_boot_recovery_load": 256,
+    "vendor_dlkm_files": 243,
+    "vendor_dlkm_load_entries": 238,
+    "vendor_dlkm_unique_load_entries": 237
+  },
+  "status": {
+    "stock_inventory": "complete",
+    "kernel_6_18_build": "not-started",
+    "kernel_6_18_boot": "not-attempted"
+  }
+}

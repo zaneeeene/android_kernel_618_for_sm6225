@@ -7,3 +7,10 @@ backup/
 *.part
 assets/*.tar.zst
 assets/*.deb
+stock/
+work/
+workspace/
+extracted/
+*.img
+*.dtb
+*.dtbo
