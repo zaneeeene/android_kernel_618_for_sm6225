@@ -198,7 +198,22 @@ def main() -> int:
     )
     mpm_header.write_text(text)
 
-    print("k618_tapas_compat: imported exact Khaje MPM and five source-backed compatibility modules")
+    # The target intentionally replaces downstream WALT with schedutilmium.
+    # Registry dependencies are unconditional build-graph edges even when
+    # CONFIG_SCHED_WALT=n, so remove those edges while retaining each driver's
+    # normal Kconfig/IS_ENABLED guards.
+    stripped = 0
+    for registry in soc.rglob("modules.bzl"):
+        text = registry.read_text()
+        updated, count = re.subn(
+            r'^\s*"kernel/sched/walt/sched-walt",\n', "", text, flags=re.M
+        )
+        if count:
+            registry.write_text(updated)
+            stripped += count
+
+    print("k618_tapas_compat: imported exact Khaje MPM and five source-backed "
+          f"compatibility modules; removed {stripped} WALT dependency edges")
     return 0
 
 

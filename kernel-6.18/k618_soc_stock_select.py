@@ -22,15 +22,23 @@ def main() -> int:
         return 2
     soc, load = sys.argv[1:3]
     aliases = {}
+    excluded = set()
     if len(sys.argv) == 4:
         soc, load, name_map = sys.argv[1:]
-        aliases = json.load(open(name_map, encoding="utf-8")).get("aliases", {})
+        rules = json.load(open(name_map, encoding="utf-8"))
+        aliases = rules.get("aliases", {})
+        excluded.update(rules.get("builtins", {}))
+        excluded.update(rules.get("replacements", {}))
+        excluded.update(rules.get("optional_omissions", {}))
+        excluded.update(rules.get("prefer_gki", []))
     modules = kb.load_registry(soc)
     by_output = {normalize(module["out"]): name for name, module in modules.items()}
     selected = []
     for line in open(load, encoding="utf-8"):
         module = line.strip()
         if not module.endswith(".ko"):
+            continue
+        if module in excluded:
             continue
         target = by_output.get(normalize(module))
         if not target:

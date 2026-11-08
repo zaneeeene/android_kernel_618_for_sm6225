@@ -38,5 +38,11 @@
     "miev.ko": "Xiaomi event telemetry; no public target source and not required for boot or hardware control",
     "bootinfo.ko": "Xiaomi boot-reason diagnostics; no public target source and not required for boot",
     "swinfo.ko": "Xiaomi software-info diagnostics; no public target source and not required for boot"
-  }
+  },
+  "prefer_gki": [
+    "zsmalloc.ko",
+    "zram.ko",
+    "sdhci-msm.ko",
+    "cqhci.ko"
+  ]
 }
