@@ -1,154 +1,183 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "gate": 3,
   "status": "passed",
   "flashable": false,
   "run": {
-    "id": 42521478862,
-    "url": "https://github.com/zaneeeene/android_kernel_618_for_sm6225/actions/runs/42521478862",
-    "source_commit": "d49fd27722b7cf4c61c4254184f2ca2125850d52",
-    "completed_at": "2026-11-08T21:00:59Z"
+    "id": 42532251548,
+    "url": "https://github.com/zaneeeene/android_kernel_618_for_sm6225/actions/runs/42532251548",
+    "source_commit": "161f7a1a87a8399c40addaa98f032b80db5576fc",
+    "completed_at": "2026-11-08T23:08:46Z"
+  },
+  "supersedes": {
+    "run_id": 42521478862,
+    "reason": "The earlier API prototype retained SM6115 topology values."
   },
   "kernel": {
     "release": "6.18.32-4k-gff4a6c3bb0f4-dirty",
     "image_size": 44325376,
-    "image_sha256": "2080a3aa2018b6ea5ab0e67d5d1a4b77fd953514c05ec402dff73d1c637ca397",
+    "image_sha256": "44cc45b423ae9ec3de0392fada8851eb3e8765e9202dd5ccfb3835583ba0fd6a",
     "toolchain": "Android clang/LLD 22.0.1 r584948c"
+  },
+  "bengal": {
+    "source": "MiCode topaz-t-oss",
+    "nodes": 98,
+    "qos_tables": 22,
+    "binding_ids": "qcom,bengal.h",
+    "rpm_ids": "downstream exact",
+    "provider_model": "downstream two-clock voting ported to ACK 6.18 registration APIs",
+    "outputs": [
+      "qnoc-bengal.ko",
+      "icc-bengal-rpm.ko",
+      "qnoc-qos-bengal.ko"
+    ]
   },
   "modules": [
     {
       "name": "bam_dma.ko",
       "size": 301920,
-      "sha256": "b48b888ae10bd85236512b4df83f0b77bf74749383c005e332263340588f536a",
+      "sha256": "0fbfbcae9786fe72d515a9d28daa43b804182e775a7079cb890f15f02644ef79",
       "source": "gki"
     },
     {
       "name": "clk-smd-rpm.ko",
-      "size": 351728,
-      "sha256": "2daf2277dc2267d8e6cf3e858fd552b7a62c3240a573097273d21f8a1ec7288b",
+      "size": 351704,
+      "sha256": "28cf420016fcfa5cfb83f53e726f3e54f317fdcd12578f05f5340caf96489c9b",
       "source": "gki"
     },
     {
       "name": "debugcc-khaje.ko",
       "size": 236744,
-      "sha256": "6d825b0a1542693c57a8cdf9f7f126852757ae9040632d2a5c35dca4f2e53181",
+      "sha256": "df7dc7829288fdf9d60ceeb5f594407ce78d380d4530d8a6750704e0233aab19",
       "source": "soc"
     },
     {
       "name": "dispcc-khaje.ko",
       "size": 282040,
-      "sha256": "a236c3b2835732186385698aa3281ecc8bbd58d252071633cf12d624fe73b163",
+      "sha256": "bee79a2458059d74e377cb39b94bff4f3d1ae0d1a2b0450ea73a3bd1f8e4bd4e",
       "source": "soc"
     },
     {
       "name": "gcc-khaje.ko",
       "size": 392048,
-      "sha256": "1bf5ceb27f01115651c571afe3dbb8b696e6f8b0d118533c40ad9e696ba64b91",
+      "sha256": "1cbdcb1f4e9cd86dfa1377a8c40bcac45bdb5e5267363e529e0db51c62478a52",
       "source": "soc"
     },
     {
       "name": "gpucc-khaje.ko",
       "size": 274328,
-      "sha256": "ea31fc70136294c42625e57565222fe38e2f4e5e1a4a99c090edef19352e1388",
+      "sha256": "62b0660b9bb4a43abd70d67565a4dd255070b5da4e64e7afe1489c1539e21d0d",
       "source": "soc"
+    },
+    {
+      "name": "icc-bengal-rpm.ko",
+      "size": 213384,
+      "sha256": "f5ad35676e60a0d7b39bab4a2288e87cb8c7c723c66b93676b58e7a0c9764ef3",
+      "source": "gki"
     },
     {
       "name": "irq-qcom-mpm.ko",
       "size": 251928,
-      "sha256": "7493ce24337bdc4f5d52e9bfdb69a922e1cd02c26d775c9398b1383ade216bee",
+      "sha256": "a635eca771dcbb11285e91f251f877105c6cddde13a2398456da16d4be4097a1",
       "source": "gki"
     },
     {
       "name": "nvmem_qfprom.ko",
       "size": 274512,
-      "sha256": "3fc8865384b885e0312dc02badf559dc06cab77b100c5dff86ef3509ad185491",
+      "sha256": "bd8f5c7af4bf4b3a3bd9f5cd1760a5fabf21f45fc1dc651d78bb30c5e04dcb18",
       "source": "gki"
     },
     {
       "name": "phy-qcom-ufs-qmp-v4-khaje.ko",
       "size": 273584,
-      "sha256": "a569a5c168290c9da58e555cbee0b10d17dcc1687e63d69d97089da5f3d0beb3",
+      "sha256": "71b68123a10afb24a0ba4c2ff166e48343b5fa839d49fb8c6d0434d90fa04531",
       "source": "soc"
     },
     {
       "name": "pinctrl-bengal.ko",
       "size": 326648,
-      "sha256": "e49f47f52f74358980f9b8c4e71c88c26512cb1f66ee1fbcbb98fde00f217cbd",
+      "sha256": "8457d3735f924f43d29fa140aaf611af069212ad291a00c4e06e8e1d30dcdfb6",
       "source": "soc"
     },
     {
       "name": "pinctrl-khaje.ko",
       "size": 327368,
-      "sha256": "8266c3d79121deb8cafc1436b2bf6c12824a5c84f7fcc76e23d90cb1778e8aca",
+      "sha256": "08f72681db33188e16d4cb80b9df39c33278d313032388c7083db0b9f5c2e0e2",
       "source": "soc"
     },
     {
       "name": "qcom-apcs-ipc-mailbox.ko",
       "size": 230472,
-      "sha256": "a5760119a797b97752274666544c63c60df6aba6684553d35e5e24c39d856015",
+      "sha256": "698ca0b21e2186f96dff90813b9c56c796f7cf290941b78237a7f62e1c71d1f9",
       "source": "gki"
     },
     {
       "name": "qcom_glink_smem.ko",
       "size": 232880,
-      "sha256": "ea3a461499095798cf9d46fe17d1641fc425690d8caa6de8dd5a6a01f5f26e85",
+      "sha256": "d4b75a6c3b0a2cdd11938eb55ba88409429822b4b36b41347d7eb91293c21553",
       "source": "gki"
     },
     {
       "name": "qcom_hwspinlock.ko",
       "size": 225976,
-      "sha256": "9252b995ca114474d01309cb39cd093ef1a53d46d4d8e0119008d0ad72bf6494",
+      "sha256": "8468d09107221b6ef8b8954df1e0f0941b37cb42cd6ea40df89b61792b6a6236",
       "source": "gki"
     },
     {
       "name": "qcom_q6v5_pas.ko",
-      "size": 348672,
-      "sha256": "c481f2db26c592592fa2c49781f2f1266f971c3ebb4c6efb9a469bf5e785c151",
+      "size": 349312,
+      "sha256": "0b918ede1b896c63cd7979167b15dfd56117eadc572bea86bacca009733852c3",
       "source": "gki"
     },
     {
       "name": "qcom_smd-regulator.ko",
       "size": 364888,
-      "sha256": "7644b0b0382633c534873f2bc770ab3cb791c9492404409599a186a766dc42fd",
+      "sha256": "0375f7d10d12a08f6f4fcc6c4271becdc3c7c609cd1bdd2cf45861245e11ab20",
       "source": "gki"
     },
     {
       "name": "qcom_smd.ko",
       "size": 299000,
-      "sha256": "43ca17cfb8ddd036de4dc282242f179160884a94c4580feb76bff3e929e85f72",
+      "sha256": "f2f7e08aad491bbfac4ee000c4db17c002183d59634f6e07c7cac9585b3a7484",
       "source": "gki"
     },
     {
       "name": "qnoc-bengal.ko",
-      "size": 275840,
-      "sha256": "a0c2d1516a45e9e79239b7a0feb2458218b001551b89bc48835413b314a504ce",
+      "size": 322760,
+      "sha256": "ef694acd331181b754795b3a4bb82c94f41bd4698eb90bcdac3dd12684ae7047",
+      "source": "gki"
+    },
+    {
+      "name": "qnoc-qos-bengal.ko",
+      "size": 117000,
+      "sha256": "e88891de08e8924c3bec314fe7603c31e801ebae6192cab902b535a23c77945a",
       "source": "gki"
     },
     {
       "name": "qrtr-smd.ko",
       "size": 227592,
-      "sha256": "9a499b63f27ba28bf304e2c0a8655731e90704b4e0accfea8e749dcb26302d53",
+      "sha256": "5b96c5bac9867445fc0466bf9e6015fa869c41a95713d884a90d518b4158bb3a",
       "source": "gki"
     },
     {
       "name": "sdhci-msm.ko",
       "size": 397440,
-      "sha256": "5e5154413db9d493356fb0505a8890a329cb16ebc2994ab1bee2a52415b16c41",
+      "sha256": "9eaced2336113348deee3488282187701816af0e4c798c3211eb523862a1430d",
       "source": "gki"
     },
     {
       "name": "smd-rpm.ko",
       "size": 230792,
-      "sha256": "e34420d1f28d4ef37d8d9bcef54bb36dd1d34d78cadbed042a0902a1381bf4d7",
+      "sha256": "f129171afdf84f47f10805f8ce535d59bc0d14455bc34e324178e8cd388fb8f7",
       "source": "gki"
     },
     {
       "name": "ufs-qcom.ko",
       "size": 437016,
-      "sha256": "cf479603b2a461092a3d3a805d2d2f53611c667126ebd1b0d38b1773832b08ae",
+      "sha256": "51678900018ed3d87a99bcb3a6741afd931b54dba1863ce5792b013feb129328",
       "source": "gki"
     }
   ],
   "missing": [],
-  "scope": "Gate 2 plus a native ACK 6.18 Bengal NoC generated from the modern SM6115 implementation, using downstream global binding IDs and Khaje UFS/PRNG nodes"
+  "scope": "Exact downstream Bengal topology/QoS/RPM data plus Gate 2 platform modules; compile-only and not a runtime boot result."
 }

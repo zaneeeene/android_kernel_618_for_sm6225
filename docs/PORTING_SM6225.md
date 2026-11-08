@@ -135,11 +135,10 @@ legacy SMD/RPM and IPC/storage stack. The SM6115 NoC module in that gate is an
 API/build reference; the first Gate 3 prototype added the stock global IDs and
 Khaje's UFS/PRNG nodes.
 
-**Interconnect API result:** Gate 3 passed in Actions run `42521478862`, but a
-subsequent table audit showed that prototype still inherited SM6115 topology
-values. It is not the runtime gate. The replacement ports MiCode's exact 98
-Bengal nodes, 22 QoS tables, RPM IDs and two-clock provider behavior to 6.18;
-its compile revalidation supersedes the historical result in
+**Exact interconnect result:** Gate 3 passed in Actions run `42532251548` with
+MiCode's exact 98 Bengal nodes, 22 QoS tables, RPM IDs and two-clock provider
+behavior ported to 6.18. This supersedes the earlier SM6115-backed API
+prototype; it remains a compile result, not a runtime boot result. See
 `provenance/gate3-build.json`.
 
 ### Gate 2 — early boot

@@ -22,7 +22,7 @@ README is preserved at [docs/UPSTREAM_SM8550_README.md](docs/UPSTREAM_SM8550_REA
 | Public SM6225 source inventory | Complete |
 | 6.18 SM6225 platform patch | **Gate 1 passed:** ACK Image + clocks/TLMM/UFS compile |
 | 6.18 legacy platform stack | **Gate 2 passed:** SMD/RPM, storage, IPC and remoteproc compile |
-| Bengal interconnect bridge | **Gate 3 API prototype passed; exact 98-node tables are being revalidated** |
+| Exact Bengal interconnect | **Gate 3 passed:** 98 nodes, 22 QoS tables and exact RPM IDs compile |
 | 6.18 external modules | Gate 4 in progress; broad SM8850/public target set now compiles in batches |
 | Physical-device boot | Not attempted; no flashable image exists |
 
@@ -58,13 +58,12 @@ GLINK/SMD and PAS remoteproc alongside the Gate 1 modules. Its report is
 [provenance/gate2-build.json](provenance/gate2-build.json). It remains
 non-flashable pending the exact Bengal NoC and boot/runtime integration.
 
-[Gate 3 run 42521478862](https://github.com/zaneeeene/android_kernel_618_for_sm6225/actions/runs/42521478862)
-validated a modern 6.18 provider with the stock global IDs and Khaje UFS/PRNG
-paths. A later audit found that its remaining topology values still came from
-SM6115. The current porter instead carries MiCode's exact 98 Bengal nodes, 22
-QoS tables, RPM IDs and two-clock voting through the 6.18 provider APIs; that
-replacement is under compile revalidation. The historical prototype hashes
-remain in [provenance/gate3-build.json](provenance/gate3-build.json).
+[Gate 3 run 42532251548](https://github.com/zaneeeene/android_kernel_618_for_sm6225/actions/runs/42532251548)
+passed with MiCode's exact 98 Bengal nodes, 22 QoS tables, downstream RPM IDs
+and two-clock voting ported to ACK 6.18's provider registration API. It
+supersedes the earlier SM6115-backed API prototype. Exact hashes and the
+superseded run are recorded in
+[provenance/gate3-build.json](provenance/gate3-build.json).
 
 ## Why this attempt is now plausible
 
