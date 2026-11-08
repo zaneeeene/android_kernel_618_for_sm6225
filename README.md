@@ -22,6 +22,7 @@ README is preserved at [docs/UPSTREAM_SM8550_README.md](docs/UPSTREAM_SM8550_REA
 | Public SM6225 source inventory | Complete |
 | 6.18 SM6225 platform patch | **Gate 1 passed:** ACK Image + clocks/TLMM/UFS compile |
 | 6.18 legacy platform stack | **Gate 2 passed:** SMD/RPM, storage, IPC and remoteproc compile |
+| Exact Bengal interconnect | **Gate 3 passed:** stock IDs plus Khaje UFS/PRNG nodes compile |
 | 6.18 external modules | Not yet compiling |
 | Physical-device boot | Not attempted; no flashable image exists |
 
@@ -56,6 +57,12 @@ SM6115 NoC reference, BAM DMA, UFS host, SDHCI, hwspinlock, NVMEM, QRTR,
 GLINK/SMD and PAS remoteproc alongside the Gate 1 modules. Its report is
 [provenance/gate2-build.json](provenance/gate2-build.json). It remains
 non-flashable pending the exact Bengal NoC and boot/runtime integration.
+
+[Gate 3 run 42521478862](https://github.com/zaneeeene/android_kernel_618_for_sm6225/actions/runs/42521478862)
+replaced the SM6115 reference NoC with a modern 6.18 Bengal provider using the
+stock global binding IDs and Khaje's additional UFS/PRNG nodes. All expected
+outputs compiled; hashes are in
+[provenance/gate3-build.json](provenance/gate3-build.json).
 
 ## Why this attempt is now plausible
 

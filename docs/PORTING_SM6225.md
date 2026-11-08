@@ -135,6 +135,11 @@ legacy SMD/RPM and IPC/storage stack. The SM6115 NoC module in that gate is an
 API/build reference; Gate 3 replaces it with a Bengal-compatible provider that
 uses the stock global IDs and includes Khaje's UFS/PRNG nodes.
 
+**Exact interconnect result:** Gate 3 passed in Actions run `42521478862`.
+The generated `qnoc-bengal.ko` compiles against ACK 6.18's current interconnect
+core with sparse downstream IDs and the two Khaje-only paths required by the
+stock DT. See `provenance/gate3-build.json`.
+
 ### Gate 2 — early boot
 
 1. Reconstruct base 1 + overlay 45 from the reference firmware at build time.

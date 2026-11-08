@@ -28,7 +28,7 @@
   },
   "status": {
     "stock_inventory": "complete",
-    "kernel_6_18_build": "gate2-passed",
+    "kernel_6_18_build": "gate3-passed",
     "kernel_6_18_boot": "not-attempted"
   }
 }
