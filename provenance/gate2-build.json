@@ -1,0 +1,154 @@
+{
+  "schema_version": 1,
+  "gate": 2,
+  "status": "passed",
+  "flashable": false,
+  "run": {
+    "id": 42519405745,
+    "url": "https://github.com/zaneeeene/android_kernel_618_for_sm6225/actions/runs/42519405745",
+    "source_commit": "e24cdc180331b0a43863760489eb28272ac4a340",
+    "completed_at": "2026-11-08T20:40:27Z"
+  },
+  "kernel": {
+    "release": "6.18.32-4k-gff4a6c3bb0f4-dirty",
+    "image_size": 44325376,
+    "image_sha256": "317477b63d804b5a31f1b89792d43fa3da24c64574997933df8a4f64f42cf248",
+    "toolchain": "Android clang/LLD 22.0.1 r584948c"
+  },
+  "modules": [
+    {
+      "name": "bam_dma.ko",
+      "size": 301920,
+      "sha256": "1c8f255ad461cffd0a3cd669b6df7608b9b555ef1b18f772de5d717912618b5d",
+      "source": "gki"
+    },
+    {
+      "name": "clk-smd-rpm.ko",
+      "size": 351728,
+      "sha256": "f8e44f11658faca1fc24cabce1ba1e634ac0ae203d2af3e9d8a64f85dd91cdfb",
+      "source": "gki"
+    },
+    {
+      "name": "debugcc-khaje.ko",
+      "size": 236744,
+      "sha256": "a6c3e2104106f67cd24ec6056f05d55b2bfeb05657d68d80d1618affc4cc9928",
+      "source": "soc"
+    },
+    {
+      "name": "dispcc-khaje.ko",
+      "size": 282040,
+      "sha256": "384c66d1393d4cdfd4e5d28525110efc2eaabddc943ed2e541342255cab2f336",
+      "source": "soc"
+    },
+    {
+      "name": "gcc-khaje.ko",
+      "size": 392048,
+      "sha256": "a2d16baabb2f40463b69c00ac94a646f3884d56b2754745e35a601b9339d5457",
+      "source": "soc"
+    },
+    {
+      "name": "gpucc-khaje.ko",
+      "size": 274328,
+      "sha256": "52a35e21f26bb86d2436a9f914a90fbb4d2d20f24077946e1550b55429442226",
+      "source": "soc"
+    },
+    {
+      "name": "irq-qcom-mpm.ko",
+      "size": 251928,
+      "sha256": "fa14e13ed9d3545379f0c942a5eb9554bbcab555b292c0423ffea567d1672f0a",
+      "source": "gki"
+    },
+    {
+      "name": "nvmem_qfprom.ko",
+      "size": 274512,
+      "sha256": "19ed8d5ec6a1ccff3c486e9a557970f885d3d199ed373c9b99830f411283095b",
+      "source": "gki"
+    },
+    {
+      "name": "phy-qcom-ufs-qmp-v4-khaje.ko",
+      "size": 273584,
+      "sha256": "9c80772811aff2880ad2035b5c18bbcbe99a063106adf9faece5ef0974647803",
+      "source": "soc"
+    },
+    {
+      "name": "pinctrl-bengal.ko",
+      "size": 326648,
+      "sha256": "a4b4d01f8375dd9f1f12ecbcbd2104891cfe1ce869dfe16b573c20bf9c93bf95",
+      "source": "soc"
+    },
+    {
+      "name": "pinctrl-khaje.ko",
+      "size": 327368,
+      "sha256": "e34d4f5ae83087ee8e0d5aa61b20cdf131f0509c90e9a4a570e65f50a68edeaf",
+      "source": "soc"
+    },
+    {
+      "name": "qcom-apcs-ipc-mailbox.ko",
+      "size": 230472,
+      "sha256": "aec8f54c6d64abac04a3db8eca67977fde409dd99acd4e1b9ff089fc2434117e",
+      "source": "gki"
+    },
+    {
+      "name": "qcom_glink_smem.ko",
+      "size": 232880,
+      "sha256": "ddda6aad97489a4728307982a712aaae079a9388576c0512ddfd12bf822e2745",
+      "source": "gki"
+    },
+    {
+      "name": "qcom_hwspinlock.ko",
+      "size": 225976,
+      "sha256": "160c5ca4fe038c8807009c2d76f3fa153150e152c85c5a8e3795b7d75ffc9347",
+      "source": "gki"
+    },
+    {
+      "name": "qcom_q6v5_pas.ko",
+      "size": 348672,
+      "sha256": "ec6a580a06fbca047a347725319d7542f3bdc10339c5f6b5c256f63d07ef28df",
+      "source": "gki"
+    },
+    {
+      "name": "qcom_smd-regulator.ko",
+      "size": 364888,
+      "sha256": "ae89f083764116061139489853e8bfea46e66d1e1aaae5eeec465e18fc29fa2c",
+      "source": "gki"
+    },
+    {
+      "name": "qcom_smd.ko",
+      "size": 299000,
+      "sha256": "8d2cda63729b909cf1ae8731c39439f9574f93bf6cc6bfe3e3238448cc4d2504",
+      "source": "gki"
+    },
+    {
+      "name": "qnoc-sm6115.ko",
+      "size": 246600,
+      "sha256": "46d19dbfead1378c3b4e82fb768539e2aeba7565d256b86b2ca13b10df616d01",
+      "source": "gki"
+    },
+    {
+      "name": "qrtr-smd.ko",
+      "size": 227592,
+      "sha256": "57ec64edf51285d054b795b783e99e7763720c5b9e7df422d8fb452fcb6aec23",
+      "source": "gki"
+    },
+    {
+      "name": "sdhci-msm.ko",
+      "size": 397440,
+      "sha256": "cdf586a0bd9c144ba4404ba29edba7ec7161558c451df39510f920b974214bc1",
+      "source": "gki"
+    },
+    {
+      "name": "smd-rpm.ko",
+      "size": 230792,
+      "sha256": "227553dc6fcb2ad3dc6f46dcb5b9378b8b4c4588ac7dea8107db438126969871",
+      "source": "gki"
+    },
+    {
+      "name": "ufs-qcom.ko",
+      "size": 437016,
+      "sha256": "f5b70252324c4555782ed0b48aa0884a41efdf825b3a25ce1f07b77c5db48529",
+      "source": "gki"
+    }
+  ],
+  "missing": [],
+  "scope": "Gate 1 plus ACK-native SMD/RPM, regulator, MPM/APCS, SM6115 NoC reference, BAM, UFS, SDHCI, hwspinlock, NVMEM, QRTR, GLINK/SMD and PAS remoteproc; exact Bengal NoC and boot packaging remain later gates"
+}

@@ -21,6 +21,7 @@ README is preserved at [docs/UPSTREAM_SM8550_README.md](docs/UPSTREAM_SM8550_REA
 | Exact tapas DT selection | Identified and merged: base `001` + overlay `045` |
 | Public SM6225 source inventory | Complete |
 | 6.18 SM6225 platform patch | **Gate 1 passed:** ACK Image + clocks/TLMM/UFS compile |
+| 6.18 legacy platform stack | **Gate 2 passed:** SMD/RPM, storage, IPC and remoteproc compile |
 | 6.18 external modules | Not yet compiling |
 | Physical-device boot | Not attempted; no flashable image exists |
 
@@ -48,6 +49,13 @@ errors. The artifact is intentionally named `GATE1-NOT-FLASHABLE`: SMD/RPM,
 Bengal NoC, full storage/USB dependencies, device-tree packaging and Android
 modules are not integrated yet. Reproducible hashes are recorded in
 [provenance/gate1-build.json](provenance/gate1-build.json).
+
+[Gate 2 run 42519405745](https://github.com/zaneeeene/android_kernel_618_for_sm6225/actions/runs/42519405745)
+then built the expanded 22-module target set: SMD/RPM, regulator, MPM/APCS,
+SM6115 NoC reference, BAM DMA, UFS host, SDHCI, hwspinlock, NVMEM, QRTR,
+GLINK/SMD and PAS remoteproc alongside the Gate 1 modules. Its report is
+[provenance/gate2-build.json](provenance/gate2-build.json). It remains
+non-flashable pending the exact Bengal NoC and boot/runtime integration.
 
 ## Why this attempt is now plausible
 

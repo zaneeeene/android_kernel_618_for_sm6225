@@ -129,6 +129,12 @@ modules built with modversions and zero compile/modpost errors in Actions run
 `42512386428`. See `provenance/gate1-build.json`. This validates the initial
 5.15→6.11→6.18 source bridge, not device bootability.
 
+**Expanded platform result:** Gate 2 passed in Actions run `42519405745` with
+22 required modules found and no missing outputs. This adds the ACK-native
+legacy SMD/RPM and IPC/storage stack. The SM6115 NoC module in that gate is an
+API/build reference; Gate 3 replaces it with a Bengal-compatible provider that
+uses the stock global IDs and includes Khaje's UFS/PRNG nodes.
+
 ### Gate 2 — early boot
 
 1. Reconstruct base 1 + overlay 45 from the reference firmware at build time.
