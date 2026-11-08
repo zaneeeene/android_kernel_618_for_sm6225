@@ -46,8 +46,42 @@ static struct clk_smd_rpm *khaje_clks[] = {
 static const struct rpm_smd_clk_desc rpm_clk_khaje = {
 	.clks = khaje_clks,
 	.num_clks = ARRAY_SIZE(khaje_clks),
-	.icc_clks = sm_qnoc_icc_clks,
-	.num_icc_clks = ARRAY_SIZE(sm_qnoc_icc_clks),
+};
+'''
+
+KHAJE_PAS = r'''
+/* Exact Khaje PAS metadata from MiCode topaz-t-oss, mapped to 6.18 fields. */
+static const struct qcom_pas_data khaje_adsp_resource = {
+	.crash_reason_smem = 423,
+	.firmware_name = "adsp.mdt",
+	.pas_id = 1,
+	.minidump_id = 5,
+	.auto_boot = false,
+	.ssr_name = "lpass",
+	.sysmon_name = "adsp",
+	.ssctl_id = 0x14,
+};
+
+static const struct qcom_pas_data khaje_cdsp_resource = {
+	.crash_reason_smem = 601,
+	.firmware_name = "cdsp.mdt",
+	.pas_id = 18,
+	.minidump_id = 7,
+	.auto_boot = false,
+	.ssr_name = "cdsp",
+	.sysmon_name = "cdsp",
+	.ssctl_id = 0x17,
+};
+
+static const struct qcom_pas_data khaje_mpss_resource = {
+	.crash_reason_smem = 421,
+	.firmware_name = "modem.mdt",
+	.pas_id = 4,
+	.minidump_id = 3,
+	.auto_boot = false,
+	.ssr_name = "mpss",
+	.sysmon_name = "modem",
+	.ssctl_id = 0x12,
 };
 '''
 
@@ -81,10 +115,12 @@ def main() -> int:
                   '\t{ .compatible = "qcom,bengal-apcs-hmss-global", .data = &msm8994_apcs_data },')
 
     pas = root / "drivers/remoteproc/qcom_q6v5_pas.c"
+    insert_before(pas, "static const struct qcom_pas_data khaje_adsp_resource",
+                  "static const struct qcom_pas_data adsp_resource_init", KHAJE_PAS)
     aliases = [
-        ("qcom,khaje-adsp-pas", "adsp_resource_init", "qcom,sm6115-adsp-pas"),
-        ("qcom,khaje-cdsp-pas", "cdsp_resource_init", "qcom,sm6115-cdsp-pas"),
-        ("qcom,khaje-modem-pas", "sc8180x_mpss_resource", "qcom,sm6115-mpss-pas"),
+        ("qcom,khaje-adsp-pas", "khaje_adsp_resource", "qcom,sm6115-adsp-pas"),
+        ("qcom,khaje-cdsp-pas", "khaje_cdsp_resource", "qcom,sm6115-cdsp-pas"),
+        ("qcom,khaje-modem-pas", "khaje_mpss_resource", "qcom,sm6115-mpss-pas"),
     ]
     for compatible, data, before in aliases:
         insert_before(pas, f'compatible = "{compatible}"',
