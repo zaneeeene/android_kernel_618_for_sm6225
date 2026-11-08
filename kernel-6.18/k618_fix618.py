@@ -122,6 +122,10 @@ def irqchip_probe(text):
     return text
 
 FILE_EDITS = [
+    # bin_attribute read/write callbacks made the attribute pointer const.
+    ("drivers/soc/qcom/qfprom-sys.c",
+     re.compile(r"struct bin_attribute \*attr,"),
+     "const struct bin_attribute *attr,"),
     ("drivers/soc/qcom/ice.c", re.compile(r"key->raw,"), "key->bytes,"),
     ("drivers/ufs/host/ufshcd-crypto-qti.c", re.compile(r"key->raw\b"), "key->bytes"),
     ("drivers/mmc/host/cqhci-crypto.c", re.compile(r"key->raw\b"), "key->bytes"),
