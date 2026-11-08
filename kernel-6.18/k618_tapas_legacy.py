@@ -43,6 +43,10 @@ config TAPAS_CLK_SMD_RPM
 	tristate "Tapas downstream SMD RPM clocks"
 	depends on TAPAS_RPM_SMD
 
+config TAPAS_GLINK_RPM
+	tristate "Tapas GLINK RPM transport"
+	depends on RPMSG
+
 config TAPAS_RPM_SMD_REGULATOR
 	tristate "Tapas downstream SMD RPM regulators"
 	depends on TAPAS_RPM_SMD
@@ -84,6 +88,20 @@ REGISTRY = r'''def register_modules(registry):
         ],
         deps = [
             "drivers/rpmsg/rpm-smd-tapas",
+        ],
+    )
+
+    registry.register(
+        name = "drivers/rpmsg/qcom-glink-rpm-tapas",
+        out = "qcom_glink_rpm.ko",
+        config = "CONFIG_TAPAS_GLINK_RPM",
+        srcs = [
+            "drivers/rpmsg/qcom_glink_rpm.c",
+            "drivers/rpmsg/qcom_glink_native.h",
+            "drivers/rpmsg/rpmsg_internal.h",
+        ],
+        deps = [
+            "drivers/rpmsg/qcom_glink",
         ],
     )
 

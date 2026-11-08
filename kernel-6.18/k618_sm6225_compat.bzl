@@ -2,6 +2,7 @@ k618_sm6225_compat_config = {
     "CONFIG_TAPAS_QCOM_MPM": "m",
     "CONFIG_TAPAS_RPM_SMD": "m",
     "CONFIG_TAPAS_CLK_SMD_RPM": "m",
+    "CONFIG_TAPAS_GLINK_RPM": "m",
     "CONFIG_TAPAS_RPM_SMD_REGULATOR": "m",
     "CONFIG_TAPAS_BENGAL_QOS_RPM": "m",
     "CONFIG_TAPAS_BENGAL_ICC_RPM": "m",

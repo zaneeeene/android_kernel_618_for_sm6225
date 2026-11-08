@@ -64,6 +64,45 @@ config TAPAS_ANT_CHECK_DIV
 	depends on INPUT && GPIOLIB
 '''
 
+KHAJE_PAS = r'''
+/* Khaje PAS metadata from MiCode topaz-t-oss. */
+static const struct adsp_data khaje_adsp_resource = {
+	.crash_reason_smem = 423,
+	.firmware_name = "adsp.mdt",
+	.pas_id = 1,
+	.minidump_id = 5,
+	.uses_elf64 = false,
+	.auto_boot = false,
+	.ssr_name = "lpass",
+	.sysmon_name = "adsp",
+	.ssctl_id = 0x14,
+};
+
+static const struct adsp_data khaje_cdsp_resource = {
+	.crash_reason_smem = 601,
+	.firmware_name = "cdsp.mdt",
+	.pas_id = 18,
+	.minidump_id = 7,
+	.uses_elf64 = false,
+	.auto_boot = false,
+	.ssr_name = "cdsp",
+	.sysmon_name = "cdsp",
+	.ssctl_id = 0x17,
+};
+
+static const struct adsp_data khaje_mpss_resource = {
+	.crash_reason_smem = 421,
+	.firmware_name = "modem.mdt",
+	.pas_id = 4,
+	.minidump_id = 3,
+	.uses_elf64 = true,
+	.auto_boot = false,
+	.ssr_name = "mpss",
+	.sysmon_name = "modem",
+	.ssctl_id = 0x12,
+};
+'''
+
 MPM_KCONFIG = r'''
 
 config TAPAS_QCOM_MPM
@@ -104,6 +143,15 @@ def module_registry() -> str:
 '''
         )
     return "def register_modules(registry):\n" + "\n".join(registrations)
+
+
+def insert_before(path: Path, marker: str, anchor: str, addition: str) -> None:
+    text = path.read_text()
+    if marker in text:
+        return
+    if anchor not in text:
+        raise RuntimeError(f"{path}: anchor not found: {anchor!r}")
+    path.write_text(text.replace(anchor, addition + "\n" + anchor, 1))
 
 
 def port_gpio_module(path: Path, function: str) -> None:
@@ -198,6 +246,18 @@ def main() -> int:
     )
     mpm_header.write_text(text)
 
+    pas = soc / "drivers/remoteproc/qcom_q6v5_pas.c"
+    insert_before(pas, "static const struct adsp_data khaje_adsp_resource",
+                  "static const struct adsp_data adsp_resource_init", KHAJE_PAS)
+    for compatible, resource, before in [
+        ("qcom,khaje-adsp-pas", "khaje_adsp_resource", "qcom,sm6115-adsp-pas"),
+        ("qcom,khaje-cdsp-pas", "khaje_cdsp_resource", "qcom,sm6115-cdsp-pas"),
+        ("qcom,khaje-modem-pas", "khaje_mpss_resource", "qcom,sm6115-mpss-pas"),
+    ]:
+        insert_before(pas, f'compatible = "{compatible}"',
+                      f'\t{{ .compatible = "{before}",',
+                      f'\t{{ .compatible = "{compatible}", .data = &{resource}}},')
+
     # The target intentionally replaces downstream WALT with schedutilmium.
     # Registry dependencies are unconditional build-graph edges even when
     # CONFIG_SCHED_WALT=n, so remove those edges while retaining each driver's
@@ -212,7 +272,7 @@ def main() -> int:
             registry.write_text(updated)
             stripped += count
 
-    print("k618_tapas_compat: imported exact Khaje MPM and five source-backed "
+    print("k618_tapas_compat: imported exact Khaje MPM/PAS and five source-backed "
           f"compatibility modules; removed {stripped} WALT dependency edges")
     return 0
 
