@@ -84,6 +84,7 @@ jobs:
 
       - name: Save pinned source workspace
         if: always() && steps.source-cache.outputs.cache-hit != 'true'
+        continue-on-error: true
         uses: actions/cache/save@v4
         with:
           path: |
