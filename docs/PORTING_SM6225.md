@@ -84,9 +84,17 @@ MiCode `topaz-t-oss` supplies source for core board pieces including:
 - Khaje/Bengal core drivers and config fragments.
 
 The stock binary tree remains authoritative where public source differs.
-Touch modules (`focaltech_ts_i2c`, `goodix_ts_9896`, `lct_tp`,
-`xiaomi_touch_game`) need a separate public-source donor or a compatible clean
-implementation. Closed 5.15 `.ko` files cannot be loaded safely into 6.18.
+The community `sm6225-dev/kernel_xiaomi_sm6225-modules` branch `13` supplies a
+Khaje touch-driver tree (FocalTech, Goodix, Synaptics, Novatek and Xiaomi's
+touch interface) and a `khajecamera` configuration. It is a supplemental donor,
+not automatically trusted: source paths/configuration and resulting interfaces
+must be checked against the stock modules before inclusion. Closed 5.15 `.ko`
+files still cannot be loaded safely into 6.18.
+
+Its overlap with the SM8850 API donor is recorded in
+`provenance/xiaomi-sm6225-sm8850-module-overlap.json`. Touch is entirely absent
+from SM8850, while the other major driver families retain hundreds of common
+paths.
 
 ## Work breakdown
 

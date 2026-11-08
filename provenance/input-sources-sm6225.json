@@ -53,6 +53,20 @@
       "role": "Xiaomi charging, fingerprint, thermal and board interfaces"
     },
     {
+      "name": "Community Xiaomi SM6225 modules",
+      "url": "https://github.com/sm6225-dev/kernel_xiaomi_sm6225-modules.git",
+      "revision": "c151a6400eb7295398a5a159a8dd5f2bd2b37604",
+      "branch": "13",
+      "role": "supplemental Xiaomi Khaje camera and touch source; must be audited against stock before use"
+    },
+    {
+      "name": "Community Xiaomi SM6225 device trees",
+      "url": "https://github.com/sm6225-dev/kernel_xiaomi_sm6225-devicetrees.git",
+      "revision": "c8fe105cee58e6357e58c5446e7b001e5ac9258a",
+      "branch": "13",
+      "role": "supplemental generic Khaje/spes DT reference; stock tapas DT remains authoritative"
+    },
+    {
       "name": "Upstream SM8550 6.18 integration",
       "url": "https://github.com/JiaqiLi404/android_kernel_618_for_sm8550.git",
       "revision": "c3956156ce7c4193c451dfda531fad72d35bfebb",
