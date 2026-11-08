@@ -31,6 +31,7 @@ FILES = [
     "include/soc/qcom/rpm-notifier.h",
     "include/trace/events/trace_rpm_smd.h",
     "include/linux/regulator/rpm-smd-regulator.h",
+    "include/dt-bindings/clock/qcom,rpmcc.h",
 ]
 
 KCONFIG = r'''
@@ -235,6 +236,14 @@ MODULE_DEVICE_TABLE(of, rpm_of_match);''',
     clock = soc / "drivers/clk/qcom/clk-smd-rpm.c"
     port_remove(clock, "rpm_smd_clk_remove")
     text = clock.read_text()
+    text = re.sub(
+        r"\nstruct clk_smd_rpm_req \{\n.*?\n\};\n",
+        "\n",
+        text,
+        count=1,
+        flags=re.S,
+    )
+    text = text.replace("QCOM_SMD_RPM_MMXI_CLK", "QCOM_SMD_RPM_MMAXI_CLK")
     text = text.replace("\tdevm_of_clk_del_provider(&pdev->dev);\n", "")
     clock.write_text(text)
 
@@ -242,6 +251,11 @@ MODULE_DEVICE_TABLE(of, rpm_of_match);''',
     port_remove(regulator, "rpm_vreg_device_remove")
     port_remove(regulator, "rpm_vreg_resource_remove")
     text = regulator.read_text()
+    if "#include <linux/of_platform.h>" not in text:
+        text = text.replace("#include <linux/of_device.h>\n",
+                            "#include <linux/of_device.h>\n#include <linux/of_platform.h>\n", 1)
+    text = text.replace("regulator_register(&reg->rdesc, &reg_config)",
+                        "regulator_register(dev, &reg->rdesc, &reg_config)")
     resource_anchor = '''static const struct of_device_id rpm_vreg_match_table_resource[] = {
 \t{ .compatible = "qcom,rpm-smd-regulator-resource", },
 \t{}
@@ -267,7 +281,8 @@ MODULE_DEVICE_TABLE(of, rpm_of_match);''',
     bengal.write_text(text)
 
     icc = soc / "drivers/interconnect/qcom/icc-rpm.c"
-    text = icc.read_text().replace(
+    text = icc.read_text().replace('#include "qnoc-qos.h"',
+                                   '#include "qnoc-qos-rpm.h"').replace(
         "qcom_icc_rpm_smd_send_msg slv %s error %d",
         "qcom_icc_rpm_smd_send_msg slv %d error %d",
     )
