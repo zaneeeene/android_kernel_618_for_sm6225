@@ -28,6 +28,7 @@ FILES = [
     "include/dt-bindings/clock/qcom,gcc-khaje.h",
     "include/dt-bindings/clock/qcom,dispcc-khaje.h",
     "include/dt-bindings/clock/qcom,gpucc-khaje.h",
+    "include/dt-bindings/regulator/qcom,rpm-smd-regulator.h",
     "drivers/pinctrl/qcom/pinctrl-khaje.c",
     "drivers/pinctrl/qcom/pinctrl-bengal.c",
     "drivers/phy/qualcomm/phy-qcom-ufs-qmp-v4-khaje.c",

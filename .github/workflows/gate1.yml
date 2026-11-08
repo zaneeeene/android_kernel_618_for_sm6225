@@ -34,7 +34,8 @@ jobs:
           swap-storage: true
 
       - name: Cache pinned source workspace
-        uses: actions/cache@v4
+        id: source-cache
+        uses: actions/cache/restore@v4
         with:
           path: |
             /home/runner/tapas-k618-build/.tapas-k618-upstream
@@ -71,9 +72,29 @@ jobs:
           cp -f "$BUILD_ROOT/k618/soc-errors.txt" gate1-artifacts/ 2>/dev/null || true
           cp -f "$BUILD_ROOT/k618/soc-build.log" gate1-artifacts/ 2>/dev/null || true
           cp -f "$BUILD_ROOT/k618/soc-kconfig.log" gate1-artifacts/ 2>/dev/null || true
+          if [ -f "$BUILD_ROOT/k618/out-gki/arch/arm64/boot/Image" ]; then
+            cp -f "$BUILD_ROOT/k618/out-gki/arch/arm64/boot/Image" \
+              gate1-artifacts/Image-ACK-6.18-GATE1-NOT-FLASHABLE
+            sha256sum gate1-artifacts/Image-ACK-6.18-GATE1-NOT-FLASHABLE \
+              > gate1-artifacts/Image-ACK-6.18-GATE1-NOT-FLASHABLE.sha256
+          fi
           find "$BUILD_ROOT/k618/soc" -name '*khaje*.ko' -o -name 'pinctrl-bengal.ko' \
             | while read -r module; do cp -f "$module" gate1-artifacts/; done
           ls -lh gate1-artifacts
+
+      - name: Save pinned source workspace
+        if: always() && steps.source-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v4
+        with:
+          path: |
+            /home/runner/tapas-k618-build/.tapas-k618-upstream
+            /home/runner/tapas-k618-build/k618/ws
+            /home/runner/tapas-k618-build/k618/soc
+            /home/runner/tapas-k618-build/k618/src/topaz
+            /home/runner/tapas-k618-build/k618/KernelSU
+            /home/runner/tapas-k618-build/k618/susfs4ksu
+            /home/runner/tapas-k618-build/lz4-dev
+          key: ${{ runner.os }}-sm6225-gate1-inputs-${{ hashFiles('provenance/input-sources-gate1.json', 'patches/soc-sm8550.patch') }}
 
       - name: Upload Gate 1 reports
         if: always()
