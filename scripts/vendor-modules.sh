@@ -6,9 +6,10 @@ set -euo pipefail
   exit 2
 }
 . "$(dirname -- "${BASH_SOURCE[0]}")/project-env.sh"
+SM6225_POWER=${SM6225_POWER:-1}
 
 # Establish the already-gated kernel, exact platform stack and first-stage set.
-SM6225_DAILY=1 SM6225_POWER="${SM6225_POWER:-0}" bash "$PROJECT_ROOT/scripts/gate4.sh"
+SM6225_DAILY=1 SM6225_POWER="$SM6225_POWER" bash "$PROJECT_ROOT/scripts/gate4.sh"
 
 soc="$K618/soc"
 targets=$(python3 -I "$PROJECT_ROOT/kernel-6.18/k618_soc_stock_select.py" \
@@ -24,7 +25,7 @@ targets=$(printf '%s\n' $targets | \
 
 set +e
 configs=configs/canoe_perf.bzl,k618_sm6225_overrides.bzl,k618_sm6225_compat.bzl,k618_sm6225_daily.bzl
-[ "${SM6225_POWER:-0}" != 1 ] || configs=$configs,k618_sm6225_power.bzl
+[ "$SM6225_POWER" != 1 ] || configs=$configs,k618_sm6225_power.bzl
 bash "$PROJECT_ROOT/kernel-6.18/k618_soc_build.sh" \
   "$configs" \
   "${JOBS:-4}" $targets
