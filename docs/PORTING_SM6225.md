@@ -154,6 +154,11 @@ the stock vendor load list. The remaining source/integration gaps are grouped
 in `provenance/vendor-module-expansion.json`; this is not yet the UI or daily
 hardware gate.
 
+**Thermal/platform expansion:** Actions run `42554292269` built 169 modules
+without errors and raised vendor-list coverage to 126/238. The added layer is
+documented in `provenance/daily-module-expansion.json`; charging is the next
+isolated compile layer.
+
 ### Gate 2 — early boot
 
 1. Reconstruct base 1 + overlay 45 from the reference firmware at build time.

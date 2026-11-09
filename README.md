@@ -24,7 +24,7 @@ README is preserved at [docs/UPSTREAM_SM8550_README.md](docs/UPSTREAM_SM8550_REA
 | 6.18 legacy platform stack | **Gate 2 passed:** SMD/RPM, storage, IPC and remoteproc compile |
 | Exact Bengal interconnect | **Gate 3 passed:** 98 nodes, 22 QoS tables and exact RPM IDs compile |
 | 6.18 first-stage modules | **Gate 4 passed:** 86/86 policy coverage, 102-module closed payload, 33/33 DT bindings |
-| Public vendor module expansion | **Passed:** 156 modules compile; 111/238 stock load entries covered |
+| Public vendor module expansion | **Passed:** 169 modules compile; 126/238 stock load entries covered |
 | Physical-device boot | Not attempted; one local fastboot-boot-only experiment exists and is **NOT FLASHABLE** |
 
 The stock target uses:
@@ -87,6 +87,13 @@ their dependencies) with no compile or modpost errors. This covers 111 of the
 audio, charging, thermal, connectivity, multimedia/GPU, touch/biometrics,
 security, Xiaomi policy and platform gaps in
 [provenance/vendor-module-expansion.json](provenance/vendor-module-expansion.json).
+
+[Thermal/platform run 42554292269](https://github.com/zaneeeene/android_kernel_618_for_sm6225/actions/runs/42554292269)
+expanded that result to 169 clean modules and 126/238 covered entries. Five
+Qualcomm thermal modules, six target platform interfaces and four ACK-native
+modules were added; Xiaomi's private thermal-class shim and legacy TSENS remain
+deferred. See
+[provenance/daily-module-expansion.json](provenance/daily-module-expansion.json).
 
 ## Why this attempt is now plausible
 

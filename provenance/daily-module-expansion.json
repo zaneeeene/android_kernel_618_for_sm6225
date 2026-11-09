@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "status": "passed",
+  "flashable": false,
+  "run": {
+    "id": 42554292269,
+    "url": "https://github.com/zaneeeene/android_kernel_618_for_sm6225/actions/runs/42554292269",
+    "source_commit": "1609bb950afba8f904100a6e4e1f02556cf8023c",
+    "completed_at": "2026-11-09T03:36:08Z"
+  },
+  "build": {
+    "selected_registry_targets": 120,
+    "built_modules_with_dependencies": 169,
+    "compile_errors": 0,
+    "covered_stock_entries": 126,
+    "stock_entries": 238,
+    "missing_entries": 112,
+    "coverage_report_sha256": "35182d09b009fd7b221e38c33e4744d77f2e145e54111a4ff11001883161ded6"
+  },
+  "new_coverage": {
+    "thermal": [
+      "lmh_cpu_vdd_cdev.ko",
+      "cx_ipeak_cdev.ko",
+      "regulator_cdev.ko",
+      "qti_qmi_sensor.ko",
+      "rpm_smd_cooling_device.ko"
+    ],
+    "platform": [
+      "cpumaxfreq.ko",
+      "cx_ipeak.ko",
+      "cdsp-loader.ko",
+      "rpm-smd-debug.ko",
+      "rpm_master_stat.ko",
+      "serial_num.ko"
+    ],
+    "ack_native": [
+      "spidev.ko",
+      "cpufreq_userspace.ko",
+      "cpufreq_ondemand.ko",
+      "leds-gpio.ko"
+    ]
+  },
+  "deferred": [
+    "mi_thermal_interface.ko: depends on hidden thermal-class internals",
+    "msm-tsens-driver.ko: legacy thermal-core port pending"
+  ],
+  "notes": [
+    "First-stage Gate 4 remains unchanged and passed inside this workflow.",
+    "No physical-device validation was performed."
+  ]
+}
