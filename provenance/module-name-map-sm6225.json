@@ -43,10 +43,14 @@
     "zsmalloc.ko",
     "zram.ko",
     "sdhci-msm.ko",
-    "cqhci.ko"
+    "cqhci.ko",
+    "qrtr.ko",
+    "qrtr-smd.ko",
+    "ns.ko"
   ],
   "payload_extras": [
     "qcom_q6v5_pas.ko",
-    "qfprom-sys.ko"
+    "qfprom-sys.ko",
+    "qrtr-smd.ko"
   ]
 }
