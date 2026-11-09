@@ -197,9 +197,22 @@ def port_i2c_remove(path: Path, function: str) -> None:
     if end is None:
         raise RuntimeError(f"{path}: unterminated callback {function}")
     block = text[start:end].replace(signature, signature.replace("static int", "static void"), 1)
-    block = block.replace("return -EINVAL;", "return;")
-    block = re.sub(r"\n\treturn 0;\n\}$", "\n}", block)
+    block = re.sub(r"\breturn\s+[^;]+;", "return;", block)
     path.write_text(text[:start] + block + text[end:])
+
+
+def port_i2c_probe(path: Path, function: str) -> None:
+    text = path.read_text()
+    pattern = re.compile(
+        rf"static int {re.escape(function)}\(struct i2c_client \*client,\s*"
+        rf"const struct i2c_device_id \*id\)"
+    )
+    text, count = pattern.subn(
+        f"static int {function}(struct i2c_client *client)", text, count=1
+    )
+    if count != 1:
+        raise RuntimeError(f"{path}: probe callback {function} not found")
+    path.write_text(text)
 
 
 def main() -> int:
@@ -232,7 +245,69 @@ def main() -> int:
 
     nopmi = soc / "drivers/power/supply/nopmi_chg.c"
     text = nopmi.read_text().replace("struct class *c,", "const struct class *c,")
+    text = text.replace('#include "touch-charger.h"',
+                        '/* Touch charging hooks are enabled with the future target touch stack. */')
     nopmi.write_text(text)
+
+    # IIO core now performs standard OF channel translation itself.
+    for source in imported_sources:
+        text = source.read_text(errors="surrogateescape")
+        text = re.sub(r"^\s*\.of_xlate\s*=\s*\w+,\n", "", text, flags=re.M)
+        source.write_text(text, errors="surrogateescape")
+
+    bq = soc / "drivers/power/supply/nopmi/bq2589x_charger.c"
+    text = bq.read_text().replace(
+        "bq->wall_cfg.of_node = bq->dev->of_node;",
+        "bq->wall_cfg.fwnode = of_fwnode_handle(bq->dev->of_node);",
+    )
+    bq.write_text(text)
+
+    onewire = soc / "drivers/power/supply/battery_secret/onewire_gpio.c"
+    text = onewire.read_text()
+    if "#include <linux/pinctrl/consumer.h>" not in text:
+        text = text.replace("#include <linux/platform_device.h>\n",
+                            "#include <linux/platform_device.h>\n#include <linux/pinctrl/consumer.h>\n", 1)
+    text = text.replace(
+        'of_get_named_gpio_flags(np,\n\t\t\t\t\t"xiaomi,ow_gpio", 0, NULL)',
+        'of_get_named_gpio(np, "xiaomi,ow_gpio", 0)',
+    )
+    onewire.write_text(text)
+
+    dual = soc / "drivers/usb/typec/tcpc/class-dual-role.c"
+    text = dual.read_text().replace("strtobool(", "kstrtobool(")
+    text = text.replace("int dual_role_uevent(struct device *dev,",
+                        "int dual_role_uevent(const struct device *dev,")
+    dual.write_text(text)
+
+    rt1711 = soc / "drivers/usb/typec/tcpc/tcpc_rt1711h.c"
+    text = rt1711.read_text().replace("strlcpy(", "strscpy(")
+    text = text.replace("devm_gpio_request(chip->dev, chip->irq_gpio, name)",
+                        "devm_gpio_request_one(chip->dev, chip->irq_gpio, 0, name)")
+    rt1711.write_text(text)
+
+    sm5602 = soc / "drivers/power/supply/nopmi/sm5602_fg.c"
+    text = sm5602.read_text().replace("#include <asm/unaligned.h>",
+                                      "#include <linux/unaligned.h>")
+    text = text.replace("sm->chip = id->driver_data;", "sm->chip = SM5602;")
+    sm5602.write_text(text)
+
+    timer = soc / "drivers/usb/typec/tcpc/tcpci_timer.c"
+    text = timer.read_text().replace(
+        "static enum alarmtimer_restart\n\ttcpc_timer_wakeup(struct alarm *alarm, ktime_t now)",
+        "static void tcpc_timer_wakeup(struct alarm *alarm, ktime_t now)",
+    )
+    text = text.replace("\tschedule_delayed_work(&tcpc->wake_up_work, 0);\n\treturn ALARMTIMER_NORESTART;",
+                        "\tschedule_delayed_work(&tcpc->wake_up_work, 0);")
+    timer.write_text(text)
+
+    for relative, function in [
+        ("drivers/power/supply/nopmi/bq2589x_charger.c", "bq2589x_charger_probe"),
+        ("drivers/power/supply/nopmi/ln8000_charger.c", "ln8000_probe"),
+        ("drivers/power/supply/nopmi/sc8551_charger.c", "sc8551_charger_probe"),
+        ("drivers/power/supply/nopmi/sm5602_fg.c", "sm_fg_probe"),
+        ("drivers/usb/typec/tcpc/tcpc_rt1711h.c", "rt1711_i2c_probe"),
+    ]:
+        port_i2c_probe(soc / relative, function)
 
     for relative, function in [
         ("drivers/usb/typec/tcpc/xm_pd_adapter.c", "xm_pd_adapter_remove"),
