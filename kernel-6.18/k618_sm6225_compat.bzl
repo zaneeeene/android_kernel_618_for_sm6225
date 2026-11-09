@@ -12,4 +12,11 @@ k618_sm6225_compat_config = {
     "CONFIG_TAPAS_SIMTRAY": "m",
     "CONFIG_TAPAS_ANT_CHECK": "m",
     "CONFIG_TAPAS_ANT_CHECK_DIV": "m",
+    # Public vendor_dlkm expansion: keep implementation headers on their real
+    # declarations rather than the CONFIG=n inline stubs.
+    "CONFIG_LEDS_QTI_FLASH": "m",
+    "CONFIG_PWM_QTI_LPG": "m",
+    "CONFIG_QCOM_FSA4480_I2C": "m",
+    "CONFIG_QCOM_SOC_SLEEP_STATS": "m",
+    "CONFIG_USB_BAM": "m",
 }

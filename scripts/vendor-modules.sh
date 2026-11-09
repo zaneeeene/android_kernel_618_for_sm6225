@@ -14,6 +14,11 @@ soc="$K618/soc"
 targets=$(python3 -I "$PROJECT_ROOT/kernel-6.18/k618_soc_stock_select.py" \
   "$soc" "$PROJECT_ROOT/provenance/tapas-vendor-dlkm-modules.load" \
   "$PROJECT_ROOT/provenance/module-name-map-sm6225.json")
+# This optional panic-policy module embeds struct walt_task_struct in Android
+# task vendor data. WALT is deliberately replaced on this target; compiling the
+# module would corrupt that storage even if enough private definitions were
+# copied merely to satisfy the compiler.
+targets=$(printf '%s\n' $targets | grep -vx 'drivers/soc/qcom/hung_task_enh' | tr '\n' ' ')
 
 set +e
 bash "$PROJECT_ROOT/kernel-6.18/k618_soc_build.sh" \
