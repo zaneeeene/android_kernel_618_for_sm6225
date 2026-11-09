@@ -50,4 +50,10 @@ python3 "$PROJECT_ROOT/tools/tapas/assemble_module_payload.py" \
   --output "$BUILD_ROOT/gate4-payload" --release "$release" \
   --system-map "$K618/out-gki/System.map"
 
-echo "Gate 4 coverage and dependency closure passed; no image was packaged."
+python3 "$PROJECT_ROOT/tools/tapas/audit_dt_bindings.py" \
+  --manifest "$PROJECT_ROOT/provenance/tapas-boot-critical-bindings.json" \
+  --payload "$BUILD_ROOT/gate4-payload" \
+  --config "$K618/out-gki/.config" \
+  --output "$BUILD_ROOT/gate4-binding-audit.json"
+
+echo "Gate 4 coverage, dependency closure and DT bindings passed; no image was packaged."

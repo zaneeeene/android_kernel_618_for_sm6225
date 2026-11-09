@@ -62,6 +62,7 @@ jobs:
         run: |
           mkdir -p gate4-artifacts
           cp -f "$BUILD_ROOT/gate4-coverage.json" gate4-artifacts/ 2>/dev/null || true
+          cp -f "$BUILD_ROOT/gate4-binding-audit.json" gate4-artifacts/ 2>/dev/null || true
           cp -f "$BUILD_ROOT/k618/out-gki/.config" gate4-artifacts/gki.config 2>/dev/null || true
           cp -f "$BUILD_ROOT/k618/gki-build.log" gate4-artifacts/ 2>/dev/null || true
           cp -f "$BUILD_ROOT/k618/soc-build.log" gate4-artifacts/ 2>/dev/null || true

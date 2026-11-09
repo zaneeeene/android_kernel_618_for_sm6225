@@ -61,7 +61,7 @@ jobs:
         if: always()
         run: |
           mkdir -p vendor-module-artifacts
-          for file in gate4-coverage.json vendor-module-coverage.json \
+          for file in gate4-coverage.json gate4-binding-audit.json vendor-module-coverage.json \
                       k618/gki-build.log k618/soc-build.log k618/soc-errors.txt \
                       k618/soc-kconfig.log; do
             cp -f "$BUILD_ROOT/$file" vendor-module-artifacts/ 2>/dev/null || true
