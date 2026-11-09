@@ -193,6 +193,38 @@ def main() -> int:
                         '#include "drivers/thermal/thermal_core.h"')
     mi_thermal.write_text(text)
 
+    lmh = soc / "drivers/thermal/qcom/lmh_cpu_vdd_cdev.c"
+    text = lmh.read_text()
+    if "#include <linux/platform_device.h>" not in text:
+        text = text.replace("#include <linux/module.h>\n",
+                            "#include <linux/module.h>\n#include <linux/platform_device.h>\n", 1)
+    lmh.write_text(text)
+
+    qmi = soc / "drivers/thermal/qcom/qmi_sensors.c"
+    text = qmi.read_text()
+    if '#include "drivers/thermal/thermal_core.h"' not in text:
+        text = text.replace("#include <linux/thermal.h>\n",
+                            '#include <linux/thermal.h>\n#include "drivers/thermal/thermal_core.h"\n', 1)
+    text = text.replace(
+        "static int qmi_sensor_read(void *data, int *temp)\n{\n"
+        "\tstruct qmi_sensor *qmi_sens = (struct qmi_sensor *)data;",
+        "static int qmi_sensor_read(struct thermal_zone_device *tz, int *temp)\n{\n"
+        "\tstruct qmi_sensor *qmi_sens = tz->devdata;",
+    )
+    text = text.replace(
+        "static int qmi_sensor_set_trips(void *data, int low, int high)\n{\n"
+        "\tstruct qmi_sensor *qmi_sens = (struct qmi_sensor *)data;",
+        "static int qmi_sensor_set_trips(struct thermal_zone_device *tz, int low, int high)\n{\n"
+        "\tstruct qmi_sensor *qmi_sens = tz->devdata;",
+    )
+    text = text.replace("struct thermal_zone_of_device_ops qmi_sensor_ops",
+                        "struct thermal_zone_device_ops qmi_sensor_ops")
+    text = text.replace("thermal_zone_of_sensor_register(",
+                        "devm_thermal_of_zone_register(")
+    text = text.replace("thermal_zone_of_sensor_unregister(",
+                        "devm_thermal_of_zone_unregister(")
+    qmi.write_text(text)
+
     registry_dir = soc / "drivers/soc/qcom/tapas-daily"
     registry_dir.mkdir(parents=True, exist_ok=True)
     (registry_dir / "modules.bzl").write_text(REGISTRY)

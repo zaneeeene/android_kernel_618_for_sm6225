@@ -18,7 +18,9 @@ targets=$(python3 -I "$PROJECT_ROOT/kernel-6.18/k618_soc_stock_select.py" \
 # task vendor data. WALT is deliberately replaced on this target; compiling the
 # module would corrupt that storage even if enough private definitions were
 # copied merely to satisfy the compiler.
-targets=$(printf '%s\n' $targets | grep -vx 'drivers/soc/qcom/hung_task_enh' | tr '\n' ' ')
+targets=$(printf '%s\n' $targets | \
+  grep -vx -e 'drivers/soc/qcom/hung_task_enh' \
+           -e 'drivers/thermal/mi_thermal_interface-tapas' | tr '\n' ' ')
 
 set +e
 bash "$PROJECT_ROOT/kernel-6.18/k618_soc_build.sh" \
