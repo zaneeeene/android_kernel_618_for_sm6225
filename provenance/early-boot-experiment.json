@@ -1,0 +1,29 @@
+{
+  "status": "experimental-fastboot-boot-only",
+  "flashable": false,
+  "kernel_sha256": "105f073b6df417563fe5698bbfe4ed26e4b2c3eed98489c8db030a87b1ca328f",
+  "image_sha256": "9212dc474ef4110b8653fa34ff59ece64b4ed7b6724c6f9e2d93be3cb3e48de2",
+  "stock_boot_sha256": "816029b9afac6adb640195e35f4bcea5f6f844eabea1c31115892525c2d0ac2b",
+  "stock_init_boot_sha256": "828d3bb72990345d0eae44684fefae5f0f8960596920b0b2c7a3e84c0fbfabcd",
+  "stock_vendor_boot_sha256": "29ff1732bdcdc4e208e3c57c94b85c178b31e0118bdb84c31433682fdebb874f",
+  "partition_size": 100663296,
+  "schema_version": 1,
+  "filename": "tapas-618-EARLY-BOOT-EXPERIMENT-FASTBOOT-BOOT-ONLY-NOT-FLASHABLE.img",
+  "size": 100663296,
+  "boot_header_version": 4,
+  "ramdisk_format": "legacy LZ4; stock init_boot cpio plus gated module overlay",
+  "ramdisk_size": 23715330,
+  "module_count": 102,
+  "cpio_archives": 2,
+  "avb": {
+    "footer_version": "1.0",
+    "algorithm": "NONE",
+    "hash_algorithm": "sha256",
+    "partition_name": "boot"
+  },
+  "gate4_run": 42541820086,
+  "dt_binding_checks": "33/33",
+  "hardware_validation": "not attempted",
+  "device_action_performed": false,
+  "permitted_test_mode": "fastboot boot only after explicit review; never fastboot flash"
+}

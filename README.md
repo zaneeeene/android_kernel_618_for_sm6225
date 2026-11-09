@@ -23,8 +23,8 @@ README is preserved at [docs/UPSTREAM_SM8550_README.md](docs/UPSTREAM_SM8550_REA
 | 6.18 SM6225 platform patch | **Gate 1 passed:** ACK Image + clocks/TLMM/UFS compile |
 | 6.18 legacy platform stack | **Gate 2 passed:** SMD/RPM, storage, IPC and remoteproc compile |
 | Exact Bengal interconnect | **Gate 3 passed:** 98 nodes, 22 QoS tables and exact RPM IDs compile |
-| 6.18 external modules | Gate 4 in progress; broad SM8850/public target set now compiles in batches |
-| Physical-device boot | Not attempted; no flashable image exists |
+| 6.18 first-stage modules | **Gate 4 passed:** 86/86 policy coverage, 102-module closed payload, 33/33 DT bindings |
+| Physical-device boot | Not attempted; one local fastboot-boot-only experiment exists and is **NOT FLASHABLE** |
 
 The stock target uses:
 
@@ -64,6 +64,20 @@ and two-clock voting ported to ACK 6.18's provider registration API. It
 supersedes the earlier SM6115-backed API prototype. Exact hashes and the
 superseded run are recorded in
 [provenance/gate3-build.json](provenance/gate3-build.json).
+
+[Gate 4 run 42541820086](https://github.com/zaneeeene/android_kernel_618_for_sm6225/actions/runs/42541820086)
+compiled all 95 selected soc targets with clean modpost. The stock 86-entry
+first-stage list is covered by 77 modules, three validated built-ins, two modern
+replacements and four documented non-applicable/diagnostic omissions, with zero blocking
+gaps. The resulting 102-module payload is dependency-closed, and all 33
+boot-critical stock DT compatibles have providers. See
+[provenance/gate4-build.json](provenance/gate4-build.json).
+
+A gated local artifact was assembled only for a future temporary
+`fastboot boot` review. Its filename contains
+`FASTBOOT-BOOT-ONLY-NOT-FLASHABLE`; no device command has been run, and it must
+not be flashed. Its structure and hashes are recorded in
+[provenance/early-boot-experiment.json](provenance/early-boot-experiment.json).
 
 ## Why this attempt is now plausible
 
@@ -115,6 +129,8 @@ Each gate must pass before the next image is offered for flashing. See
 - The verified restore image is `Downloads/StockBootImages/boot.img`, SHA-256
   `816029b9afac6adb640195e35f4bcea5f6f844eabea1c31115892525c2d0ac2b`.
 - Early 6.18 images must be tested with a working recovery/fastboot restore path.
+- The current 6.18 experiment is temporary-boot-only and has not passed any
+  physical-device runtime gate. Do not use it with `fastboot flash`.
 - Never flash a generated `vendor_boot`, `dtbo` or `vendor_dlkm` until its gate
   and exact target firmware are documented.
 

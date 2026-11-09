@@ -34,6 +34,14 @@ for path in "$image" "$stock_boot" "$init_boot" "$vendor_boot" "$coverage" "$bin
   [ -e "$path" ] || { echo "Missing input: $path" >&2; exit 2; }
 done
 [ -f "$payload/NOT_FLASHABLE" ] || { echo 'Payload safety marker missing.' >&2; exit 2; }
+image=$(realpath "$image")
+payload=$(realpath "$payload")
+stock_boot=$(realpath "$stock_boot")
+init_boot=$(realpath "$init_boot")
+vendor_boot=$(realpath "$vendor_boot")
+coverage=$(realpath "$coverage")
+bindings=$(realpath "$bindings")
+out=$(realpath -m "$out")
 
 expected_boot=816029b9afac6adb640195e35f4bcea5f6f844eabea1c31115892525c2d0ac2b
 expected_init=828d3bb72990345d0eae44684fefae5f0f8960596920b0b2c7a3e84c0fbfabcd

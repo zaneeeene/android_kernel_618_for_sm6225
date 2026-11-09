@@ -141,6 +141,13 @@ behavior ported to 6.18. This supersedes the earlier SM6115-backed API
 prototype; it remains a compile result, not a runtime boot result. See
 `provenance/gate3-build.json`.
 
+**First-stage result:** Gate 4 passed in Actions run `42541820086`: 95/95
+selected soc targets compiled, the 86 stock entries have zero blocking gaps,
+the selected payload closes at 102 modules, and the static boot-critical DT
+binding audit passes 33/33. This is still not a boot result. A locally generated
+header-v4 experiment is explicitly fastboot-boot-only and non-flashable; see
+`provenance/gate4-build.json` and `provenance/early-boot-experiment.json`.
+
 ### Gate 2 — early boot
 
 1. Reconstruct base 1 + overlay 45 from the reference firmware at build time.
