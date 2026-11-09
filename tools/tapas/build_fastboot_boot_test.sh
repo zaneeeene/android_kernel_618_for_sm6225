@@ -98,7 +98,11 @@ lz4 -l -12 -f "$work/combined.cpio" "$work/combined.lz4" >/dev/null
 experiment="$out/tapas-618-EARLY-BOOT-EXPERIMENT-FASTBOOT-BOOT-ONLY-NOT-FLASHABLE.img"
 mkbootimg --header_version 4 --kernel "$image" --ramdisk "$work/combined.lz4" -o "$experiment"
 partition_size=$(stat -c %s "$stock_boot")
-salt=$(sha256sum "$image" "$work/combined.lz4" | sha256sum | cut -d' ' -f1)
+salt=$(
+  { sha256sum "$image" | cut -d' ' -f1; \
+    sha256sum "$work/combined.lz4" | cut -d' ' -f1; } | \
+  sha256sum | cut -d' ' -f1
+)
 avbtool add_hash_footer --image "$experiment" --partition_name boot \
   --partition_size "$partition_size" --algorithm NONE --hash_algorithm sha256 --salt "$salt"
 ln -s "$experiment" "$work/boot.img"
