@@ -8,7 +8,7 @@ set -euo pipefail
 . "$(dirname -- "${BASH_SOURCE[0]}")/project-env.sh"
 
 # Establish the already-gated kernel, exact platform stack and first-stage set.
-bash "$PROJECT_ROOT/scripts/gate4.sh"
+SM6225_DAILY=1 bash "$PROJECT_ROOT/scripts/gate4.sh"
 
 soc="$K618/soc"
 targets=$(python3 -I "$PROJECT_ROOT/kernel-6.18/k618_soc_stock_select.py" \
@@ -22,7 +22,7 @@ targets=$(printf '%s\n' $targets | grep -vx 'drivers/soc/qcom/hung_task_enh' | t
 
 set +e
 bash "$PROJECT_ROOT/kernel-6.18/k618_soc_build.sh" \
-  configs/canoe_perf.bzl,k618_sm6225_overrides.bzl,k618_sm6225_compat.bzl \
+  configs/canoe_perf.bzl,k618_sm6225_overrides.bzl,k618_sm6225_compat.bzl,k618_sm6225_daily.bzl \
   "${JOBS:-4}" $targets
 build_rc=$?
 set -e

@@ -17,12 +17,17 @@ git -C "$S" checkout -q -- .
 python3 -I "$K618_DIR/k618_khaje.py" "$donor" "$S"
 [ "${SM6225_COMPAT:-0}" != 1 ] || python3 -I "$K618_DIR/k618_tapas_compat.py" "$donor" "$S"
 [ "${SM6225_COMPAT:-0}" != 1 ] || python3 -I "$K618_DIR/k618_tapas_legacy.py" "$donor" "$S"
+[ "${SM6225_DAILY:-0}" != 1 ] || python3 -I "$K618_DIR/k618_tapas_daily.py" "$donor" "$S"
 python3 -I "$K618_DIR/k618_fix618.py" "$S"
 cp "$K618_DIR/k618_sm6225_overrides.bzl" "$S/configs/"
 configs=configs/canoe_perf.bzl,k618_sm6225_overrides.bzl
 if [ "${SM6225_COMPAT:-0}" = 1 ]; then
   cp "$K618_DIR/k618_sm6225_compat.bzl" "$S/configs/"
   configs=$configs,k618_sm6225_compat.bzl
+fi
+if [ "${SM6225_DAILY:-0}" = 1 ]; then
+  cp "$K618_DIR/k618_sm6225_daily.bzl" "$S/configs/"
+  configs=$configs,k618_sm6225_daily.bzl
 fi
 
 bash "$K618_DIR/k618_soc_build.sh" \
