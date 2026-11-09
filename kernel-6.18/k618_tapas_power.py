@@ -277,6 +277,8 @@ def main() -> int:
     text = dual.read_text().replace("strtobool(", "kstrtobool(")
     text = text.replace("int dual_role_uevent(struct device *dev,",
                         "int dual_role_uevent(const struct device *dev,")
+    text = text.replace("dual_role_show_property(struct device *dev,",
+                        "dual_role_show_property(const struct device *dev,")
     dual.write_text(text)
 
     rt1711 = soc / "drivers/usb/typec/tcpc/tcpc_rt1711h.c"
@@ -289,6 +291,7 @@ def main() -> int:
     text = sm5602.read_text().replace("#include <asm/unaligned.h>",
                                       "#include <linux/unaligned.h>")
     text = text.replace("sm->chip = id->driver_data;", "sm->chip = SM5602;")
+    text = text.replace("static probe_cnt = 0;", "static int probe_cnt;")
     sm5602.write_text(text)
 
     timer = soc / "drivers/usb/typec/tcpc/tcpci_timer.c"
