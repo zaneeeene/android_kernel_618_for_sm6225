@@ -24,7 +24,8 @@ README is preserved at [docs/UPSTREAM_SM8550_README.md](docs/UPSTREAM_SM8550_REA
 | 6.18 legacy platform stack | **Gate 2 passed:** SMD/RPM, storage, IPC and remoteproc compile |
 | Exact Bengal interconnect | **Gate 3 passed:** 98 nodes, 22 QoS tables and exact RPM IDs compile |
 | 6.18 first-stage modules | **Gate 4 passed:** 86/86 policy coverage, 102-module closed payload, 33/33 DT bindings |
-| Public vendor module expansion | **Passed:** 169 modules compile; 126/238 stock load entries covered |
+| Public vendor module expansion | **Passed:** 184 modules compile; 141/238 stock load entries covered |
+| Exact SM6225 display/GPU/media | Next: OPlus Khaje display and KGSL compile gate |
 | Physical-device boot | Not attempted; one local fastboot-boot-only experiment exists and is **NOT FLASHABLE** |
 
 The stock target uses:
@@ -94,6 +95,17 @@ Qualcomm thermal modules, six target platform interfaces and four ACK-native
 modules were added; Xiaomi's private thermal-class shim and legacy TSENS remain
 deferred. See
 [provenance/daily-module-expansion.json](provenance/daily-module-expansion.json).
+
+[Charging expansion run 42639610339](https://github.com/zaneeeene/android_kernel_618_for_sm6225/actions/runs/42639610339)
+built the RT1711H Type-C/PD, Xiaomi adapter policy, non-PMI charger/fuel-gauge
+and battery-auth modules. Total public-registry coverage rose to 141/238 with
+no build errors; remaining media, audio and connectivity work is tracked in
+[provenance/charging-module-expansion.json](provenance/charging-module-expansion.json).
+
+The RT1711H/non-PMI charging compile is being revalidated after the last I²C
+probe-signature fix. The next independent media gate uses the exact pinned OPlus
+SM6225 source (`c984ff8c`) and starts with Khaje display + KGSL before camera,
+video, audio and WLAN.
 
 ## Why this attempt is now plausible
 

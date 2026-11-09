@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "status": "passed",
+  "flashable": false,
+  "run": {
+    "id": 42639610339,
+    "url": "https://github.com/zaneeeene/android_kernel_618_for_sm6225/actions/runs/42639610339",
+    "source_commit": "a4597db05f3b2f5b5cb750e725028c1695619293",
+    "completed_at": "2026-11-09T15:28:14Z"
+  },
+  "build": {
+    "selected_registry_targets": 135,
+    "built_modules_with_dependencies": 184,
+    "compile_errors": 0,
+    "covered_stock_entries": 141,
+    "stock_entries": 238,
+    "missing_entries": 97,
+    "coverage_report_sha256": "a5164f9274ce210d6aafffca200dd16118afa3d5199af36ab1b9cadcae801414"
+  },
+  "new_coverage": {
+    "typec_pd": [
+      "tcpc_class.ko",
+      "tcpc_rt1711h.ko",
+      "rt_pd_manager.ko",
+      "class-dual-role.ko",
+      "xm_adapter_class.ko",
+      "xm_pd_adapter.ko"
+    ],
+    "charging": [
+      "qcom-pmic-voter.ko",
+      "bq2589x_charger.ko",
+      "sc8551_charger.ko",
+      "sm5602_fg.ko",
+      "ln8000_charger.ko",
+      "nopmi-chg.ko",
+      "pd_policy_manager.ko"
+    ],
+    "battery_auth": [
+      "onewire_gpio.ko",
+      "batt-ds28e16.ko"
+    ]
+  },
+  "deferred": [
+    "qpnp-pdphy.ko/usbpd.ko family: stock DT uses RT1711H instead",
+    "miev.ko/bootinfo.ko/swinfo.ko: no public target source"
+  ],
+  "notes": [
+    "First-stage Gate 4 remains unchanged and passed inside this workflow.",
+    "No physical-device validation was performed."
+  ]
+}

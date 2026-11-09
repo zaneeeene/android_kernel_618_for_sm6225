@@ -1,0 +1,80 @@
+name: SM6225 OPlus display and KGSL compile
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  compile:
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    env:
+      BUILD_ROOT: /home/runner/tapas-k618-build
+      JOBS: 4
+      K618_INPUT_SPEC: provenance/input-sources-gate1.json
+    steps:
+      - name: Check out integration
+        uses: actions/checkout@v4
+      - name: Free disk space
+        uses: jlumbroso/free-disk-space@v1.3.1
+        with:
+          tool-cache: true
+          android: true
+          dotnet: true
+          haskell: true
+          large-packages: true
+          docker-images: false
+          swap-storage: true
+      - name: Restore source workspace
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            /home/runner/tapas-k618-build/.tapas-k618-upstream
+            /home/runner/tapas-k618-build/k618/ws
+            /home/runner/tapas-k618-build/k618/soc
+            /home/runner/tapas-k618-build/k618/src/topaz
+            /home/runner/tapas-k618-build/k618/src/oplus-modules
+            /home/runner/tapas-k618-build/k618/KernelSU
+            /home/runner/tapas-k618-build/k618/susfs4ksu
+            /home/runner/tapas-k618-build/lz4-dev
+          key: ${{ runner.os }}-sm6225-gate1-inputs-${{ hashFiles('provenance/input-sources-gate1.json', 'patches/soc-sm8550.patch') }}
+          restore-keys: |
+            ${{ runner.os }}-sm6225-gate1-inputs-
+      - name: Install host dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            build-essential git python3 rsync make bc bison flex \
+            libssl-dev libelf-dev libdw-dev libncurses-dev zlib1g-dev \
+            cpio lz4 zstd kmod zip unzip file binutils \
+            systemd util-linux pkg-config erofs-utils python3-zstandard
+      - name: Fetch pinned sources
+        run: bash scripts/run-limited.sh bootstrap --only sources
+      - name: Build exact OPlus Bengal display and KGSL
+        run: bash scripts/run-limited.sh tapas-media
+      - name: Collect compile reports
+        if: always()
+        run: |
+          mkdir -p tapas-media-artifacts
+          cp -f "$BUILD_ROOT/tapas-media-report.json" tapas-media-artifacts/ 2>/dev/null || true
+          for name in display graphics; do
+            cp -f "$BUILD_ROOT/k618/tp-log/$name.log" tapas-media-artifacts/ 2>/dev/null || true
+            cp -f "$BUILD_ROOT/k618/tp-log/$name.symvers" tapas-media-artifacts/ 2>/dev/null || true
+          done
+          find "$BUILD_ROOT/k618/tpmods" -maxdepth 1 -name '*.ko' -printf '%f\n' \
+            | sort -u > tapas-media-artifacts/module-names.txt 2>/dev/null || true
+          ls -lh tapas-media-artifacts
+      - name: Upload compile reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: sm6225-tapas-media-compile
+          path: tapas-media-artifacts/
+          if-no-files-found: warn
+          retention-days: 14

@@ -159,6 +159,17 @@ without errors and raised vendor-list coverage to 126/238. The added layer is
 documented in `provenance/daily-module-expansion.json`; charging is the next
 isolated compile layer.
 
+**Charging expansion:** Actions run `42639610339` built the public Type-C,
+charger, fuel-gauge and battery-auth layer. Cumulative vendor-list coverage is
+141/238; see `provenance/charging-module-expansion.json`. Multimedia and
+remaining modem/audio/WLAN integration are still outstanding.
+
+**Media source gate:** The exact OPlus modules/device-tree source is pinned at
+`c984ff8cfa146433289d8a3f26bd10bdc4192cf8`. A separate compile target now uses
+its Khaje Bengal configuration for display and Adreno KGSL first; it will not
+be treated as a UI gate until the modules compile and pass ABI/dependency
+checks.
+
 ### Gate 2 — early boot
 
 1. Reconstruct base 1 + overlay 45 from the reference firmware at build time.

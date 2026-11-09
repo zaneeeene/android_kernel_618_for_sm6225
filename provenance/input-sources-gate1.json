@@ -97,6 +97,48 @@
       ]
     },
     {
+      "name": "OPlus SM6225 vendor multimedia modules",
+      "path": "k618/src/oplus-modules",
+      "url": "https://github.com/oppo-source/android_kernel_modules_and_devicetree_oppo_sm6225.git",
+      "revision": "c984ff8cfa146433289d8a3f26bd10bdc4192cf8",
+      "sparse": [
+        "/vendor/qcom/opensource/audio-kernel/",
+        "/vendor/qcom/opensource/bt-kernel/",
+        "/vendor/qcom/opensource/camera-kernel/",
+        "/vendor/qcom/opensource/dataipa/",
+        "/vendor/qcom/opensource/datarmnet/",
+        "/vendor/qcom/opensource/datarmnet-ext/",
+        "/vendor/qcom/opensource/display-drivers/",
+        "/vendor/qcom/opensource/graphics-kernel/",
+        "/vendor/qcom/opensource/mm-drivers/",
+        "/vendor/qcom/opensource/mmrm-driver/",
+        "/vendor/qcom/opensource/securemsm-kernel/",
+        "/vendor/qcom/opensource/video-driver/",
+        "/vendor/qcom/opensource/wlan/"
+      ]
+    },
+    {
+      "name": "OPlus SM6225 vendor multimedia modules",
+      "path": "k618/src/oplus-modules",
+      "url": "https://github.com/oppo-source/android_kernel_modules_and_devicetree_oppo_sm6225.git",
+      "revision": "c984ff8cfa146433289d8a3f26bd10bdc4192cf8",
+      "sparse": [
+        "/vendor/qcom/opensource/audio-kernel/",
+        "/vendor/qcom/opensource/bt-kernel/",
+        "/vendor/qcom/opensource/camera-kernel/",
+        "/vendor/qcom/opensource/dataipa/",
+        "/vendor/qcom/opensource/datarmnet/",
+        "/vendor/qcom/opensource/datarmnet-ext/",
+        "/vendor/qcom/opensource/display-drivers/",
+        "/vendor/qcom/opensource/graphics-kernel/",
+        "/vendor/qcom/opensource/mm-drivers/",
+        "/vendor/qcom/opensource/mmrm-driver/",
+        "/vendor/qcom/opensource/securemsm-kernel/",
+        "/vendor/qcom/opensource/video-driver/",
+        "/vendor/qcom/opensource/wlan/"
+      ]
+    },
+    {
       "name": "KernelSU",
       "path": "k618/KernelSU",
       "url": "https://github.com/tiann/KernelSU.git",

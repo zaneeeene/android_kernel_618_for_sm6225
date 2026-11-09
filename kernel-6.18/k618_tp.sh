@@ -13,6 +13,7 @@
 . "$(dirname "$(readlink -f "$0")")/env.sh"
 J=${1:-8}; shift 2>/dev/null
 TP=$K618/vendor/qcom/opensource
+TP=${TP_SOURCE:-$TP}
 OUTM=$K618/tpmods
 LOG=$K618/tp-log
 export PATH=$CLANG:${R:+$R/bin:}$W/prebuilts/clang-tools/linux-x86/bin:$TOOLS:$W/prebuilts/build-tools/linux-x86/bin:/usr/bin:/bin
@@ -133,9 +134,28 @@ REPOS=(
 	"wlan|wlan/qcacld-3.0|WLAN_ROOT=%D WLAN_COMMON_ROOT=../qca-wifi-host-cmn MODNAME=kiwi_v2 DEVNAME=kiwi_v2 WLAN_CTRL_NAME=wlan WLAN_PROFILE=kiwi_v2 CONFIG_QCA_CLD_WLAN=m CONFIG_CNSS2=m CONFIG_CNSS_GENL=m CONFIG_CNSS_UTILS=m CONFIG_WCNSS_MEM_PRE_ALLOC=m CONFIG_CNSS_OUT_OF_TREE=y CONFIG_BUILD_TAG=n|%R|"
 )
 
+# Exact OPlus SM6225 source mode. Keep this separate from the historical
+# SM8850/Kalama rows above: the two downstream trees use different chip IDs,
+# configs and private interfaces. Additional entries can be selected by name
+# once a preceding media layer passes its compile gate.
+if [ "${TAPAS_OPLUS:-0}" = 1 ]; then
+	REPOS=(
+		"display|display-drivers|DISPLAY_ROOT=%D CONFIG_ARCH_KHAJE=y|-I%T/securemsm-kernel/include -I%T/securemsm-kernel/include/linux -I%T/mm-drivers/msm_ext_display/include|-DCONFIG_ARCH_KHAJE=1"
+		"graphics|graphics-kernel|KGSL_PATH=%D CONFIG_ARCH_KHAJE=y CONFIG_QCOM_KGSL=m CONFIG_ARM_SMMU=m|%M|-DCONFIG_ARCH_KHAJE=1 -DCONFIG_QCOM_KGSL=1 -DCONFIG_ARM_SMMU=1"
+		"camera|camera-kernel|CAMERA_KERNEL_ROOT=%D KERNEL_ROOT=%W/common MODNAME=camera CONFIG_ARCH_KHAJE=y CONFIG_ARCH_BENGAL=y|-I%T/securemsm-kernel/include -I%T/securemsm-kernel/include/linux|-DCONFIG_ARCH_KHAJE=1 -DCONFIG_ARCH_BENGAL=1"
+		"video|video-driver|VIDEO_ROOT=%D CONFIG_ARCH_KHAJE=y|-I%T/securemsm-kernel/include -I%T/securemsm-kernel/include/linux|-DCONFIG_ARCH_KHAJE=1"
+		"audio|audio-kernel|AUDIO_ROOT=%D MODNAME=audio_dlkm CONFIG_ARCH_KHAJE=y|%M|-DCONFIG_ARCH_KHAJE=1"
+		"wlan|wlan/qcacld-3.0|WLAN_ROOT=%D WLAN_COMMON_ROOT=../qca-wifi-host-cmn MODNAME=kiwi_v2 DEVNAME=kiwi_v2 WLAN_PROFILE=kiwi_v2 CONFIG_ARCH_KHAJE=y CONFIG_QCA_CLD_WLAN=m|%R|-DCONFIG_ARCH_KHAJE=1"
+		"wlan_platform|wlan/platform|WLAN_PLATFORM_ROOT=%D CONFIG_ARCH_KHAJE=y CONFIG_CNSS2=m CONFIG_CNSS_UTILS=m CONFIG_CNSS_GENL=m CONFIG_WCNSS_MEM_PRE_ALLOC=m CONFIG_CNSS2_QMI=y CONFIG_CNSS_QMI_SVC=m CONFIG_CNSS_PLAT_IPC_QMI_SVC=m CONFIG_CNSS_OUT_OF_TREE=y CONFIG_PCI_MSM=y|%R|-DCONFIG_ARCH_KHAJE=1"
+	)
+	PARKED=""
+fi
+
 PARKED="video eva"	# built only when named: see the table
 mkdir -p $OUTM $LOG
-python3 -I $K618_DIR/k618_tp_fix.py $TP || exit 1
+if [ "${TAPAS_OPLUS:-0}" != 1 ]; then
+	python3 -I $K618_DIR/k618_tp_fix.py $TP || exit 1
+fi
 # These repos are written for 6.12 like the soc tree, so they meet the same interface changes on the
 # way to 6.18: the same sweeps run over them (namespaces as strings, .remove, timers, nth_page,
 # dma_buf_ops, pinctrl and the rest -- k618_fix618.py's own file-specific edits are keyed by
@@ -167,7 +187,8 @@ TPCONF=$K618/tp-autoconf.h
 [ -f $S/gen/autoconf_vendor.h ] || { echo "no $S/gen/autoconf_vendor.h: build the soc modules first"; exit 1; }
 
 
-awk '/^#ifndef CONFIG_ARCH_/ && $2 != "CONFIG_ARCH_KALAMA" { skip = 3 }
+TP_ARCH=${TP_ARCH:-KALAMA}
+awk -v arch="CONFIG_ARCH_$TP_ARCH" '/^#ifndef CONFIG_ARCH_/ && $2 != arch { skip = 3 }
      /^#ifndef CONFIG_DEVFREQ_GOV_QCOM_(ADRENO_TZ|GPUBW_MON)(_MODULE)?$/ { skip = 3 }
      /^#ifndef CONFIG_LEDS_QCOM_FLASH(_MODULE)?$/ { skip = 3 }
      /^#ifndef CONFIG_MSM_TMECOM_QMP(_MODULE)?$/ { skip = 3 }
@@ -212,7 +233,7 @@ for entry in "${REPOS[@]}"; do
 	# wrapper passes them, and calling make directly does not
 	make -C $W/common O=$O ARCH=arm64 LLVM=1 LLVM_IAS=1 M=$D modules -j$J \
 		KERNEL_SRC=$W/common KERNEL_ROOT=$W/common \
-		CONFIG_ARCH_KALAMA=y KBUILD_EXTRA_SYMBOLS="$SYMS" \
+		CONFIG_ARCH_$TP_ARCH=y KBUILD_EXTRA_SYMBOLS="$SYMS" \
 		NOSTDINC_FLAGS="-nostdinc -I$S/include -I$S/include/uapi$EI" \
 		KCFLAGS="-Wno-error -include $TPCONF $defs" $vars > $LOG/$name.log 2>&1
 	rc=$?
