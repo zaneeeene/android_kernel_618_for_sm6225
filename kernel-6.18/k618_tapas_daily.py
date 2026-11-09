@@ -12,6 +12,12 @@ from k618_tapas_legacy import port_remove  # noqa: E402
 
 
 FILES = [
+    "drivers/cpufreq/cpumaxfreq.c",
+    "drivers/soc/qcom/cx_ipeak.c",
+    "drivers/soc/qcom/qdsp6v2/cdsp-loader.c",
+    "drivers/soc/qcom/rpm-smd-debug.c",
+    "drivers/soc/qcom/rpm_master_stat.c",
+    "drivers/soc/qcom/serial_num.c",
     "drivers/thermal/qcom/lmh_cpu_vdd_cdev.c",
     "drivers/thermal/qcom/cx_ipeak_cdev.c",
     "drivers/thermal/qcom/regulator_cdev.c",
@@ -21,6 +27,7 @@ FILES = [
     "drivers/thermal/qcom/thermal_sensor_service_v01.c",
     "drivers/thermal/qcom/thermal_sensor_service_v01.h",
     "drivers/thermal/mi_thermal_interface.c",
+    "include/soc/qcom/cx_ipeak.h",
 ]
 
 KCONFIG = r'''
@@ -48,6 +55,25 @@ config TAPAS_QMI_THERMAL_SENSOR
 config TAPAS_MI_THERMAL_INTERFACE
 	tristate "Tapas Xiaomi thermal userspace interface"
 	depends on THERMAL
+
+config TAPAS_CPUMAXFREQ
+	tristate "Tapas cpumaxfreq userspace interface"
+
+config TAPAS_CX_IPEAK
+	tristate "Tapas CX IPeak hardware"
+
+config TAPAS_CDSP_LOADER
+	tristate "Tapas CDSP userspace loader"
+
+config TAPAS_RPM_SMD_DEBUG
+	tristate "Tapas RPM SMD debug interface"
+	depends on TAPAS_RPM_SMD
+
+config TAPAS_RPM_MASTER_STAT
+	tristate "Tapas RPM master statistics"
+
+config TAPAS_SERIAL_NUM
+	tristate "Tapas serial-number fuse interface"
 '''
 
 REGISTRY = r'''def register_modules(registry):
@@ -95,6 +121,44 @@ REGISTRY = r'''def register_modules(registry):
         srcs = ["drivers/thermal/mi_thermal_interface.c"],
         deps = ["drivers/soc/qcom/panel_event_notifier"],
     )
+    registry.register(
+        name = "drivers/cpufreq/cpumaxfreq-tapas",
+        out = "cpumaxfreq.ko",
+        config = "CONFIG_TAPAS_CPUMAXFREQ",
+        srcs = ["drivers/cpufreq/cpumaxfreq.c"],
+    )
+    registry.register(
+        name = "drivers/soc/qcom/cx_ipeak-tapas",
+        out = "cx_ipeak.ko",
+        config = "CONFIG_TAPAS_CX_IPEAK",
+        srcs = ["drivers/soc/qcom/cx_ipeak.c", "include/soc/qcom/cx_ipeak.h"],
+    )
+    registry.register(
+        name = "drivers/soc/qcom/cdsp-loader-tapas",
+        out = "cdsp-loader.ko",
+        config = "CONFIG_TAPAS_CDSP_LOADER",
+        srcs = ["drivers/soc/qcom/qdsp6v2/cdsp-loader.c"],
+        deps = ["drivers/remoteproc/qcom_q6v5_pas"],
+    )
+    registry.register(
+        name = "drivers/soc/qcom/rpm-smd-debug-tapas",
+        out = "rpm-smd-debug.ko",
+        config = "CONFIG_TAPAS_RPM_SMD_DEBUG",
+        srcs = ["drivers/soc/qcom/rpm-smd-debug.c"],
+        deps = ["drivers/rpmsg/rpm-smd-tapas"],
+    )
+    registry.register(
+        name = "drivers/soc/qcom/rpm-master-stat-tapas",
+        out = "rpm_master_stat.ko",
+        config = "CONFIG_TAPAS_RPM_MASTER_STAT",
+        srcs = ["drivers/soc/qcom/rpm_master_stat.c"],
+    )
+    registry.register(
+        name = "drivers/soc/qcom/serial-num-tapas",
+        out = "serial_num.ko",
+        config = "CONFIG_TAPAS_SERIAL_NUM",
+        srcs = ["drivers/soc/qcom/serial_num.c"],
+    )
 '''
 
 
@@ -116,6 +180,9 @@ def main() -> int:
         ("drivers/thermal/qcom/cx_ipeak_cdev.c", "cxip_lm_cdev_remove"),
         ("drivers/thermal/qcom/rpm_smd_cooling_device.c", "rpm_smd_cdev_remove"),
         ("drivers/thermal/qcom/qmi_sensors.c", "qmi_sens_device_remove"),
+        ("drivers/soc/qcom/qdsp6v2/cdsp-loader.c", "cdsp_loader_remove"),
+        ("drivers/soc/qcom/rpm_master_stat.c", "msm_rpm_master_stats_remove"),
+        ("drivers/soc/qcom/serial_num.c", "sn_fuse_remove"),
     ]:
         port_remove(soc / relative, function)
 
@@ -145,7 +212,7 @@ def main() -> int:
     text = kconfig.read_text()
     if "config TAPAS_LMH_CPU_VDD_CDEV" not in text:
         kconfig.write_text(text + KCONFIG)
-    print("k618_tapas_daily: imported six public thermal modules")
+    print("k618_tapas_daily: imported six thermal and six platform compatibility modules")
     return 0
 
 
