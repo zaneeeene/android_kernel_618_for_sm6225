@@ -29,6 +29,7 @@
   "status": {
     "stock_inventory": "complete",
     "kernel_6_18_build": "gate4-first-stage-and-bindings-passed",
-    "kernel_6_18_boot": "not-attempted"
+    "kernel_6_18_boot": "not-attempted",
+    "vendor_module_expansion": "111-of-238-covered-156-modules-built"
   }
 }

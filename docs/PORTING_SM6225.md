@@ -148,6 +148,12 @@ binding audit passes 33/33. This is still not a boot result. A locally generated
 header-v4 experiment is explicitly fastboot-boot-only and non-flashable; see
 `provenance/gate4-build.json` and `provenance/early-boot-experiment.json`.
 
+**Public vendor-module result:** Actions run `42545170149` compiled all 156
+selected modules and dependencies without errors, covering 111/238 entries in
+the stock vendor load list. The remaining source/integration gaps are grouped
+in `provenance/vendor-module-expansion.json`; this is not yet the UI or daily
+hardware gate.
+
 ### Gate 2 — early boot
 
 1. Reconstruct base 1 + overlay 45 from the reference firmware at build time.

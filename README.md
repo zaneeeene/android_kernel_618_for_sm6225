@@ -24,6 +24,7 @@ README is preserved at [docs/UPSTREAM_SM8550_README.md](docs/UPSTREAM_SM8550_REA
 | 6.18 legacy platform stack | **Gate 2 passed:** SMD/RPM, storage, IPC and remoteproc compile |
 | Exact Bengal interconnect | **Gate 3 passed:** 98 nodes, 22 QoS tables and exact RPM IDs compile |
 | 6.18 first-stage modules | **Gate 4 passed:** 86/86 policy coverage, 102-module closed payload, 33/33 DT bindings |
+| Public vendor module expansion | **Passed:** 156 modules compile; 111/238 stock load entries covered |
 | Physical-device boot | Not attempted; one local fastboot-boot-only experiment exists and is **NOT FLASHABLE** |
 
 The stock target uses:
@@ -78,6 +79,14 @@ A gated local artifact was assembled only for a future temporary
 `FASTBOOT-BOOT-ONLY-NOT-FLASHABLE`; no device command has been run, and it must
 not be flashed. Its structure and hashes are recorded in
 [provenance/early-boot-experiment.json](provenance/early-boot-experiment.json).
+
+[Vendor expansion run 42545170149](https://github.com/zaneeeene/android_kernel_618_for_sm6225/actions/runs/42545170149)
+then compiled 156/156 selected modules (107 direct stock-registry matches plus
+their dependencies) with no compile or modpost errors. This covers 111 of the
+238 stock vendor load entries. The remaining 127 entries are classified by
+audio, charging, thermal, connectivity, multimedia/GPU, touch/biometrics,
+security, Xiaomi policy and platform gaps in
+[provenance/vendor-module-expansion.json](provenance/vendor-module-expansion.json).
 
 ## Why this attempt is now plausible
 

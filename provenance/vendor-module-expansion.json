@@ -1,0 +1,199 @@
+{
+  "schema_version": 1,
+  "status": "public-registry-build-passed",
+  "flashable": false,
+  "run": {
+    "id": 42545170149,
+    "url": "https://github.com/zaneeeene/android_kernel_618_for_sm6225/actions/runs/42545170149",
+    "source_commit": "bddf75de9002b7dc7b50464127dbf269eaf310a4",
+    "completed_at": "2026-11-09T01:51:58Z"
+  },
+  "build": {
+    "selected_registry_targets": 107,
+    "built_modules_with_dependencies": 156,
+    "compile_errors": 0,
+    "coverage_entries": 238,
+    "covered_entries": 111,
+    "missing_entries": 127,
+    "coverage_report_sha256": "2320027785e625612b331d3cbe06c60d14a3963a002de2e7cf4d6ec462b63251"
+  },
+  "missing_by_subsystem": {
+    "audio": {
+      "count": 31,
+      "entries": [
+        "q6_notifier_dlkm.ko",
+        "spf_core_dlkm.ko",
+        "audpkt_ion_dlkm.ko",
+        "gpr_dlkm.ko",
+        "audio_pkt_dlkm.ko",
+        "q6_dlkm.ko",
+        "adsp_loader_dlkm.ko",
+        "audio_prm_dlkm.ko",
+        "q6_pdr_dlkm.ko",
+        "pinctrl_lpi_dlkm.ko",
+        "swr_dlkm.ko",
+        "swr_ctrl_dlkm.ko",
+        "snd_event_dlkm.ko",
+        "wcd_core_dlkm.ko",
+        "mbhc_dlkm.ko",
+        "wcd9xxx_dlkm.ko",
+        "stub_dlkm.ko",
+        "machine_dlkm.ko",
+        "bolero_cdc_dlkm.ko",
+        "va_macro_dlkm.ko",
+        "tx_macro_dlkm.ko",
+        "rx_macro_dlkm.ko",
+        "fs1815_dlkm.ko",
+        "aw87xxx_dlkm.ko",
+        "sipa_dlkm.ko",
+        "wsa881x_analog_dlkm.ko",
+        "wcd937x_dlkm.ko",
+        "wcd937x_slave_dlkm.ko",
+        "btpower.ko",
+        "bt_fm_slim.ko",
+        "radio-i2c-rtc6226-qca.ko"
+      ]
+    },
+    "charging_power": {
+      "count": 20,
+      "entries": [
+        "tcpc_rt1711h.ko",
+        "tcpc_class.ko",
+        "rt_pd_manager.ko",
+        "class-dual-role.ko",
+        "xm_adapter_class.ko",
+        "xm_pd_adapter.ko",
+        "qpnp-smb5-main.ko",
+        "qcom-qpnp-qg.ko",
+        "qcom-smb1398-charger.ko",
+        "qcom-smb1355-charger.ko",
+        "qcom-pmic-voter.ko",
+        "bq2589x_charger.ko",
+        "sc8551_charger.ko",
+        "sm5602_fg.ko",
+        "ln8000_charger.ko",
+        "onewire_gpio.ko",
+        "batt-ds28e16.ko",
+        "nopmi-chg.ko",
+        "pd_policy_manager.ko",
+        "leds-qpnp-vibrator-ldo-tz.ko"
+      ]
+    },
+    "thermal": {
+      "count": 7,
+      "entries": [
+        "cx_ipeak.ko",
+        "msm-tsens-driver.ko",
+        "lmh_cpu_vdd_cdev.ko",
+        "cx_ipeak_cdev.ko",
+        "regulator_cdev.ko",
+        "rpm_smd_cooling_device.ko",
+        "mi_thermal_interface.ko"
+      ]
+    },
+    "connectivity_data": {
+      "count": 15,
+      "entries": [
+        "ipa_fmwk.ko",
+        "gsim.ko",
+        "ipam.ko",
+        "ipanetm.ko",
+        "rndisipam.ko",
+        "ipa_clientsm.ko",
+        "rmnet_core.ko",
+        "rmnet_ctl.ko",
+        "rmnet_wlan.ko",
+        "qca_cld3_wlan.ko",
+        "wlan_firmware_service.ko",
+        "cnss_nl.ko",
+        "cnss_prealloc.ko",
+        "cnss_utils.ko",
+        "icnss2.ko"
+      ]
+    },
+    "multimedia_gpu": {
+      "count": 6,
+      "entries": [
+        "camera.ko",
+        "msm_drm.ko",
+        "msm-mmrm.ko",
+        "mmrm_test_module.ko",
+        "msm_video.ko",
+        "msm_kgsl.ko"
+      ]
+    },
+    "touch_biometrics_nfc": {
+      "count": 9,
+      "entries": [
+        "fpc1020_platform_tee.ko",
+        "goodix_fp.ko",
+        "stm_nfc_i2c.ko",
+        "stm_nfc_i2c.ko",
+        "nxp-nci.ko",
+        "focaltech_ts_i2c.ko",
+        "lct_tp.ko",
+        "xiaomi_touch_game.ko",
+        "goodix_ts_9896.ko"
+      ]
+    },
+    "security_crypto": {
+      "count": 8,
+      "entries": [
+        "tz_log_dlkm.ko",
+        "qcedev-mod_dlkm.ko",
+        "qcrypto-msm_dlkm.ko",
+        "qce50_dlkm.ko",
+        "hdcp_qseecom_dlkm.ko",
+        "qrng_dlkm.ko",
+        "smcinvoke_dlkm.ko",
+        "qseecom_dlkm.ko"
+      ]
+    },
+    "xiaomi_policy": {
+      "count": 9,
+      "entries": [
+        "mi_wmark.ko",
+        "binder_prio.ko",
+        "binder_gki.ko",
+        "millet_binder.ko",
+        "millet_core.ko",
+        "millet_hs.ko",
+        "millet_oem_cgroup.ko",
+        "millet_pkg.ko",
+        "millet_sig.ko"
+      ]
+    },
+    "platform_debug_core": {
+      "count": 22,
+      "entries": [
+        "phy-qcom-ufs-qmp-v4.ko",
+        "phy-xgene.ko",
+        "clk-rpm.ko",
+        "rpm_master_stat.ko",
+        "cdsp-loader.ko",
+        "guestvm_loader.ko",
+        "rpm-smd-debug.ko",
+        "hung_task_enh.ko",
+        "serial_num.ko",
+        "frpc-adsprpc.ko",
+        "qcom_rpm.ko",
+        "spidev.ko",
+        "qpnp-pdphy.ko",
+        "usb_f_diag.ko",
+        "qti_qmi_sensor.ko",
+        "cpufreq_userspace.ko",
+        "cpufreq_ondemand.ko",
+        "cpumaxfreq.ko",
+        "leds-aw2016.ko",
+        "leds-gpio.ko",
+        "icc-test.ko",
+        "coresight-hwevent.ko"
+      ]
+    }
+  },
+  "notes": [
+    "Counts follow the stock load list and therefore retain duplicate entries.",
+    "Missing entries are source/integration gaps, not failures in the 156-module public registry build.",
+    "The optional WALT-private hung_task_enh module is deliberately excluded."
+  ]
+}
