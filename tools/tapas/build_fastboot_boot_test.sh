@@ -87,6 +87,7 @@ cp -a "$module_root"/. "$work/overlay/lib/modules/"
 if [ -f "$work/vendor-root/lib/modules/modules.blocklist" ]; then
   cp "$work/vendor-root/lib/modules/modules.blocklist" "$work/overlay/lib/modules/"
 fi
+find "$work/overlay" -exec touch -h -d @0 {} +
 
 ( cd "$work/overlay" && \
   find . -print0 | sort -z | \
@@ -100,6 +101,9 @@ partition_size=$(stat -c %s "$stock_boot")
 salt=$(sha256sum "$image" "$work/combined.lz4" | sha256sum | cut -d' ' -f1)
 avbtool add_hash_footer --image "$experiment" --partition_name boot \
   --partition_size "$partition_size" --algorithm NONE --hash_algorithm sha256 --salt "$salt"
+ln -s "$experiment" "$work/boot.img"
+avbtool verify_image --image "$work/boot.img" >/dev/null
+rm "$work/boot.img"
 
 image_sha=$(sha256sum "$image" | cut -d' ' -f1)
 experiment_sha=$(sha256sum "$experiment" | cut -d' ' -f1)
@@ -128,6 +132,7 @@ json.dump({
   "stock_init_boot_sha256": "$expected_init",
   "stock_vendor_boot_sha256": "$expected_vendor",
   "partition_size": $partition_size,
+  "avb_verified": True,
 }, open("$out/manifest.json", "w"), indent=2)
 open("$out/manifest.json", "a").write("\n")
 PY
