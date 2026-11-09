@@ -59,7 +59,7 @@ config TAPAS_MI_THERMAL_INTERFACE
 config TAPAS_CPUMAXFREQ
 	tristate "Tapas cpumaxfreq userspace interface"
 
-config TAPAS_CX_IPEAK
+config QCOM_CX_IPEAK
 	tristate "Tapas CX IPeak hardware"
 
 config TAPAS_CDSP_LOADER
@@ -130,7 +130,7 @@ REGISTRY = r'''def register_modules(registry):
     registry.register(
         name = "drivers/soc/qcom/cx_ipeak-tapas",
         out = "cx_ipeak.ko",
-        config = "CONFIG_TAPAS_CX_IPEAK",
+        config = "CONFIG_QCOM_CX_IPEAK",
         srcs = ["drivers/soc/qcom/cx_ipeak.c", "include/soc/qcom/cx_ipeak.h"],
     )
     registry.register(
@@ -192,6 +192,34 @@ def main() -> int:
     text = text.replace('#include "thermal_core.h"',
                         '#include "drivers/thermal/thermal_core.h"')
     mi_thermal.write_text(text)
+
+    cpumax = soc / "drivers/cpufreq/cpumaxfreq.c"
+    text = cpumax.read_text()
+    text = text.replace("\tstruct cpufreq_policy policy;", "\tstruct cpufreq_policy *policy;")
+    text = text.replace(
+        '''\t\tif (cpufreq_get_policy(&policy, cpu))
+\t\t\tcontinue;
+\t\tif (policy.cpuinfo.max_freq > cpumaxfreq)
+\t\t\tcpumaxfreq = policy.cpuinfo.max_freq;''',
+        '''\t\tpolicy = cpufreq_cpu_get(cpu);
+\t\tif (!policy)
+\t\t\tcontinue;
+\t\tif (policy->cpuinfo.max_freq > cpumaxfreq)
+\t\t\tcpumaxfreq = policy->cpuinfo.max_freq;
+\t\tcpufreq_cpu_put(policy);''',
+    )
+    cpumax.write_text(text)
+
+    cx_ipeak = soc / "drivers/soc/qcom/cx_ipeak.c"
+    text = cx_ipeak.read_text()
+    if "#include <linux/platform_device.h>" not in text:
+        text = text.replace("#include <linux/module.h>\n",
+                            "#include <linux/module.h>\n#include <linux/platform_device.h>\n", 1)
+    cx_ipeak.write_text(text)
+
+    rpm_stat = soc / "drivers/soc/qcom/rpm_master_stat.c"
+    rpm_stat.write_text(rpm_stat.read_text().replace(".llseek   = no_llseek,",
+                                                     ".llseek   = noop_llseek,"))
 
     lmh = soc / "drivers/thermal/qcom/lmh_cpu_vdd_cdev.c"
     text = lmh.read_text()

@@ -183,8 +183,7 @@ def port_remove(path: Path, function: str) -> None:
     if end is None:
         raise RuntimeError(f"{path}: unterminated callback {function}")
     block = text[start:end].replace(signature, signature.replace("static int", "static void"), 1)
-    block = block.replace("return -EINVAL;", "return;")
-    block = re.sub(r"\n\treturn 0;\n\}$", "\n}", block)
+    block = re.sub(r"\breturn\s+[^;]+;", "return;", block)
     text = text[:start] + block + text[end:]
     path.write_text(text)
 
