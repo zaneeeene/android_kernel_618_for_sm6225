@@ -32,7 +32,7 @@ jobs:
           docker-images: false
           swap-storage: true
       - name: Restore source workspace
-        uses: actions/cache/restore@v4
+        uses: actions/cache@v4
         with:
           path: |
             /home/runner/tapas-k618-build/.tapas-k618-upstream
@@ -40,6 +40,7 @@ jobs:
             /home/runner/tapas-k618-build/k618/soc
             /home/runner/tapas-k618-build/k618/src/topaz
             /home/runner/tapas-k618-build/k618/src/oplus-modules
+            /home/runner/tapas-k618-build/k618/src/oplus-kernel
             /home/runner/tapas-k618-build/k618/KernelSU
             /home/runner/tapas-k618-build/k618/susfs4ksu
             /home/runner/tapas-k618-build/lz4-dev
