@@ -6937,6 +6937,41 @@ GENERATED = [("k618_oplus_stub.h", STUB_H),
              ("k618_nfc_trace.h", NFC_TRACE_H),
              ("video-driver-515/driver/vidc/inc/video_generated_h", VIDEO_GEN_H)]
 
+# Upstream API-only subset for the exact OPlus SM6225 display/KGSL gate.  The
+# full fixer also carries Xiaomi 13/13 Ultra runtime and panel-policy hooks;
+# those must not be injected into Tapas merely to compile the shared Qualcomm
+# drivers.  Keep the index-to-path assertions so an insertion in EDITS cannot
+# silently select a different transformation.
+API_ONLY_EDIT_PATHS = {
+    57: "display-drivers/msm/sde_rsc.c",
+    62: "graphics-kernel/governor_msm_adreno_tz.c",
+    103: "display-drivers/msm/dsi/dsi_ctrl_hw.h",
+    117: "graphics-kernel/kgsl_snapshot.c",
+    118: "graphics-kernel/kgsl_timeline.c",
+    119: "graphics-kernel/kgsl_timeline.c",
+    120: "graphics-kernel/kgsl_timeline.c",
+    121: "graphics-kernel/kgsl_timeline.h",
+    122: "graphics-kernel/kgsl_sync.c",
+    123: "graphics-kernel/kgsl_sync.c",
+    124: "graphics-kernel/kgsl_sync.c",
+    125: "graphics-kernel/kgsl_sync.c",
+    126: "graphics-kernel/kgsl_sync.c",
+    127: "graphics-kernel/kgsl_sync.c",
+    128: "graphics-kernel/kgsl_sync.h",
+    129: "graphics-kernel/kgsl_sync.h",
+    130: "graphics-kernel/adreno_gen7_hwsched_hfi.c",
+    131: "graphics-kernel/adreno_gen8_hwsched_hfi.c",
+    132: "graphics-kernel/adreno_hwsched.c",
+    145: "display-drivers/msm/msm_drv.h",
+    146: "display-drivers/msm/msm_drv.c",
+    274: "display-drivers/msm/dsi/dsi_drm.c",
+    275: "display-drivers/msm/dp/dp_drm.c",
+    276: "display-drivers/msm/dp/dp_mst_drm.c",
+}
+for _index, _path in API_ONLY_EDIT_PATHS.items():
+    if EDITS[_index][0] != _path:
+        raise RuntimeError(f"API-only edit index {_index} moved: {EDITS[_index][0]}")
+
 # the same change in every source of a repo: (repo, old, new, why)
 SWEEPS = [
 
@@ -7053,16 +7088,28 @@ SWEEPS = [
 
 
 def main(argv):
-    root = argv[1].rstrip("/")
+    args = argv[1:]
+    api_only = bool(args and args[0] == "--api-only")
+    if api_only:
+        args.pop(0)
+    if len(args) != 1:
+        print(f"usage: {argv[0]} [--api-only] <techpack root>", file=sys.stderr)
+        return 2
+    root = args[0].rstrip("/")
+    generated = () if api_only else GENERATED
+    sweeps = (entry for entry in SWEEPS
+              if not api_only or entry[0] in {"display-drivers", "graphics-kernel"})
+    edits = ([EDITS[index] for index in API_ONLY_EDIT_PATHS]
+             if api_only else EDITS)
     done = 0
-    for rel, text in GENERATED:
+    for rel, text in generated:
         path = os.path.join(root, rel)
         if os.path.exists(path) and open(path, encoding="utf-8").read() == text:
             continue
         os.makedirs(os.path.dirname(path), exist_ok=True)
         open(path, "w", encoding="utf-8", newline="\n").write(text)
         print(f"k618_tp_fix: wrote {rel}")
-    for repo, old, new in SWEEPS:
+    for repo, old, new in sweeps:
         repo_path = os.path.join(root, repo)
         if not os.path.isdir(repo_path):
             continue
@@ -7080,7 +7127,7 @@ def main(argv):
                 n += 1
         if n:
             print(f"k618_tp_fix: {repo}: {old} -> {new} in {n} files")
-    for rel, old, new, in ((e[0], e[1], e[2]) for e in EDITS):
+    for rel, old, new, in ((e[0], e[1], e[2]) for e in edits):
         path = os.path.join(root, rel)
         if not os.path.exists(path):
             print(f"k618_tp_fix: no {rel}", file=sys.stderr)
@@ -7099,7 +7146,7 @@ def main(argv):
         open(path, "w", encoding="utf-8", errors="surrogateescape", newline="").write(text.replace(old, new))
         print(f"k618_tp_fix: {rel}")
         done += 1
-    print(f"k618_tp_fix: {done} of {len(EDITS)} edits applied (the rest were already there)")
+    print(f"k618_tp_fix: {done} of {len(edits)} edits applied (the rest were already there)")
     return 0
 
 

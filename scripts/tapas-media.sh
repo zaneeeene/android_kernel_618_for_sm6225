@@ -23,6 +23,12 @@ SM6225_DAILY=1 bash "$PROJECT_ROOT/scripts/gate4.sh"
 mkdir -p "$soc/include/soc/qcom"
 cp "$oplus_kernel/include/soc/qcom/boot_stats.h" "$soc/include/soc/qcom/boot_stats.h"
 
+# Apply only shared upstream DRM/KGSL API changes. The fixer's default mode
+# also contains panel policy for other Xiaomi devices and is intentionally not
+# used for Tapas.
+python3 -I "$PROJECT_ROOT/kernel-6.18/k618_tp_fix.py" --api-only \
+  "$oplus/vendor/qcom/opensource"
+
 TP_SOURCE="$oplus/vendor/qcom/opensource" \
 TP_ARCH=KHAJE \
 TAPAS_OPLUS=1 \
