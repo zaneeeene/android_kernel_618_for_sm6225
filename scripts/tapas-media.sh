@@ -10,12 +10,22 @@ set -euo pipefail
 common="$K618/ws/common"
 soc="$K618/soc"
 oplus="$K618/src/oplus-modules"
-for path in "$common/.git" "$soc/.git" "$oplus/.git"; do
+oplus_kernel="$K618/src/oplus-kernel"
+for path in "$common/.git" "$soc/.git" "$oplus/.git" "$oplus_kernel/.git"; do
   [ -e "$path" ] || { echo "Missing $path; run the pinned source bootstrap first." >&2; exit 2; }
 done
 
 # Re-establish the verified GKI and first-stage symbol/config environment.
 SM6225_DAILY=1 bash "$PROJECT_ROOT/scripts/gate4.sh"
+
+# KGSL includes this exact OPlus common declaration, absent from the newer
+# SM8850 module repository.
+mkdir -p "$soc/include/soc/qcom"
+cp "$oplus_kernel/include/soc/qcom/boot_stats.h" "$soc/include/soc/qcom/boot_stats.h"
+
+# Apply OPlus techpack fixes (generates k618_oplus_stub.h, mi_disp_k618.c/h, and applies
+# OPlus-specific display/KGSL fixes). This must run before k618_tp.sh with TAPAS_OPLUS=1.
+python3 -I "$PROJECT_ROOT/kernel-6.18/k618_tp_fix.py" "$oplus/vendor/qcom/opensource"
 
 TP_SOURCE="$oplus/vendor/qcom/opensource" \
 TP_ARCH=KHAJE \

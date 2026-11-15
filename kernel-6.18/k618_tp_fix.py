@@ -7059,11 +7059,15 @@ def main(argv):
         path = os.path.join(root, rel)
         if os.path.exists(path) and open(path, encoding="utf-8").read() == text:
             continue
+        os.makedirs(os.path.dirname(path), exist_ok=True)
         open(path, "w", encoding="utf-8", newline="\n").write(text)
         print(f"k618_tp_fix: wrote {rel}")
     for repo, old, new in SWEEPS:
+        repo_path = os.path.join(root, repo)
+        if not os.path.isdir(repo_path):
+            continue
         n = 0
-        for dp, _dn, fns in os.walk(os.path.join(root, repo)):
+        for dp, _dn, fns in os.walk(repo_path):
             for fn in fns:
                 if not fn.endswith((".c", ".h")):
                     continue
