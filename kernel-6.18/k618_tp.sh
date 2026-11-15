@@ -140,7 +140,7 @@ REPOS=(
 # once a preceding media layer passes its compile gate.
 if [ "${TAPAS_OPLUS:-0}" = 1 ]; then
 	REPOS=(
-		"display|display-drivers|DISPLAY_ROOT=%D CONFIG_ARCH_KHAJE=y|-I%T/securemsm-kernel/include -I%T/securemsm-kernel/include/linux -I%T/mm-drivers/msm_ext_display/include|-DCONFIG_ARCH_KHAJE=1"
+		"display|display-drivers|DISPLAY_ROOT=%D CONFIG_ARCH_KHAJE=y CONFIG_DRM_MSM=m CONFIG_DRM_OPLUS=m CONFIG_DRM_OPLUS_NOTIFY=m|-I%T/securemsm-kernel/include -I%T/securemsm-kernel/include/linux -I%T/mm-drivers/msm_ext_display/include|-DCONFIG_ARCH_KHAJE=1"
 		"graphics|graphics-kernel|KGSL_PATH=%D CONFIG_ARCH_KHAJE=y CONFIG_QCOM_KGSL=m CONFIG_ARM_SMMU=m|%M|-DCONFIG_ARCH_KHAJE=1 -DCONFIG_QCOM_KGSL=1 -DCONFIG_ARM_SMMU=1"
 		"camera|camera-kernel|CAMERA_KERNEL_ROOT=%D KERNEL_ROOT=%W/common MODNAME=camera CONFIG_ARCH_KHAJE=y CONFIG_ARCH_BENGAL=y|-I%T/securemsm-kernel/include -I%T/securemsm-kernel/include/linux|-DCONFIG_ARCH_KHAJE=1 -DCONFIG_ARCH_BENGAL=1"
 		"video|video-driver|VIDEO_ROOT=%D CONFIG_ARCH_KHAJE=y|-I%T/securemsm-kernel/include -I%T/securemsm-kernel/include/linux|-DCONFIG_ARCH_KHAJE=1"

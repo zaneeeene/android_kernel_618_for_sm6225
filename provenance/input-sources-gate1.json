@@ -99,8 +99,9 @@
     {
       "name": "OPlus SM6225 kernel API headers",
       "path": "k618/src/oplus-kernel",
-      "url": "https://github.com/oppo-source/android_kernel_common_oppo_sm6225.git",
-      "revision": "a2135df2260088d4177f8298498e9300de0fdc10",
+      "url": "https://github.com/oppo-source/android_kernel_oppo_sm6225.git",
+      "ref": "oppo/sm6225_b_16.0",
+      "revision": "f35375cb95164dc8089f4dc561465eff0a276896",
       "sparse": ["/include/soc/qcom/boot_stats.h"]
     },
     {

@@ -73,6 +73,11 @@ def checkout(item):
         run(['git', 'init', '-q', path])
         git(path, 'remote', 'add', 'origin', item['url'])
         git(path, 'config', 'core.autocrlf', 'false')
+    elif git(path, 'remote', 'get-url', 'origin', capture=True) != item['url']:
+        # A cache may predate a corrected public donor URL. Keep the pinned
+        # workspace reproducible instead of fetching the new revision from an
+        # unrelated old origin.
+        git(path, 'remote', 'set-url', 'origin', item['url'])
     if item.get('target_tree'):
         current = subprocess.run(['git', '-C', str(path), 'rev-parse', 'HEAD^{tree}'],
                                  capture_output=True, text=True)
@@ -86,7 +91,11 @@ def checkout(item):
             git(path, 'config', 'remote.origin.promisor', 'true')
             git(path, 'config', 'remote.origin.partialclonefilter', 'blob:none')
             flags += ['--filter=blob:none']
-        git(path, 'fetch', '-q', '--no-tags', *flags, 'origin', item['revision'])
+        # Some public GitHub repositories do not allow a shallow fetch by raw
+        # object ID. Fetch the recorded advertised ref when supplied, then
+        # still check out and verify the immutable revision below.
+        git(path, 'fetch', '-q', '--no-tags', *flags, 'origin',
+            item.get('ref', item['revision']))
     if item.get('sparse'):
         git(path, 'sparse-checkout', 'init', '--no-cone')
         run(['git', '-C', path, 'sparse-checkout', 'set', '--no-cone', '--stdin'],

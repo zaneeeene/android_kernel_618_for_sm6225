@@ -23,10 +23,6 @@ SM6225_DAILY=1 bash "$PROJECT_ROOT/scripts/gate4.sh"
 mkdir -p "$soc/include/soc/qcom"
 cp "$oplus_kernel/include/soc/qcom/boot_stats.h" "$soc/include/soc/qcom/boot_stats.h"
 
-# Apply OPlus techpack fixes (generates k618_oplus_stub.h, mi_disp_k618.c/h, and applies
-# OPlus-specific display/KGSL fixes). This must run before k618_tp.sh with TAPAS_OPLUS=1.
-python3 -I "$PROJECT_ROOT/kernel-6.18/k618_tp_fix.py" "$oplus/vendor/qcom/opensource"
-
 TP_SOURCE="$oplus/vendor/qcom/opensource" \
 TP_ARCH=KHAJE \
 TAPAS_OPLUS=1 \

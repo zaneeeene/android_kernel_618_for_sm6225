@@ -8,6 +8,7 @@ Everywhere:
   - struct dma_buf_ops has no cache_sgt_mapping, struct dma_heap_ops no get_pool_size (an
     Android addition) in 6.18
   - pinctrl's PIN_CONFIG_OUTPUT is PIN_CONFIG_LEVEL, from_timer() is timer_container_of()
+  - strlcpy() was removed; downstream callers use the bounded strscpy() replacement
 
 In one file each (FILE_EDITS, INSERTS): blk_crypto_key's raw[] is bytes[] since 6.15; cfs_rq
 counts nr_queued since 6.14; 6.18's iommu-pages hands out zeroed memory by address and size; the
@@ -26,6 +27,7 @@ import re
 import sys
 
 EDITS = [
+    (re.compile(r"\bstrlcpy\("), "strscpy("),
     (re.compile(r"\bMODULE_IMPORT_NS\(\s*([A-Za-z_][A-Za-z0-9_]*)\s*\)"), r'MODULE_IMPORT_NS("\1")'),
     (re.compile(r"\b(EXPORT_SYMBOL_NS(?:_GPL)?)\(\s*([A-Za-z_][A-Za-z0-9_]*)\s*,\s*([A-Za-z_][A-Za-z0-9_]*)\s*\)"), r'\1(\2, "\3")'),
     (re.compile(r"\.remove_new(\s*=)"), r".remove\1"),
