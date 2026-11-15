@@ -6976,7 +6976,7 @@ GENERATED = [("k618_oplus_stub.h", STUB_H),
               open(os.path.join(_K618_DIR, "k618_mi_disp.h"), encoding="utf-8").read()),
              ("k618_nfc_trace.h", NFC_TRACE_H),
              ("video-driver-515/driver/vidc/inc/video_generated_h", VIDEO_GEN_H),
-             ("linux/soc/qcom/msm_hw_fence.h", MSM_HW_FENCE_H)]
+             ("graphics-kernel/msm_hw_fence.h", MSM_HW_FENCE_H)]
 
 # Upstream API-only subset for the exact OPlus SM6225 display/KGSL gate.  The
 # full fixer also carries Xiaomi 13/13 Ultra runtime and panel-policy hooks;
@@ -7092,7 +7092,10 @@ TAPAS_API_EDITS = [
     ("display-drivers/rotator/sde_rotator_trace.h",
      "__assign_str(evtlog_tag, tag)",
      "__assign_str(evtlog_tag)"),
-    # sde_rotator_smmu.c:639 - platform driver .remove returns void since 6.10
+    # sde_rotator_smmu.c - add missing include and fix platform driver .remove returns void since 6.10
+    ("display-drivers/rotator/sde_rotator_smmu.c",
+     "#include <linux/module.h>\n",
+     "#include <linux/module.h>\n#include <linux/of_device.h>\n"),
     ("display-drivers/rotator/sde_rotator_smmu.c",
      "static int sde_smmu_remove(struct platform_device *pdev)",
      "static void sde_smmu_remove(struct platform_device *pdev)"),
@@ -7124,6 +7127,16 @@ TAPAS_API_EDITS = [
     ("graphics-kernel/kgsl_mmu.c",
      "\tkfree(mmu);\n\treturn 0;\n}",
      "\tkfree(mmu);\n}"),
+    ("graphics-kernel/kgsl_mmu.c",
+     "\treturn 0;\n",
+     "\treturn;\n"),
+    ("graphics-kernel/kgsl_mmu.c",
+     "\treturn 0;\n",
+     "\treturn;\n"),
+# graphics-kernel/adreno_hwsched.h - fix include path for generated msm_hw_fence.h
+    ("graphics-kernel/adreno_hwsched.h",
+     "#include <linux/soc/qcom/msm_hw_fence.h>",
+     "#include \"msm_hw_fence.h\""),
 ]
 
 # the same change in every source of a repo: (repo, old, new, why)
